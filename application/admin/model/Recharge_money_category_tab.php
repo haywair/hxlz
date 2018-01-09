@@ -12,13 +12,23 @@ class Recharge_money_category_tab extends Base{
     /**
      * 充值金额列表
      */
+    public $recharge_member_type = 1;
+    public $recharge_gift_type = 2;
     public function getRechargeList($condition){
         return $this->where($condition)->paginate(15,false);
     }
     /**
-     * 充值金额列表(无分页)
+     * 电子卡充值金额列表(无分页)
      */
     public function getRechargeListNP($condition){
+        $condition['RECHARGE_TYPE'] = $this->recharge_member_type;
+        return $this->where($condition)->select();
+    }
+    /**
+     * 转赠卡充值金额列表(无分页)
+     */
+    public function getGiftRechargeListNP($condition){
+        $condition['RECHARGE_TYPE'] = $this->recharge_gift_type;
         return $this->where($condition)->select();
     }
     /**

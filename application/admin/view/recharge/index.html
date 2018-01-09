@@ -34,6 +34,7 @@
                                 <th class="table-title">编号</th>
                                 <th class="table-title">充值金额</th>
                                 <th class="table-title">赠送金额</th>
+                                <th class="table-title">充值类型</th>
                                 <th>可用标识</th>
                                 <th class="table-type">创建时间</th>
                                 <th class="table-author am-hide-sm-only">更新时间</th>
@@ -46,6 +47,13 @@
                                 <td>{$v.RECHARGE_ID}</td>
                                 <td><a href="#">{$v.RECHARGE_MONEY}</a></td>
                                 <td><a href="#">{$v.GIFT_MONEY}</a></td>
+                                <td>
+                                    {eq name="v['RECHARGE_TYPE']" value="1"}
+                                    电子卡充值
+                                    {else/}
+                                    转赠卡充值
+                                    {/eq}
+                                </td>
                                 {if $v.AVAILABLE_FLG eq 1}
                                 <td><a href="javascript:void(0);" class="am-btn am-btn-default am-btn-xs am-text-secondary"> 可用</a></td>
                                 {else}

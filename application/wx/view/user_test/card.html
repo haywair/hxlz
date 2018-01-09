@@ -50,6 +50,7 @@
 
                     </dd>
                 </dl>
+                <button id="buyGiftCard" class="bind-car" style="margin-top:45px;">购买礼品卡</button>
             </li>
             <li class="tab_conq">
                 <dl class="tbq-dl">
@@ -113,6 +114,10 @@
                 $('#weui-prompt-username').attr('placeholder','实体卡卡号');
                 $('#weui-prompt-username').val('');
             });
+        });
+        //购买礼品卡
+        $('#buyGiftCard').click(function(){
+            window.location.href = "{:url('wx/user_test/giftcardCharge')}"
         });
 		//解绑卡片
         $('.unbind-card').click(function(){

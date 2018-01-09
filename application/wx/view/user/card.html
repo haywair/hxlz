@@ -47,8 +47,8 @@
                             <p class="tbq-p4 tbq-p4r"><span class="tbq-f1">余额：</span><span class="tbq-p5r">￥{$data.TOTAL_AMT}</span></p>
                         </span>
                         <span class="tbq-s2"><img src="__STATIC__images/hyk_11.png" style="height:180px;"></span>
-
                     </dd>
+                    <button id="buyGiftCard" class="bind-car" style="margin-top:45px;">购买礼品卡</button>
                 </dl>
             </li>
             <li class="tab_conq">
@@ -113,6 +113,10 @@
                 $('#weui-prompt-username').attr('placeholder','实体卡卡号');
                 $('#weui-prompt-username').val('');
             });
+        });
+        //购买礼品卡
+        $('#buyGiftCard').click(function(){
+            window.location.href = "{:url('wx/user_test/card')}"
         });
 		//解绑卡片
         $('.unbind-card').click(function(){

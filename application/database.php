@@ -13,7 +13,7 @@ return [
     // 数据库类型
     'type'           => 'sqlsrv',
     // 服务器地址
-    'hostname'       => 'localhost',
+    'hostname'       => '47.95.230.158',
     // 数据库名
     'database'       => 'hxlz',
     // 用户名

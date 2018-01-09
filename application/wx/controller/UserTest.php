@@ -23,7 +23,7 @@ use app\admin\model\Store_tab;
 use think\Request;
 use think\Validate;
 
-class UserTest extends Base
+class user_test extends Base
 {
     /**
      * 个人中心
@@ -355,7 +355,7 @@ class UserTest extends Base
         }else{
             $result = $offcard_model->where(['OFFLINE_CARD_ID'=>$offcard_id])->delete();
             if($result){
-                $this->redirect(url('wx/usertest/card'));
+                $this->redirect(url('wx/user_test/card'));
             }else{
                 $this->error('解绑失败');
             }
@@ -392,7 +392,6 @@ class UserTest extends Base
         $list = $category_model-> getGiftRechargeListNP($condition);
         //充值订单号
         $recharge_no = time().rand('1000','9999');
-        $this->assign('recharge_no',$recharge_no);
         $this->assign('list',$list);
         return $this->fetch();
     }
@@ -416,6 +415,33 @@ class UserTest extends Base
         }
         $type = '电子卡充值';
         $jsApiParameters = $this->wxPayDeal($post['card_no'],$post['recharge_no'],$recharge_money,$type,$user_info['OPENID']);
+        if($jsApiParameters){
+            $data['state'] = 'success';
+            $data['info'] = array(json_decode($jsApiParameters));
+        }else{
+            $data['state'] = 'error';
+            $data['msg'] = '无微信订单信息生成！';
+        }
+        echo json_encode($data);die();
+    }
+
+    /**
+     * 设置微信电子卡充值金额
+     */
+    public function ajaxGetGiftRechargeOrder(){
+        $post = input();
+        //会员信息
+        $user_model = new User_tab();
+        $user_info = $user_model->idGetUserOne(session('user_id'));
+        //充值金额
+        $total_money = $post['total_money'];
+        if(!$total_money){
+            $data['state'] = 'error';
+            $data['msg'] = '无充值金额信息';
+            echo json_encode($data);die();
+        }
+        $type = '购买礼品卡';
+        $jsApiParameters = $this->wxPayDeal($post['card_no'],$post['recharge_no'],$total_money,$type,$user_info['OPENID']);
         if($jsApiParameters){
             $data['state'] = 'success';
             $data['info'] = array(json_decode($jsApiParameters));
@@ -517,12 +543,27 @@ class UserTest extends Base
                 $resultCard = $card_model->updataCard($dataCard,$post['card_no']);
                 $resultOperate = $card_operate_model->cardOperatAdd($dataOperate);
                 if($resultCard && $resultOperate){
-                    $this->redirect(url('wx/usertest/rechargeList'));
+                    $this->redirect(url('wx/user_test/rechargeList'));
                 }else{
                     $this->error('充值失败！');
                 }
             }else{
                 $this->error('传入参数不完整');
+            }
+        }
+    }
+    public function doGiftcardCharge(){
+        if(Request::instance()->isPost()){
+            $post = Request::instance()->param();
+            if(!$post['RECHARGE_MONEY'] || !$post['NUM'] || !$post['RECHARGE_NO'] || !$post['GIFT_MONEY']){
+                $this->error('参数不完整');
+            }
+            $user_id = session('user_id');
+            $res = (new \app\wx\base\GiftcardCharge())->dealGiftcardCharge($post['RECHARGE_MONEY'],$post['GIFT_MONEY'],$post['NUM'],$user_id,$post['RECHARGE_NO']);
+            if($res){
+                $this->redirect(url('wx/user_test/card'));
+            }else{
+                $this->error('购买礼品卡失败！');
             }
         }
     }
@@ -655,9 +696,9 @@ class UserTest extends Base
         $user_model = new User_tab();
         $result = $user_model->updateUserOne(session('user_id'),$post);
         if(!empty($result)){
-            $this->redirect(url('wx/usertest/me'));
+            $this->redirect(url('wx/user_test/me'));
         }else{
-            $this->redirect(url('wx/usertest/userInfo',['error'=>'修改个人信息失败！']));
+            $this->redirect(url('wx/user_test/userInfo',['error'=>'修改个人信息失败！']));
         }
     }
     /**
@@ -715,11 +756,11 @@ class UserTest extends Base
         if(strlen(session('openid'))>3){
             $cardNo = Request::instance()->param('memberCardNo');
             if(!$cardNo){
-                $this->error('未提供有效会员卡号',url('wx/usertest/card'));
+                $this->error('未提供有效会员卡号',url('wx/user_test/card'));
             }
             $cardData = (new Offline_card_tab())->getCardInfoByCardNo($cardNo);
             if(!$cardData){
-                $this->error('该会员信息不存在',url('wx/usertest/card'));
+                $this->error('该会员信息不存在',url('wx/user_test/card'));
             }
             $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
             //条形码

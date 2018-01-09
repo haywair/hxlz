@@ -138,10 +138,10 @@ return [
 
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-        '__PATH__' => "http://lz.test/index.php/",
-        "__STATIC__" => "http://lz.test/public/static/",
-        "__UPLOADS__" => "http://lz.test/",
-        "__ADMINSTATIC__"=>"http://lz.test/public/static/admin/",
+        '__PATH__' => "http://cs.huaxialiangzi.com/index.php/",
+        "__STATIC__" => "http://cs.huaxialiangzi.com/public/static/",
+        "__UPLOADS__" => "http://cs.huaxialiangzi.com/",
+        "__ADMINSTATIC__"=>"http://cs.huaxialiangzi.com/public/static/admin/",
         "__TITLE__" => "后舍"
     ],
     // 默认跳转页面对应的模板文件

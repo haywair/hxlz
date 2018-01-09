@@ -1,0 +1,27 @@
+
+{include file="public/heads"}
+<body>
+{notempty name="data"}
+<div class="box1" style="margin-bottom:70px;">
+    <dl class="tb-dl">
+
+        {volist name="data" id="v"}
+        <a href="__PATH__wx/store/StoreDetailed?sid={$v.STORE_CD}">
+        <dd>
+            <span class="tb-s1"><img style="height:65px;" src="__UPLOADS__{$v.STORE_IMAGE}"></span>
+            <span class="tb-s2">
+                    <p class="tb-p1">{$v.STORE_NAME}</p>
+                    <p class="tb-p3">{$v.STORE_INFO}</p>
+				</span>
+            <span class="tb-s3"><p class="tb-pa">{$v.juli}km</p></span>
+        </dd>
+        </a>
+        {/volist}
+    </dl>
+</div><!--box1 end-->
+{else /}
+<div style="background-color:#fff;text-align:center;color:#999;padding-top:30%;font-size:14px;height:400px;width:100%;">
+    该城市暂未开通门店，敬请期待......
+</div>
+{/notempty}
+{include file="public/foot"}

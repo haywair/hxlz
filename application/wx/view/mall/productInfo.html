@@ -1,0 +1,194 @@
+{include file="public/heads"}
+<body>
+<div class="box1">
+    <div class="page-swipe">
+        <header>
+            <div id="slider" class="swipe" style="visibility: visible;">
+                <div class="swipe-wrap">
+                    {notempty name="img"}
+                        {foreach name='img' item='v'}
+                        {if is_file($v)}
+                        <div>
+                            <div class="wrap">
+                                <div class="image"><img style="height: 330px;" src="__UPLOADS__{$v}"></div>
+                            </div>
+                        </div>
+                        {/if}
+                        {/foreach}
+                    {/notempty}
+                </div><!--swipe-wrap end-->
+            </div><!--slider end-->
+            <nav>
+                <ul id="position">
+                    {notempty name="img"}
+                        {foreach name='img' key="k" item='v'}
+                            {if is_file($v)}
+                            {if $k eq 0}
+                                <li class="on"></li>
+                            {else /}
+                                <li class=""></li>
+                            {/if}
+                            {/if}
+                        {/foreach}
+                    {/notempty}
+                </ul>
+            </nav>
+        </header>
+        <script Language="JavaScript" src="__STATIC__js/swipe.js"></script>
+        <script>
+            var bullets = document.getElementById('position').getElementsByTagName('li');
+            var slider =
+                Swipe(document.getElementById('slider'), {
+                    auto: 3000,
+                    continuous: true,
+                    callback: function(pos) {
+
+                        var i = bullets.length;
+                        while (i--) {
+                            bullets[i].className = ' ';
+                        }
+                        bullets[pos].className = 'on';
+
+                    }
+                });
+
+        </script>
+    </div><!--page-swipe end-->
+    <div class="xq-name">
+    	<span class="xq-s1" style="float:left;width:100%;">
+        	<span class="xq-p1">{$financeInfo.FINANCE_NAME}</span>
+		</span>
+       <span class="xq-s2" style="display:inline-block;float:left;width:75%;margin-top:0.3rem;padding-bottom:0.4rem;">
+        	<span class="xq-p3" style="float:left;">{notempty name="data['PROJECT_TIME']"}{$data.PROJECT_TIME}分钟 {/notempty}{$financeInfo.SELL_PRICE}元</span>
+        </span>
+    </div><!--xq-name end-->
+    <div class="xq-md">
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#xq-a").click(function(){
+                    $("#xq-ul").toggle();
+                });
+            });
+        </script>
+        {notempty name="sdata"}
+        <a href="#" class="xq-a1" id="xq-a"><span class="xq-s3" id="xq-s3"> > </span>选择门店</a>
+        <ul class="xq-ul" id="xq-ul">
+            <input type="hidden" id="store-cd" >
+            {volist name="sdata" id="v"}
+            <li class="store-click" data-id="{$v.STORE_CD}">
+                <a href="javascript:void(0);">
+                    <p class="xqu-p1">
+                        <img src="__STATIC__images/xqtt_02.jpg">
+                    </p>
+                    <p class="xqu-p2">{$v.STORE_NAME}</p>
+                    <p class="xqu-p3">({$v.juli})</p>
+                </a>
+            </li>
+           {/volist}
+        </ul><!--xq-mdno end-->
+        {/notempty}
+    </div><!--xq-md end-->
+    {notempty name="data"}
+    <div class="xq-fw">
+        <p class="xqf-p1">服务详情</p>
+		<div style="padding:1rem 0.5rem;">
+        <p class="xqf-p2">
+           {php}echo htmlspecialchars_decode($data['PROJECT_INFO']);{/php}
+        </p>
+		</div>
+    </div><!--xq-fw end-->
+    {/notempty}
+    {notempty name="evaluateAll"}
+   <div class="xq-fw">
+        <p class="xqf-p1" id="xqf-evaluate"><span class="xq-s3" style="margin-right:-10px;"> > </span>服务评价</p>
+       <dl class="xqf-dl">
+           {notempty name="evaluateAll"}
+           {foreach name="evaluateAll" item="v"}
+           {php}
+           $goodStar = $v['REMARK'];
+           $badStar = 5 - $v['REMARK'];
+           {/php}
+           <dd>
+               <div class="xqf-p3">
+                   <ul class="xqf-ul1">
+                       {notempty name="$v['REMARK']"}
+                       {notempty name="goodStar"}
+                       {php}
+                       for($i=1;$i<=$goodStar;$i++){
+                       echo '<img src="__STATIC__images/xq_07.jpg">';
+                       }
+                       {/php}
+                       {/notempty}
+                       {notempty name="badStar"}
+                       {php}
+                       for($t=1;$t<=$badStar;$t++){
+                       echo '<img src="__STATIC__images/xqt_09.jpg">';
+                       }
+                       {/php}
+                       {/notempty}
+                       {else/}
+                       {for start="0" end="5"}
+                       <img src="__STATIC__images/xqt_09.jpg">
+                       {/for}
+                       {/notempty}
+                   </ul>
+                   <span class="xqf-s2">{$v.NICK_NAME}（{:date('Y-m-d',$v['CREATE_DATE'])}）</span>
+               </div>
+               <p class="xqf-p4">{$v.CONTENT}</p>
+               {notempty name="v['STORE_REPLY']"}
+               <p class="xqf-p5">
+                   <span class="pq-s7"><img src="__STATIC__images/ly_03.jpg"></span>
+                   <span  class="pq-s8"><font class="pq-f3">商家回复：</font><font class="pq-f4">{$v.STORE_REPLY}</font></span>
+               </p>
+               {/notempty}
+           </dd>
+           {/foreach}
+           {else /}
+           <div style="font-size:14px; padding-top:15px;color:#999;text-align:center;">
+               暂无该项目的评价，快来预约体验吧！
+           </div>
+           {/notempty}
+       </dl>
+    </div>
+   {/notempty}
+</div><!--box1 end-->
+<div class="foot1">
+    <a href="javascript:void(0);" class="ft-a1" id="store-bind">立即购买</a>
+</div>
+<script>
+    $(function(){
+        //选择门店
+        $('.store-click').click(function(){
+            $('.store-click').css('border','none');
+            $(this).css('border','1px solid red');
+            var store_cd = $(this).attr('data-id');
+            $('#store-cd').val(store_cd);
+
+        });
+        $("#xqf-evaluate").click(function(){
+            $(".xqf-dl").toggle();
+        });
+        //购买跳转
+        $('#store-bind').click(function(){
+            var store_cd = $('#store-cd').val();
+            var unbind = "{$unbind}";
+            var financeId = "{$financeInfo.FINANCE_ID}";
+            var sell_price = "{$financeInfo.SELL_PRICE}";
+            if(unbind == 1){
+                alert("您还未绑定手机号码,请绑定后购买");
+                window.location.href="{:url('wx/home/binding')}";
+                return false;
+            }
+            if(!store_cd){
+				$('#xq-ul').show();
+                alert("请选择您要购买的门店");
+				return false;
+            }
+            window.location.href = "__PATH__wx/mall/productBuy?financeId="+financeId+"&store_cd="+store_cd+'&sell_price='+sell_price;
+        });
+    })
+</script>
+</body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

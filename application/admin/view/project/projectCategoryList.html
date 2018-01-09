@@ -1,0 +1,114 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="card-box">
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-6">
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a href="__PATH__admin/project/projectCategoryAdd"><button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button></a>
+                        </div>
+                    </div>
+                </div>
+
+               <!-- <div class="am-u-sm-12 am-u-md-3">
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="text" class="am-form-field">
+                        <span class="am-input-group-btn">
+				            <button class="am-btn am-btn-default" type="button">搜索</button>
+				          </span>
+                    </div>
+                </div>-->
+            </div>
+            <!-- Row end -->
+
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <form class="am-form">
+                        <table class="am-table am-table-striped am-table-hover table-main">
+                            <thead>
+                            <tr>
+                                <th class="table-title">类别编号</th>
+                                <th class="table-title">类别名称</th>
+                                <th>可用标识</th>
+                                <th class="table-type"></th>
+                                <th class="table-author am-hide-sm-only"></th>
+                                <th class="table-date am-hide-sm-only"></th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name='data' id='v'}
+                            <tr>
+                                <td>{$v.CATEGORY_CD}</td>
+                                <td><a href="#">{$v.CATEGORY_NAME}</a></td>
+                                {if $v.AVAILABLE_FLG eq 1}
+                                <td><button class="am-btn am-btn-default am-btn-xs am-text-secondary"> 可用</button></td>
+                                {else}
+                                <td><button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"> 不可用</button></td>
+                                {/if}
+                                <td></td>
+                                <td class="am-hide-sm-only"></td>
+                                <td class="am-hide-sm-only"></td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <a href="{:url('admin/project/projectCategoryEdit',['cid'=>$v['CATEGORY_CD']])}"  class="am-btn am-btn-default am-btn-xs am-text-secondary"><span  class="am-icon-pencil-square-o"></span> 编辑</a>
+                                            <a href="javascript:void(0);" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only delete-list-btn" data-id="{$v.CATEGORY_CD}"><span class="am-icon-trash-o"></span> 删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                        <div class="am-cf">
+                            共  条记录
+                            {$page}
+                        </div>
+                        <hr />
+                        <p>注：.....</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">删除</div>
+        <div class="am-modal-bd">
+            您，确定要删除类别？
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<script>
+    $(function() {
+        $('.delete-list-btn').click(function() {
+            var cid = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    window.location.href = "__PATH__admin/project/delProjectCategory/cid/"+cid;
+                },
+                // closeOnConfirm: false,
+                onCancel: function() {
+
+                }
+            });
+        });
+    });
+</script>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

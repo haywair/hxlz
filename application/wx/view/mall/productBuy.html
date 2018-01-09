@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>后舍</title>
+    <link rel="stylesheet" href="__STATIC__css/weui.min.css">
+    <link rel="stylesheet" href="__STATIC__css/jquery-weui.min.css">
+    <link rel="stylesheet" href="__STATIC__css/swiper.min.css">
+    <link href="__STATIC__css/HTp-style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="__STATIC__js/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__js/jquery-weui.min.js"></script>
+    <script type="text/javascript" src="__STATIC__js/lbnews.js"></script>
+    <script type="text/javascript" src="__STATIC__js/swiper.min.js"></script>
+</head>
+<body>
+<script>
+    //调用微信JS api 支付
+    function jsApiCall(par)
+    {
+        WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+                {
+                    'appId':par.appId,
+                    'nonceStr':par.nonceStr,
+                    'package':par.package,
+                    'paySign':par.paySign,
+                    'signType':par.signType,
+                    'timeStamp':par.timeStamp
+                },
+                function(res){
+                    if(res.err_msg == "get_brand_wcpay_request:ok"){
+                        $('#myform').submit();
+                    }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+                        return false;
+                    }else{
+                        alert(res.err_msg);return false;
+                        alert('支付失败！');
+                        return false;
+                    }
+                }
+        );
+    }
+    function callpay(parameters)
+    {
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        }else{
+            jsApiCall(parameters);
+        }
+    }
+</script>
+<form action="{:url('wx/mall/buyPost')}" method="post" id="myform">
+<div class="box1">
+	<div class="xq-namex">
+    	<span class="xq-s1x">
+        	<p class="xq-p1">{$financeInfo.FINANCE_NAME}</p>
+        </span>
+        <span class="xq-s2x">
+        	<p class="xq-p3" >￥<span id="sell-price">{$financeInfo.SELL_PRICE}</span></p>
+        </span>
+    </div><!--xq-name end-->
+
+    <!--加减JS-->
+		<script>
+        $(function(){
+        $(".add").click(function(){
+            var t=$(this).parent().find('input[class*=text_box]');
+            var addVal = parseInt(t.val())+1
+            var limit_num = parseInt($('#limit-num').val());
+            var remain_num = parseInt($('#remain-num').val());
+            //超出购买限制数量
+            if(addVal > limit_num){
+                alert('此商品限购数量'+limit_num+'张');
+                return false;
+            }
+            //超出剩余库存
+            if(addVal > remain_num){
+                alert('此商品仅剩余'+remain_num+'张');
+                return false;
+            }
+            t.val(parseInt(t.val())+1);
+            setTotal();
+        })
+        $(".min").click(function(){
+            var t=$(this).parent().find('input[class*=text_box]');
+            t.val(parseInt(t.val())-1);
+            if(parseInt(t.val())<=0){
+                t.val(1);
+            }
+            setTotal();
+        })
+        function setTotal(){
+            var s=0;
+            $("#tab td").each(function(){
+            s+=parseInt($(this).find('input[class*=text_box]').val())*parseFloat($(this).find('span[class*=price]').text());
+            });
+            $("#total").html(s.toFixed(2));
+        }
+        setTotal();
+
+        })
+        </script>
+        <!--加减JS emd-->
+    <div class="tj-dv1">
+    	<span class="tj-s1">购买数量</span>
+        <span class="tj-s2">
+            <input class="min" name="" type="button" value="-" />
+            <input class="text_box" name="SALE_NUM" type="text" value="1" id="goods-num"/>
+            <input class="add" name="" type="button" value="+" />
+        </span>
+    </div><!--tj-dv1 end-->
+    <input type="hidden" name="FINANCE_ORDER_ID" id="finance_order_id">
+    <input type="hidden" id="limit-num" value="{$financeInfo.VIRTUAL_LIMIT}">
+    <input type="hidden" id="remain-num" value="{$financeInfo.REMAIN_NUM}">
+    <input type="hidden" id="financeType" name="FINANCE_TYPE" value="{$financeInfo.FINANCE_TYPE}">
+    <input type="hidden" id="store-cd" value="{$store_cd}">
+    <input type="hidden" id="total-amt" value="{$financeInfo.SELL_PRICE}">
+    <input type="hidden" id="financeId" name="FINANCE_ID" value="{$financeInfo.FINANCE_ID}">
+	<p class="fk-p2" style="margin-bottom:10px;"><a href="#"><span class="fk-s6"> <font class="font1" id="order-amt">{$financeInfo.SELL_PRICE}</font> 元 </span><span class="fk-s4" style="margin-top:8px"><img src="__STATIC__images/fk_07.png"></span><span class="fk-s5">订单金额</span></a></p>
+    <p class="fk-p2"><a href="#"><span class="fk-s6"> <input name="" type="radio" value="1" checked class="fk-rd"/> </span><span class="fk-s4"><img src="__STATIC__images/fk_14.png"></span><span class="fk-s5">微信支付</span></a></p>
+    <!--<p class="fk-p2"><a href="#"><span class="fk-s6"> <input name="" type="radio" value=""  class="fk-rd"/> </span><span class="fk-s4"><img src="__STATIC__images/fk_17.png"></span><span class="fk-s5">电子卡</span></a></p>-->
+
+
+</div><!--box1 end-->
+
+<div class="foot1">
+	<a href="#" class="ft-a1">确定购买</a>
+</div>
+</form>
+<script type="text/javascript">
+    $(function(){
+        var goods_num = parseInt($('#goods-num').val());
+        var sell_price = parseInt($('#sell-price').html());
+        $('#order-amt').html(goods_num*sell_price);
+        //生成支付金额
+        $('.min,.add').click(function(){
+            var goods_num = parseInt($('#goods-num').val());
+            var sell_price = parseInt($('#sell-price').html());
+            var limit_num = parseInt($('#limit-num').val());
+            var remain_num = parseInt($('#remain-num').val());
+            var totalAmt = goods_num*sell_price;
+            if(goods_num > limit_num){
+                $('#goods-num').val(limit_num);
+                alert('该票券只允许购买'+limit_num+'张');return false;
+            }
+            $('#total-amt').val(totalAmt);
+            $('#order-amt').html(totalAmt);
+        });
+        //点击购买
+        $('.ft-a1').click(function(){
+            var goods_num = parseInt($('#goods-num').val());
+            var finance_name = "{$financeInfo.FINANCE_NAME}";
+            var finance_id = $('#financeId').val();
+            var sell_price = parseInt($('#sell-price').html());
+            var totalAmt = parseInt($('#total-amt').val());
+            var store_cd = $('#store-cd').val();
+            var jsonStr = {
+                goods_num:goods_num,
+                finance_id:finance_id,
+                sell_price:sell_price,
+                totalAmt:totalAmt,
+                store_cd:store_cd
+            };
+            $.ajax({
+                type:'post',
+                url:'{:url("wx/mall/createFinanceOneOrder")}',
+                data:jsonStr,
+                dataType:'json',
+                success:function(result){
+                    if(result.state == 100 ){
+                        var finance_order_id = result.info;
+                        var finance_order_no = result.orderCd;
+                        $('#finance_order_id').val(result.info);
+                        getWxOrder(totalAmt,finance_name,finance_order_no,1);
+                    }else{
+                        alert(result.msg);return false;
+                    }
+                }
+            });
+
+        });
+    })
+    //生成微信订单
+    function getWxOrder(sell_price,project_name,order_cd,check_num){
+        $.ajax({
+            url:'{:url("wx/order/ajaxGetWxOrder")}',
+            type:'post',
+            data:{sell_price:sell_price,project_name:project_name,order_cd:order_cd,check_num:check_num},
+            dataType:'json',
+            success:function(result){
+                if(result.state == 'success'){
+                    var info = result.info;
+                    var param = {};
+                    $.each(info,function(i,item){
+                        param.appId = item .appId;
+                        param.nonceStr = item.nonceStr;
+                        param.package = item.package;
+                        param.paySign = item.paySign;
+                        param.signType = item.signType;
+                        param.timeStamp = item.timeStamp;
+                    });
+                    callpay(param);
+                }else if(result.state == 201){
+                    $('#e-card-pay').removeAttr('checked');
+                    alert(result.msg);return false;
+                }else if(result.state == 202){
+                    $('#wx-pay').removeAttr('checked');
+                    $('#myform').submit();
+                }else{
+                    alert(result.msg);return false;
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
+<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

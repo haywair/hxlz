@@ -1,0 +1,143 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="card-box">
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-6">
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a href="__PATH__admin/store/storeAdd"><button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="am-u-sm-12 am-u-md-3">
+                    <form action="{:url('admin/store/storeList')}" method="post">
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="text" name="STORE_NAME" class="am-form-field" placeholder="请输入店铺名称"  value="{if !empty($store_name)}{$store_name}{/if}">
+                        <span class="am-input-group-btn">
+				            <button class="am-btn am-btn-default" type="submit">搜索</button>
+				          </span>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Row end -->
+
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <form class="am-form">
+                        <table class="am-table am-table-striped am-table-hover table-main">
+                            <thead>
+                            <tr>
+                                <th class="table-title">门店编号</th>
+                                <th class="table-title">门店名称</th>
+                                <th>门店类型</th>
+                                <th class="table-type">门店电话</th>
+                                <th class="table-author am-hide-sm-only">负责人</th>
+                                <th class="table-date am-hide-sm-only">门店状态</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name="data" id="v"}
+                            <tr>
+                                <td>{$v.STORE_CD}</td>
+                                <td><a href="__PATH__admin/room/roomList?sid={$v.STORE_CD}">{$v.STORE_NAME}</a></td>
+                                <td>
+                                    {switch name="v['STORE_TYPE']"}
+                                        {case value="1"}连锁{/case}
+                                        {case value="2"}其他{/case}
+                                        {case value="3"}后舍{/case}
+                                        {default /}直营
+                                    {/switch}
+                                </td>
+                                <td>{$v.OFFICE_TEL}</td>
+                                <td class="am-hide-sm-only">{$v.RESPONSIBLE_PERSON}</td>
+                                {if $v.AVAILABLE_FLG eq 1}
+                                <td><button class="am-btn am-btn-default am-btn-xs am-text-secondary"> 可用</button></td>
+                                {else}
+                                <td><button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"> 不可用</button></td>
+                                {/if}
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <a href="{:url('admin/store/storeEdit',['store_cd'=>$v['STORE_CD']])}" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+                                            <a href="javascript:void(0);" class="am-btn am-btn-default am-btn-xs am-text-secondary delete-list-btn" data-id="{$v.STORE_CD}"><span class="am-icon-trash-o"></span> 设置</a>
+                                            <a href="javascript:void(0);" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only delete-store-btn" data-id="{$v.STORE_CD}"><span class="am-icon-trash-o"></span> 删除</a>
+                                            <a href="{:url('admin/room/roomTimeList',['STORE_CD'=>$v['STORE_CD']])}" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 查看预约时段</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                        <div class="am-cf">
+                            共  条记录
+                                {$page}
+                        </div>
+                        <hr />
+                        <p>注：门店列表</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd" id="change-store-state">更改店铺状态</div>
+        <div class="am-modal-bd" id="change-store-content">
+            你，确定要更改店铺可用状态？
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        //设置门店状态
+        $('.delete-list-btn').click(function() {
+            var store_cd = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    window.location.href = "__PATH__admin/store/storeSetFlg/store_cd/"+store_cd;
+                },
+                // closeOnConfirm: false,
+                onCancel: function() {
+
+                }
+            });
+        });
+        //删除门店
+        $('.delete-store-btn').click(function() {
+            var store_cd = $(this).attr('data-id');
+            $('#change-store-state').html('删除门店')
+            $('#change-store-content').html('您，确定要删除该门店吗？');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    window.location.href = "__PATH__admin/store/delStore/store_cd/"+store_cd;
+                },
+                // closeOnConfirm: false,
+                onCancel: function() {
+
+                }
+            });
+        });
+    });
+</script>
+
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

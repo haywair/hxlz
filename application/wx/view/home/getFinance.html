@@ -1,0 +1,34 @@
+{include file="public/heads"}
+<body>
+<div class="box1">
+    <div id="tabboxw">
+        <div class="getf-tilte">
+            <p><span style="font-size:16px;">票券名称：{$financeInfo.FINANCE_NAME}</span></p>
+        </div>
+        <div class="getf-img-div">
+            <img src="__STATIC__images/hyk_11.png" class="getf-img" alt="票券图">
+        </div>
+        <ul class="getf-ul">
+            <li>票券号：{$issue_no}<li>
+            <li style="float:left;">
+                <span class="getf-span">票券类型：{$financeInfo.TYPE_NAME}</span><br>
+                <span class="getf-span">票面价值：￥{$financeInfo.SELL_PRICE}</span>
+            <li>
+            <li class="getf-right-li">
+                <a  href="{:url('wx/home/doIssueFinance',['finance_id'=>$financeInfo['FINANCE_ID'],'finance_type'=>$financeInfo['FINANCE_TYPE'],'issue_no'=>$issue_no])}">
+                <button class="getf-btn">领　取</button>
+                </a>
+            </li>
+            <li style="clear:both;"></li>
+            <li>有效日期：{:substr($financeInfo['START_DATE'],0,10)} 至 {:substr($financeInfo['END_DATE'],0,10)}<li>
+        </ul>
+        <div class="getf-info-div">
+            <p>票券介绍：</p>
+            <div class="getf-intro">{php}echo htmlspecialchars_decode($financeInfo['FINANCE_INFO']);{/php}</div>
+        </div>
+
+    </div>
+</div><!--box1 end-->
+{include file="public/foot"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

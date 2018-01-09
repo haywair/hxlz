@@ -1,0 +1,43 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="am-g">
+            <!-- Row start -->
+            <div class="am-u-sm-12">
+                <div class="card-box">
+                    <div class="am-g">
+                        <form class="am-form am-text-sm" action="__PATH__admin/role/roleEditPost" method="post"  data-am-validator>
+                            <div class="am-u-md-6">
+                                <input type="hidden" name="ROLE_ID" value="{$roleInfo.ROLE_ID}">
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >角色名称</label>
+                                        <input class="am-u-md-10 form-control" name="ROLE_NAME" required  placeholder="角色名称" value="{$roleInfo.ROLE_NAME}">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >状态</label>
+                                        <input type="radio"  name="AVAILABLE_FLG" {if $roleInfo['AVAILABLE_FLG'] eq 1}checked{/if} value="1">可用
+                                        <input type="radio"  name="AVAILABLE_FLG" {empty  name="roleInfo['AVAILABLE_FLG']"}checked{/empty} value="0">禁用
+                                    </div>
+                                </div>
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="submit" class="am-btn am-btn-primary" value="修改角色">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Row end -->
+        </div>
+    </div>
+</div>
+<!-- end right Content here -->
+<!--</div>-->
+</div>
+</div>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

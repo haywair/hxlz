@@ -1,0 +1,197 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+
+    <div class="content">
+        <div class="am-g">
+            <!-- Row start -->
+            <div class="am-u-sm-12">
+                <div class="card-box">
+                    <div class="am-g">
+                        <form class="am-form am-text-sm" action="__PATH__admin/priceat/priceatCategoryEdit"  method="post">
+                            <input type="hidden" name="cl_id" value="{$categoryInfo.CL_ID}">
+                            <div class="am-u-md-6">
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >类别名称</label>
+                                        <input class="am-u-md-10 form-control" name="cl_name" value="{$categoryInfo.CL_NAME}" readonly placeholder="类别名称">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >优先级</label>
+                                        <select class="am-u-md-6 form-control" name="level" id="level"  style="width:83%;height:3rem;" onfocus="this.defaultIndex=this.selectedIndex;"
+                                                onchange="this.selectedIndex=this.defaultIndex;">
+                                            <option value="1" {if $categoryInfo['LEVEL'] eq 1}selected{/if}>一级</option>
+                                            <option value="2" {if $categoryInfo['LEVEL'] eq 2}selected{/if}>二级</option>
+                                            <option value="3" {if $categoryInfo['LEVEL'] eq 3}selected{/if}>三级</option>
+                                            <option value="4" {if $categoryInfo['LEVEL'] eq 4}selected{/if}>四级</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="level-able" id="level-1" {if $categoryInfo['LEVEL'] neq 1}style="display:none;"{/if}>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >优惠规则</label>
+                                            <input id="r_one_f" type="radio" class="level-one-type"  name="level_one_type"  {if $categoryInfo['LEVEL_TYPE'] eq 1}checked{/if} value="1" onclick="return false;"> 特定日期
+                                           <!-- <input id="r_one_s" type="radio" class="level-one-type"   name="level_one_type"  {if $categoryInfo['LEVEL_TYPE'] eq 2}checked{/if} value="2" onclick="return false;"> 特定日期的特定时间-->
+                                            <input id="r_one_t" type="radio" class="level-one-type"  name="level_one_type"  {if $categoryInfo['LEVEL_TYPE'] eq 3}checked{/if} value="3" onclick="return false;"> 两人免一
+                                            <input class="am-u-md-10 form-control" id="level-one-rule" name="level_one_rule" value="{$categoryInfo.LEVEL_RULE}"  placeholder="优惠时间"  style="margin-top:0.6rem;">
+                                        </div>
+                                    </div>
+                                    <!--<div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >优惠率</label>
+                                            <input class="am-u-md-10 form-control" name="level_one_at"  placeholder="优惠率">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div class="level-able" id="level-2"  {if $categoryInfo['LEVEL'] neq 2}style="display:none;"{/if}>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >优惠规则</label>
+                                            <input id="r_two_f" type="radio" class="level-two-type" {if $categoryInfo['LEVEL_TYPE'] eq 1}checked{/if}   name="level_two_type" value="1" onclick="return false;"> 逢每月特定日期
+                                           <!-- <input id="r_two_s" type="radio" class="level-two-type" {if $categoryInfo['LEVEL_TYPE'] eq 2}checked{/if} name="level-two-type"  value="2"> 逢每周的特定时间-->
+                                            <div id="ltype-two-f" style="padding-left:6.5rem;">
+                                                <input  class="am-u-md-10 form-control" name="level_two_rule"   value="{$categoryInfo.LEVEL_RULE}"   placeholder="请输入具体的日期，并以','隔开" >
+                                            </div>
+                                           <!-- <div id="ltype-two-s" style="padding-left:6.5rem;display:none;">
+                                                <select name="week_day" style="float:left;width:100px;height:3rem;">
+                                                    <option value="1">周一</option>
+                                                    <option value="2">周二</option>
+                                                    <option value="3">周三</option>
+                                                    <option value="4">周四</option>
+                                                    <option value="5">周五</option>
+                                                    <option value="6">周六</option>
+                                                    <option value="7">周日</option>
+                                                </select>
+                                                <input  class="am-u-md-10 form-control" type="text" name="clock_time" style="float:left;width:200px;margin-left:1.5rem;" placeholder="输入具体时间,例：'12:30'">
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                   <!-- <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >优惠率</label>
+                                            <input class="am-u-md-10 form-control" name="level_two_at"  placeholder="优惠率">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div class="level-able" id="level-3"  {if $categoryInfo['LEVEL'] neq 3}style="display:none;"{/if}>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >优惠规则</label>
+                                            <input type="hidden" name="level_three_rule" value="会员优惠价"> 会员优惠
+                                        </div>
+                                    </div>
+                                    <!--<div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >优惠率</label>
+                                            <input class="am-u-md-10 form-control" name="level_three_at"  placeholder="优惠率">
+                                        </div>
+                                    </div>
+-->
+                                </div>
+                                <div class="level-able" id="level-4" {if $categoryInfo['LEVEL'] neq 4}style="display:none;"{/if}>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >优惠规则</label>
+                                            <!--<input id="r_four_f" class="level-four-type" type="radio" {if $categoryInfo['LEVEL_TYPE'] eq 1}checked{/if} disabled  name="level-four-type" checked value="1"> 特定优惠项目-->
+                                            <input id="r_four_s" class="level-four-type" type="radio" {if $categoryInfo['LEVEL_TYPE'] eq 2}checked{/if} onclick="return false;"  name="level_four_type"  value="2"> 特定优惠房间
+                                           <!-- <input id="ltype-four-f" class="am-u-md-10 form-control"  name="level_four_project"  placeholder="优惠项目,多个项目以','号隔开 例：128,198"  style="margin-top:0.6rem;">-->
+                                            <input id="ltype-four-s" class="am-u-md-10 form-control" name="level_four_room" placeholder="优惠房间,多个房间以','号隔开 例：128,198" style="margin-top:0.6rem;display:none;">
+                                        </div>
+                                    </div>
+                                   <!-- <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >优惠率</label>
+                                            <input class="am-u-md-10 form-control" name="level_four_at" placeholder="优惠率">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="submit" class="am-btn am-btn-primary" value="修改类别">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Row end -->
+        </div>
+    </div>
+</div>
+<!-- end right Content here -->
+<!--</div>-->
+</div>
+</div>
+<script>
+    $(function(){
+        $('#level').change(function(){
+            var level_val = $('#level').val();
+            switch(level_val){
+                case '1':
+                    $('.level-able').hide();
+                    $('#level-1').show();
+                    break;
+                case '2':
+                    $('.level-able').hide();
+                    $('#level-2').show();
+                    break;
+                case '3':
+                    $('.level-able').hide();
+                    $('#level-3').show();
+                    break;
+                case '4':
+                    $('.level-able').hide();
+                    $('#level-4').show();
+                    break;
+            }
+        });
+        //level-one选择
+        $('.level-one-type').click(function(){
+            var type_val = $(this).val();
+            if(type_val == 1){
+                $('#r_one_s').removeAttr('checked');
+                $('#r_one_t').removeAttr('checked');
+                $('#r_one_f').attr('checked','checked');
+                $('#level-one-rule').attr('placeholder','请输入具体的日期 例：2017-01-01');
+            }else if(type_val == 2){
+                $('#r_one_f').removeAttr('checked');
+                $('#r_one_t').removeAttr('checked');
+                $('#r_one_s').attr('checked','checked');
+                $('#level-one-rule').attr('placeholder','请输入具体时间 例：2017-01-01 15:30');
+            }else if(type_val == 3){
+                $('#r_one_f').removeAttr('checked');
+                $('#r_one_s').removeAttr('checked');
+                $('#r_one_t').attr('checked','checked');
+                $('#level-one-rule').value('二人订单免一');
+            }
+        });
+        //level-two选择
+        $('.level-two-type').click(function(){
+            var type_val = $(this).val();
+            setDisplay(type_val,'two');
+        });
+        //level-four选择
+        $('.level-four-type').click(function(){
+            var type_val = $(this).val();
+            setDisplay(type_val,'four');
+        });
+    })
+    //设定level-two、level-four隐藏显示
+    function setDisplay(type_val,type){
+        if(type_val == 2){
+            $('#ltype-'+type+'-f').hide();
+            $('#ltype-'+type+'-s').show();
+            $('#r_'+type+'_f').removeAttr('checked');
+            $('#r_'+type+'_s').attr('checked','checked');
+        }else{
+            $('#ltype-'+type+'-s').hide();
+            $('#ltype-'+type+'-f').show();
+            $('#r_'+type+'_s').removeAttr('checked');
+            $('#r_'+type+'_f').attr('checked','checked');
+        }
+    }
+</script>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

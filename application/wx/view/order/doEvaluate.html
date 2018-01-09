@@ -1,0 +1,212 @@
+﻿{include file="public/heads"}
+<body>
+<div class="box1">
+	<div class="page-swipe">
+    <header>
+        <div id="slider" class="swipe" style="visibility: visible;">
+            <div class="swipe-wrap">
+                {foreach name="imgArr" item="v"}
+                <div>
+                    <div class="wrap">
+                        <div class="image"><img src="/{$v}" style="height:330px;"></div>
+                    </div>
+                </div>
+              {/foreach}
+            </div><!--swipe-wrap end-->
+        </div><!--slider end-->
+        <nav>
+            <ul id="position">
+                {foreach name="imgArr" key="k" item="v"}
+                    {if $k eq 0}
+                        <li class="on"></li>
+                    {else /}
+                        <li class=""></li>
+                    {/if}
+                {/foreach}
+            </ul>
+        </nav>
+    </header>
+    <script Language="JavaScript" src="__STATIC__js/swipe.js"></script>
+    <script>
+    var slider =
+      Swipe(document.getElementById('slider'), {
+        auto: 3000,
+        continuous: true,
+        callback: function(pos) {
+    
+          var i = bullets.length;
+          while (i--) {
+            bullets[i].className = ' ';
+          }
+          bullets[pos].className = 'on';
+    
+        }
+      });
+    var bullets = document.getElementById('position').getElementsByTagName('li');
+    </script>
+    </div><!--page-swipe end-->
+	<div class="xq-name" style="height:24px">
+        <input type="hidden" id="project_id" value="{$project_id}">
+        <input type="hidden" id="order_cd" value="{$orderInfo.ORDER_CD}">
+        <input type="hidden" id="store_cd" value="{$orderInfo.STORE_CD}">
+        <input type="hidden" id="room_cd" value="{$orderInfo.ROOM_CD}">
+        <input type="hidden" id="wx_order_no" value="{$orderInfo.WX_ORDER_NO}">
+    	<span class="xq-s1" style="width:60%;">
+        	<p class="xq-p1">后舍（{$storeInfo.STORE_NAME}）</p>
+        </span>
+    </div><!--xq-name end-->
+    <form action="" id="" method="post">
+	<div class="pf-dv1">
+    <script type="text/javascript" src="__STATIC__js/comment.js"></script>
+    <div class="quiz_content">
+			<div class="goods-comm" id="store-mark">
+				<div class="goods-comm-stars">
+					<span class="star_l">门店评分：</span>
+                    <input type="hidden" class="mark-score" id="storeMark">
+					<!--<div id="rate-comm-1" class="rate-comm"></div>-->
+                    <div class="list">
+                        <a href="javascript:void(0)" class="star1 star"  data-i="star1">★</a>
+                        <a href="javascript:void(0)" class="star2 star"  data-i="star2">★</a>
+                        <a href="javascript:void(0)" class="star3 star"  data-i="star3">★</a>
+                        <a href="javascript:void(0)" class="star4 star"  data-i="star4">★</a>
+                        <a href="javascript:void(0)" class="star5 star"  data-i="star5">★</a>
+                        <a href="javascript:void(0)" class="remark1" ></a>
+                    </div>
+				</div>
+			</div>
+			<div class="goods-comm" id="room-mark">
+				<div class="goods-comm-stars">
+					<span class="star_l">房间评分：</span>
+                    <input type="hidden" class="mark-score" id="roomMark">
+                    <div class="list">
+                        <a href="javascript:void(0)" class="stra1 stra"  data-i="stra1">★</a>
+                        <a href="javascript:void(0)" class="stra2 stra"  data-i="stra2">★</a>
+                        <a href="javascript:void(0)" class="stra3 stra"  data-i="stra3">★</a>
+                        <a href="javascript:void(0)" class="stra4 stra"  data-i="stra4">★</a>
+                        <a href="javascript:void(0)" class="stra5 stra"  data-i="stra5">★</a>
+                        <a href="javascript:void(0)" class="remark2" ></a>
+                    </div>
+				</div>
+			</div>
+			<div class="goods-comm">
+				<div class="goods-comm-stars" id="project-mark">
+					<span class="star_l">项目评分：</span>
+                    <input type="hidden" class="mark-score" id="projectMark">
+					<!--<div id="rate-comm-3" class="rate-comm"></div>-->
+                    <div class="list">
+                        <a href="javascript:void(0)" class="srat1 srat"  data-i="srat1">★</a>
+                        <a href="javascript:void(0)" class="srat2 srat"  data-i="srat2">★</a>
+                        <a href="javascript:void(0)" class="srat3 srat"  data-i="srat3">★</a>
+                        <a href="javascript:void(0)" class="srat4 srat"  data-i="srat4">★</a>
+                        <a href="javascript:void(0)" class="srat5 srat"  data-i="srat5">★</a>
+                        <a href="javascript:void(0)" class="remark3" ></a>
+                    </div>
+				</div>
+			</div>
+		
+	</div><!--quiz_content end-->
+    <p class="pj-p1" style="padding-top:10px;">
+    	<textarea name="" cols="" rows="" class="pj-text1" id="content" placeholder="写下您对本次服务的评价（最少十个字）"
+                  style="height:100px;padding-top:10px;"></textarea>
+    </p>
+    </div><!--pf-dv1 end-->
+	</form>
+	<!--<p class="pj-p2"><span class="pj-s1">分享到：</span><span
+            class="pj-s2"><img src="__STATIC__images/wx_03.jpg" width="25"></span></p>-->
+</div><!--box1 end-->
+<div class="foot1" style="position:relative;z-index:2;" >
+	<a href="#" class="ft-a1" id="evaluate-btn" >立即评价</a>
+</div>
+<script>
+    $(function(){
+        $('.star').click(function(){
+            var index = $(this).attr("data-i").substr(4,1);
+            starChange('star','remark1','storeMark',index);
+        });
+        $('.stra').click(function(){
+            var index = $(this).attr("data-i").substr(4,1);
+            starChange('stra','remark2','roomMark',index);
+        });
+        $('.srat').click(function(){
+            var index = $(this).attr("data-i").substr(4,1);
+            starChange('srat','remark3','projectMark',index);
+        });
+        $('#evaluate-btn').click(function(){
+            //评价
+            var content = $('#content').val();
+            var store_mark = $('#storeMark').val();
+            var room_mark = $('#roomMark').val();
+            var project_mark = $('#projectMark').val();
+            var project_id = $('#project_id').val();
+            var room_cd = $('#room_cd').val();
+            var store_cd = $('#store_cd').val();
+            var order_cd = $('#order_cd').val();
+            var wx_order_no = $('#wx_order_no').val();
+            var pramJstr = {};
+            if(!content){
+                alert('请输入评价内容');return false;
+            }
+            if(!store_mark){
+                store_mark = 0;
+            }
+            if(!room_mark){
+                room_mark = 0;
+            }
+            if(!store_mark){
+                project_mark = 0;
+            }
+            pramJstr.CONTENT = content;
+            pramJstr.STORE_MARK = store_mark;
+            pramJstr.ROOM_MARK = room_mark;
+            pramJstr.PROJECT_MARK = project_mark;
+            pramJstr.PROJECT_ID = project_id;
+            pramJstr.ROOM_CD = room_cd;
+            pramJstr.STORE_CD = store_cd;
+            pramJstr.ORDER_CD = order_cd;
+            pramJstr.WX_ORDER_NO = wx_order_no;
+            $.ajax({
+                url:"{:url('wx/order/doEvaluate')}",
+                type:'post',
+                data:pramJstr,
+                dataType:'json',
+                success:function(result){
+                    if(result.state == 'success'){
+                        window.location.href="{:url('wx/order/orderList')}";
+                    }else{
+                        alert(result.msg);return false;
+                    }
+                }
+            });
+        });
+    })
+    function starChange(star,remark,score,index){
+        $('#'+score).val(index);
+        switch(index){
+            case "1":
+                $("."+remark).text("非场不满意！！！");
+                break;
+            case "2":
+                $("."+remark).text("不满意！！");
+                break;
+            case "3":
+                $("."+remark).text("一般！");
+                break;
+            case "4":
+                $("."+remark).text("满意~");
+                break;
+            case "5":
+                $("."+remark).text("非常满意~");
+                break;
+        }
+
+        $('.'+star).css('color','#999');
+        for(var i=1; i<=index; i++){
+            $("."+star+ i).css('color','#ff9c00');
+        }
+    }
+</script>
+</body>
+</html>
+<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

@@ -1,0 +1,112 @@
+﻿{include file="public/heads"}
+<body>
+<div class="box1">
+	<!--<script type="text/javascript">
+    $(document).ready(function() {
+        jQuery.jqtab = function(tabtit,tab_conbox,shijian) {
+            $(tab_conbox).find("li").hide();
+            $(tabtit).find("li:first").addClass("thistabt").show(); 
+            $(tab_conbox).find("li:first").show();
+        
+            $(tabtit).find("li").bind(shijian,function(){
+              $(this).addClass("thistabt").siblings("li").removeClass("thistabt"); 
+                var activeindex = $(tabtit).find("li").index(this);
+                $(tab_conbox).children().eq(activeindex).show().siblings().hide();
+                return false;
+            });
+        
+        };
+        /*调用方法如下：*/
+        $.jqtab("#tabst","#tab_conboxt","click");
+        
+    });
+    </script>-->
+    <div id="tabboxt">
+        <ul class="tabst" id="tabst">
+           <li class="thistabt f-type" data-type="2"><a href="#" >票券兑换</a></li>
+           <li class="f-type" data-type="0"><a href="#">积分兑换</a></li>
+        </ul>
+        <ul class="tab_conboxt" id="tab_conboxt">
+            <li class="tab_cont" style="display:list-item;">
+                <dl class="tb-dl" id="f-content">
+                    <div id='f-tips' class='f-tips-c' style='margin-top:0;'>正在加载...</div>
+                </dl>
+            </li>
+
+        </ul>
+    </div>
+</div><!--box1 end-->
+<script>
+    $(function(){
+        var typeId = $('.f-type:first-child').attr('data-type');
+        getFinanceList(typeId);
+        //商品类型切换
+        $('.f-type').click(function(){
+            var ftype = $(this).attr('data-type');
+            $('.f-type').removeClass('thistabt');
+            $(this).addClass('thistabt');
+            $('#f-content').html("<div id='f-tips' class='f-tips-c' style='margin-top:0;'>正在加载...</div>");
+            if(ftype == 0){
+                var content = "<div id='f-tips' class='f-tips-c' style='margin-top:0;'>积分兑换功能尚未开通，敬请期待...</div>"
+                $('#f-content').html(content);
+            }else{
+                getFinanceList(ftype);
+            }
+        });
+        //购买支付体验券
+        $('.pay-btn').click(function(){
+            var finaceID = $(this).attr('data-finance');
+            var sellPrice = $(this).attr('data-price');
+        });
+
+    })
+    //ajax获取票券
+    function getFinanceList(type){
+        $.ajax({
+            url:"{:url('wx/mall/getFinanceList')}",
+            type:'post',
+            data:{type:type},
+            dataType:'json',
+            success:function(result){
+                console.log(result);
+                if(result.state == 'success'){
+                    var str = '';
+                    var info = result.info;
+                    $.each(info,function(i,item){
+                        str += '<dd><span class="tb-s1"><a href="{:url(\'wx/mall/productInfo\')}?financeId='+item.FINANCE_ID+'">';
+                        if(item.PROJECT_IMAGE){
+                            str += '<img src="'+item.PROJECT_IMAGE+'" style="width:70px;height:70px;"></a></span><span class="tb-s2">';
+                        }else{
+                            str += '<img src="__STATIC__images/lz_09.jpg" ></a></span><span class="tb-s2">';
+                        }
+
+                        str +=  '<p class="tb-p1"><a href="{:url(\'wx/mall/productInfo\')}?financeId='+item.FINANCE_ID+'">'+item.FINANCE_NAME+'</a></p>';
+                        str += '<p class="tb-p2"><font class="font1">'+parseInt(item.SELL_PRICE)+'元</font>';
+                        if(item.PROJECT_TIME){
+                            str += '<font class="font2">/'+item.PROJECT_TIME+'分钟</font>';
+                        }
+                        str += '<font class="font3">含脚底按摩</font></p>';
+                        if(item.PROJECT_INFO){
+                            str += '<div class="tb-p3" style="height:20px;overflow:hidden;width:180px;">'+item.PROJECT_INFO+'</div>';
+                        }
+                        str += '</span><span class="tb-s3">';
+                        str += '<a href="{:url(\'wx/mall/productBuy\')}?finance_id='+item.FINANCE_ID+'" class="tb-a1y mt18 pay-btn" data-price="'+item.SELL_PRICE+'"';
+                        str += ' data-finance="'+item.FINANCE_ID+'">立即购买</a></span>';
+                        str += '</dd>';
+                    });
+                    $('#f-content').html(str);
+                }else if(result.state == 102){
+                    var emptyCon = "<div id='f-tips' class='f-tips-c' >"+result.msg+"</div>";
+                    $('#f-content').html(emptyCon);
+                }else{
+                    alert(result.msg);
+                    return false;
+                }
+            }
+        });
+    }
+</script>
+{include file="public/foot"}
+<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

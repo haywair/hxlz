@@ -1,0 +1,71 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="am-g">
+            <!-- Row start -->
+            <div class="am-u-sm-12">
+                <div class="card-box">
+                    <div class="am-g">
+                        <form class="am-form am-text-sm" action="__PATH__admin/user/adminUserEdit"  method="post">
+                            <input type="hidden" name="user_id" value="{$userInfo.USER_ID}">
+                            <div class="am-u-md-6">
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >用户名</label>
+                                        <input class="am-u-md-10 form-control" name="USER_LOGIN"  placeholder="用户名"  value="{$userInfo.USER_LOGIN}">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >用户编号</label>
+                                        <input class="am-u-md-10 form-control" name="USER_NO"  placeholder="用户编号"  value="{$userInfo.USER_NO}">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >登录密码</label>
+                                        <input class="am-u-md-10 form-control" name="PASSWORD"  placeholder="登录密码">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >真实姓名</label>
+                                        <input class="am-u-md-10 form-control" name="USER_NAME"  placeholder="真实姓名"  value="{$userInfo.USER_NAME}">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >手机号码</label>
+                                        <input class="am-u-md-10 form-control" name="TEL_NO"  placeholder="手机号码"  value="{$userInfo.TEL_NO}">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right" for="doc-select-1">用户组</label>
+                                        <select id="doc-select-1" name="GROUP_ID">
+                                            {foreach name="roleList" item="v"}
+                                                <option value="{$v.ROLE_ID}" {if $userInfo['GROUP_ID'] eq  $v['ROLE_ID']}selected{/if}>{$v.ROLE_NAME}</option>
+                                            {/foreach}
+                                        </select>
+                                        <span class="am-form-caret"></span>
+                                    </div>
+                                </div>
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="submit" class="am-btn am-btn-primary" value="修改">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Row end -->
+        </div>
+    </div>
+</div>
+<!-- end right Content here -->
+<!--</div>-->
+</div>
+</div>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

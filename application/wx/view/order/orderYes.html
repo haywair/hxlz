@@ -1,0 +1,19 @@
+{include file="public/heads"}
+
+<body>
+<div class="box1">
+    <ul class="bd-ul">
+        <p style="color:#999; padding:20px 0 0 5px;font-size:20px">恭喜您预约成功,您的预约码为:</p>
+        <p style="color:#06c1ae; font-size:50px; padding:20px 0 0 90px;">{$odata.ORDER_NO}</p>
+		<li class="li-title" >请凭此预约码至</li>
+        <li class="li-content">
+            <p>{$odata.STORE_NAME} {$odata.ROOM_NAME}房间<p>
+            <p>预约时间：{$odata.ORDER_DATE} {$odata.OR_START_DATE_TIME}</p>
+        </li>
+    </ul>
+</div><!--box1 end-->
+<div class="foot1">
+    <a href="__PATH__wx/order/orderList"  class="ft-a1">确认</a>
+</div>
+</body>
+</html>

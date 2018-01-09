@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>后舍</title>
+    <link href="__STATIC__css/HTp-style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="__STATIC__css/jquery.flipster.css">
+    <link rel="stylesheet" href="__STATIC__css/flipsternavtabs.css">
+    <script type="text/javascript" src="__STATIC__js/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__js/killercarousel.js?v=11"></script>
+    <link href="css/killercarousel.css?v=4" type="text/css" rel="stylesheet" />
+    <style>
+        .kc-wrapx {
+            top:-15px;
+            background-position: center 45%;
+            clear:both;
+        }
+
+
+
+        /* CSS for item wrapper */
+        .kc-item {
+            position:absolute;
+            width:188px;
+            height:250px;
+        }
+
+        /* CSS for images inside item wrapper */
+        .kc-item img {
+            position:absolute;
+            pointer-events: none;   /* Make images non-selectable. */
+            width:100%;             /* Make images expand to wrapper size (used in 2d modes). */
+        }
+
+        #nav-buts {
+            position:absolute;
+            bottom:10px;
+            right:10px;
+        }
+
+        .nav-but-left,.nav-but-right {
+            font-family: arial;
+            width:32px;
+            height:28px;
+            border:2px solid #ccc;
+            background-color: #444;
+            border-radius: 5px;
+            text-align:center;
+            float:left;
+            color:#fff;
+            font-size: 16px;
+            margin-right:10px;
+            padding-top:0px;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.25);
+            cursor: pointer;
+        }
+        .nav-but-left:hover,.nav-but-right:hover {
+            background-color:#666;
+        }
+    </style>
+</head>
+
+
+<body>
+<form  action="__PATH__wx/order/orderDetails"  method="post" id="myform">
+<div class="box1">
+    <div class="xq-name" style="margin-top:10px;">
+    	<span  style="display:block;font-size:14px;line-height:16px;">
+			<span class="xq-p1" style="font-size:16px;color:#666;font-weight:bold;">{$pdata.PROJECT_NAME}</span>
+			<!-- <p class="xq-p2">{notempty name="pdata['PROJECT_INTRODUCE']"}{$pdata.PROJECT_INTRODUCE}{/notempty}</p> -->
+        </span>
+        <span  style="display:block;font-size:14px;line-height:16px;margin-top:8px;">
+			<span class="xq-p1" style="float-left;font-size:14px;color:#666;">门店价格:</span>
+			<span style="float:right;">
+        	<span class="xq-p3">{$pdata.PROJECT_TIME}分钟</span>
+            <span class="xq-p4">{$pdata.PRICE}元 <s>￥{$pdata.MARKET_PRICE}</s></span>
+			</span>
+        </span>
+    </div><!--xq-name end-->
+    <div class="tj-dv1">
+        <span class="tj-s1">门店：{$sdata.STORE_NAME}</span>
+    </div><!--tj-dv1 end-->
+    <!--加减JS-->
+    <script>
+        $(function(){
+            $(".add").click(function(){
+                var t=$(this).parent().find('input[class*=text_box]');
+                t.val(parseInt(t.val())+1);
+                setTotal();
+            })
+            $(".min").click(function(){
+                var t=$(this).parent().find('input[class*=text_box]');
+                t.val(parseInt(t.val())-1);
+                if(parseInt(t.val())<0){
+                    t.val(0);
+                }
+                setTotal();
+            })
+            function setTotal(){
+                var s=0;
+                $("#tab td").each(function(){
+                    s+=parseInt($(this).find('input[class*=text_box]').val())*parseFloat($(this).find('span[class*=price]').text());
+                });
+                $("#total").html(s.toFixed(2));
+            }
+            setTotal();
+
+        })
+    </script>
+    <!--加减JS emd-->
+
+        <input type="hidden" name="sid" value="{$sdata.STORE_CD}">
+        <input type="hidden" name="pid" value="{$pdata.PROJECT_CD}">
+    <div class="tj-dv1">
+        <span class="tj-s1">预约人数</span>
+        <span class="tj-s2">
+            <input class="min" name="" type="button" value="-" />
+            <input class="text_box" id="text_box" name="CUSTOMER_QTY" type="text" value="1" />
+            <input class="add" name="" type="button" value="+" />
+        </span>
+    </div><!--tj-dv1 end-->
+
+
+
+    <div class="Container">
+        <!--<p class="xqf-p1">选择房间</p>-->
+        <!-- Flipster List -->
+        <input type="hidden" name="room_cd" id="room_cd">
+        <div class="container" style="width:300px;height:250px;">
+            <ul class="kc-wrap" id="tabs" style="width:300px;height:200px;">
+                {volist name="sRoom" id="v"}
+                <li class="kc-item" style="width:200px;height:188px;" id="Coverflow-1" data-id="{$v.ROOM_CD}" title="Cricket" data-flip-category="Fun Sports">
+                    <p><img src="{if $v['ROOM_IMAGE']}__UPLOADS__{$v.ROOM_IMAGE}{else /}__STATIC__images/1.jpg{/if}"  width="100"></p>
+                    <input type="hidden" name="rid" value="{$v.ROOM_CD}">
+                    <p class="tj-p1">{$v.ROOM_NAME}</p>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+
+    </div>
+
+    <ul class="tab_conbox" id="tab_conbox" >
+        <li class="tab_con">
+            <div id="tabbox1 ">
+                <p class="xqf-p1">选择预约时间</p>
+                <div class="selectxq">
+                    <input type="hidden" name="ORDER_DATE" id="order_date" value="{:date('Y-m-d',time())}">
+                    <dl class="weekbar1 tabs1" id="tabs1">
+                        {foreach name="dayTime" key="k" item="v"}
+                            <dd  data-time="{:date('Y-m-d',$v['day'])}" data-time-num="{$v.day}" class="{eq name='k' value='0'}thistab1{/eq} d-time">
+                            <p>{eq name='k' value='0'}今天{else /}{$v.week}{/eq}</p>
+                            <p class="d-date">{:date('m/d',$v['day'])}</p>
+                            </dd>
+                        {/foreach}
+                    </dl>
+                </div>
+                <dl class="tab_conbox1 " id="tab_conbox1">
+                    <dd class="tab_con1 order-day{$dayTime[0]['day']}">
+                        <input type="hidden" name="TIME_CD" id="time_cd">
+						<div style="text-align:center;font-size:14px;color:#666;padding-top:0.8rem;">正式营业后开通预约功能，敬请期待......</div>
+                        <!-- <dl class="weekbar2">							
+                             {foreach name="timelist" key="k" item="vo"}
+                                <?php $vtime = strtotime(date('Y-m-d '.$vo['ORDER_START_DATE_TIME']));$ntime= time();?>
+                                <dt {if time() gt $vtime or $vo['order_disable'] eq 1}style="background-color:#c0c1c4;"{/if} data-ntime="{$ntime}"  data-vtime="{$vtime}" {if $vo['order_disable'] eq 1}data-order-disable="{$vo.order_disable}"{/if}{/if} data-k="{$k+1}" data-id="{$vo.TIME_CD}"  class="order-time{$vo.TIME_CD} ">
+                                    <p class="date-time">{$vo.ORDER_START_DATE_TIME}</p><p>￥{$vo.PRICE}</p>
+                                </dt>
+                            {/foreach}
+                        </dl> -->
+                    </dd>
+                    <dd class="tab_con1 order-day{$dayTime[1]['day']}">
+						<div style="text-align:center;font-size:14px;color:#666;padding-top:0.8rem;">正式营业后开通预约功能，敬请期待......</div>
+                        <!-- <dl class="weekbar2">							
+                            {foreach name="timelist" item="vo"}
+                                <dt data-id="{$vo.TIME_CD}" {if $vo['order_disable'] eq 1}style="background-color:#c0c1c4;" data-order-disable="{$vo.order_disable}"{/if}  class="order-time{$vo.TIME_CD} ">
+                                    <p class="date-time">{$vo.ORDER_START_DATE_TIME}</p><p>￥{$vo.PRICE}</p>
+                                </dt>
+                            {/foreach} 	
+                        </dl>-->
+                    </dd>
+                    <dd class="tab_con1 order-day{$dayTime[2]['day']}">
+						<div style="text-align:center;font-size:14px;color:#666;padding-top:0.8rem;">正式营业后开通预约功能，敬请期待......</div>
+                        <!-- <dl class="weekbar2">
+                            {foreach name="timelist" item="vo"}
+                                <dt data-id="{$vo.TIME_CD}" {if $vo['order_disable'] eq 1}style="background-color:#c0c1c4;" data-order-disable="{$vo.order_disable}"{/if}  class="order-time{$vo.TIME_CD} ">
+                                    <p class="date-time">{$vo.ORDER_START_DATE_TIME}</p><p>￥{$vo.PRICE}</p>
+                                </dt>
+                            {/foreach}
+                        </dl> -->
+                    </dd>
+                    <dd class="tab_con1 order-day{$dayTime[3]['day']}">
+						<div style="text-align:center;font-size:14px;color:#666;padding-top:0.8rem;">正式营业后开通预约功能，敬请期待......</div>
+                        <!--  <dl class="weekbar2">
+                           {foreach name="timelist" item="vo"}
+                                <dt data-id="{$vo.TIME_CD}" {if $vo['order_disable'] eq 1}style="background-color:#c0c1c4;" data-order-disable="{$vo.order_disable}"{/if}  class="order-time{$vo.TIME_CD} ">
+                                    <p class="date-time">{$vo.ORDER_START_DATE_TIME}</p><p>￥{$vo.PRICE}</p>
+                                </dt>
+                            {/foreach} 
+                        </dl>-->
+                    </dd>
+                    <dd class="tab_con1 order-day{$dayTime[4]['day']}">
+						<div style="text-align:center;font-size:14px;color:#666;padding-top:0.8rem;">正式营业后开通预约功能，敬请期待......</div>
+                       <!-- <dl class="weekbar2">
+                             {foreach name="timelist" item="vo"}
+                                <dt data-id="{$vo.TIME_CD}" {if $vo['order_disable'] eq 1}style="background-color:#c0c1c4;" data-order-disable="{$vo.order_disable}"{/if}  class="order-time{$vo.TIME_CD} ">
+                                    <p class="date-time">{$vo.ORDER_START_DATE_TIME}</p><p>￥{$vo.PRICE}</p>
+                                </dt>
+                            {/foreach} 
+                        </dl>-->
+                    </dd>
+                    <dd class="tab_con1 order-day{$dayTime[5]['day']}">
+						<div style="text-align:center;font-size:14px;color:#666;padding-top:0.8rem;">正式营业后开通预约功能，敬请期待......</div>
+                        <!-- <dl class="weekbar2">
+                            {foreach name="timelist" item="vo"}
+                                <dt data-id="{$vo.TIME_CD}" {if $vo['order_disable'] eq 1}style="background-color:#c0c1c4;" data-order-disable="{$vo.order_disable}"{/if}  class="order-time{$vo.TIME_CD} ">
+                                    <p class="date-time">{$vo.ORDER_START_DATE_TIME}</p><p>￥{$vo.PRICE}</p>
+                                </dt>
+                            {/foreach}
+                        </dl> -->
+                    </dd>
+                    <dd class="tab_con1 order-day{$dayTime[6]['day']}">
+						<div style="text-align:center;font-size:14px;color:#666;padding-top:0.8rem;">正式营业后开通预约功能，敬请期待......</div>
+                       <!--  <dl class="weekbar2">
+                            {foreach name="timelist" item="vo"}
+                                <dt data-id="{$vo.TIME_CD}" {if $vo['order_disable'] eq 1}style="background-color:#c0c1c4;" data-order-disable="{$vo.order_disable}"{/if}  class="order-time{$vo.TIME_CD} ">
+                                    <p class="date-time">{$vo.ORDER_START_DATE_TIME}</p><p>￥{$vo.PRICE}</p>
+                                </dt>
+                            {/foreach}
+                        </dl> -->
+                    </dd>
+                </dl>
+            </div><!---->
+        </li>
+
+    </ul>
+
+
+    <script src="__STATIC__js/jquery.flipster.js"></script>
+    <script>
+
+        $(function(){
+
+            /*$(".flipster").flipster({
+             style: 'carousel',
+             enableNav: true
+             });*/
+            /*$(".flipster").flipster({
+                itemContainer: 			'ul', // Container for the flippin' items.
+                itemSelector: 			'li', // Selector for children of itemContainer to flip
+                style:							'carousel', // Switch between 'coverflow' or 'carousel' display styles
+                start: 							0, // Starting item. Set to 0 to start at the first, 'center' to start in the middle or the index of the item you want to start with.
+
+                enableKeyboard: 		false, // Enable left/right arrow navigation
+                enableMousewheel: 	false, // Enable scrollwheel navigation (up = left, down = right)
+                enableTouch: 				true, // Enable swipe navigation for touch devices
+
+                enableNav: 					false, // If true, flipster will insert an unordered list of the slides
+                enableNavButtons: false, // If true, flipster will insert Previous / Next buttons
+
+                onItemSwitch: 			function(){
+                    var sid = "{$sid}";
+                    var rid = $('.flip-current').attr('data-id');
+                    $('.order-un').css('background-color','');
+                    $('.order-un').removeAttr('data-ordered');
+                    $('#room_cd').val(rid);
+                    getOrderTimeList(sid,rid);
+                }, // Callback function when items are switches
+            });*/
+
+            $('.kc-wrap').KillerCarousel({
+                // Width of carousel.
+                width: 800,
+                // Item spacing in 3d (CSS3 3d) mode.
+                spacing3d: 120,
+                // Item spacing in 2d (no CSS3 3d) mode.
+                spacing2d: 120,
+                // Path to images for shadows etc.
+                imagePath: "__STATIC__js/killercarousel/",
+                showShadow: true,
+                showReflection: true,
+                // Looping mode.
+                infiniteLoop: true,
+                // Scale at 75% of parent element.
+                autoScale: 85
+
+            });
+
+            var kc = $('.kc-wrap').data('KillerCarousel');
+            var dir = 0;
+            setInterval(function() {
+                kc.position(kc.position() + dir * 50);
+            }, 100)
+            $(window).bind('mouseup mousedown mousewheel touchend', function() {
+               alert(222222);
+                dir = 0;
+                kc.lineUp();
+            })
+            $('.nav-but-left,.nav-but-right').bind('mousedown touchstart', function(evt) {
+                // console.log(evt.type + " "+Date.now());
+                console.log(11111111111111);
+                dir = -1;
+                if ($(this).hasClass('nav-but-left'))
+                    dir = 1;
+                evt.preventDefault();
+                return false;
+            })
+
+
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            jQuery.jqtab = function(tabtit,tab_conbox,shijian) {
+                $(tab_conbox).find("li").hide();
+                $(tabtit).find("li:first").addClass("thistab").show();
+                $(tab_conbox).find("li:first").show();
+
+                $(tabtit).find("li").bind(shijian,function(){
+                    $(this).addClass("thistab").siblings("li").removeClass("thistab");
+                    var activeindex = $(tabtit).find("li").index(this);
+                    $(tab_conbox).children().eq(activeindex).show().siblings().hide();
+                    return false;
+                });
+
+            };
+            /*调用方法如下：*/
+            $.jqtab("#tabs","#tab_conbox","mouseenter");
+
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            jQuery.jqtab1 = function(tabtit1,tab_conbox1,shijian1) {
+                $(tab_conbox1).find("dd").hide();
+                $(tabtit1).find("dd:first").addClass("thistab1").show();
+                $(tab_conbox1).find("dd:first").show();
+
+                $(tabtit1).find("dd").bind(shijian1,function(){
+                    $(this).addClass("thistab1").siblings("dd").removeClass("thistab1");
+                    var activeindex = $(tabtit1).find("dd").index(this);
+                    $(tab_conbox1).children().eq(activeindex).show().siblings().hide();
+                    return false;
+                });
+
+            };
+            /*调用方法如下：*/
+            $.jqtab1("#tabs1","#tab_conbox1","click");
+
+        });
+    </script>
+</div>
+
+
+</div><!--box1 end-->
+
+<div class="foot1">
+    <input type="button" id="yuyue" class="ft-a1" value="立即预约">
+</div>
+</form>
+<script>
+    //判断是否为返回页
+    window.onpageshow=function(e){
+        var a=e||window.event;
+        if(a.persisted){
+            window.location.refresh();
+        }
+    }
+    $(function(){
+        //选择日期
+        $('.d-time').click(function(){
+            var day = $(this).attr('data-time');
+            var rid = $('.flip-current').attr('data-id');
+            var sid = '{$sid}';
+            $('#order_date').val(day);
+        });
+        //选择状态切换
+        $('dt').click(function(){
+
+            var ntime = $(this).attr('data-ntime');
+            var vtime = $(this).attr('data-vtime');
+            var time_cd = $(this).attr('data-id');
+            if(ntime && vtime && ntime > vtime){
+                alert('已经过去的时间无法选择');
+                return false;
+            }
+            if($(this).attr('data-ordered')){
+                alert('该时间段已被预约');
+                return false;
+            }
+            if($(this).attr('data-order-disable')){
+                alert('该时段暂不支持预约！');
+                return false;
+            }
+            $('dt').removeAttr('id');
+            $('#time_cd').val(time_cd);
+            $(this).attr('id','wb-dt');
+        });
+        //点击预约提交
+        $('#yuyue').click(function(){
+            var order_person = parseInt($('#text_box').val());
+            var rid = $('.flip-current').attr('data-id');
+            var sid = '{$sid}';
+            var time_cd = $('#time_cd').val();
+            var order_date = $('#order_date').val();
+            if(!time_cd){
+                alert('您还未选择预约时间');
+                return false;
+            }else{
+                $.ajax({
+                    type:'post',
+                    url:'{:url("wx/order/isRoomTimeOrder")}',
+                    data:{rid:rid,sid:sid,time_cd:time_cd,order_date:order_date},
+                    dataType:'json',
+                    success:function(result){
+                       if(result.state == 'error'){
+                           console.log(result.msg);return false;
+                       }else if(result.state == 101){
+                           alert('该时段已被预定');return false;
+                       }else{
+                           if(rid){
+                               $.ajax({
+                                   type:'post',
+                                   url:'{:url("wx/order/getFreeSofa")}',
+                                   data:{rid:rid,sid:sid},
+                                   dataType:'json',
+                                   success:function(result){
+                                       console.log(result);
+                                       if(result.state =='success'){
+                                           if(order_person > result.info){
+                                               alert('该房间现只能接受'+result.info+'位人员预约');
+                                               return false;
+                                           }else{
+                                               $('#myform').submit();
+                                           }
+                                       }else{
+                                           alert(result.msg);
+                                           return false;
+                                       }
+                                   }
+                               });
+                           }else{
+                               alert('您还未选择预约的房间！');
+                               return false;
+                           }
+                       }
+                    }
+                });
+            }
+            /*if(rid){
+                $.ajax({
+                    type:'post',
+                    url:'{:url("wx/order/getFreeSofa")}',
+                    data:{rid:rid,sid:sid},
+                    dataType:'json',
+                    success:function(result){
+                        console.log(result);
+                        if(result.state =='success'){
+                            if(order_person > result.info){
+                                alert('该房间现只能接受'+result.info+'位人员预约');
+                                return false;
+                            }else{
+                                $('#myform').submit();
+                            }
+                        }else{
+                            alert(result.msg);
+                            return false;
+                        }
+                    }
+                });
+            }else{
+                alert('您还未选择预约的房间！');
+                return false;
+            }*/
+        });
+    })
+
+    function getOrderTimeList(store_cd,room_cd){
+        $.ajax({
+            url:"{:url('wx/order/getRoomOrderTime')}",
+            type:'post',
+            data:{store_cd:store_cd,room_cd:room_cd},
+            dataType:'json',
+            success:function(result){
+                console.log(result);
+                var list = result.list;
+                if(result.state == 'success'){
+                    $.each(list,function(i,item){
+                      $('.order-day'+item.ORDER_DATA+' .order-time'+item.TIME_CD).css('background-color','#c0c1c4');
+                      $('.order-day'+item.ORDER_DATA+' .order-time'+item.TIME_CD).attr('data-ordered','ordered');
+                      $('.order-day'+item.ORDER_DATA+' .order-time'+item.TIME_CD).addClass('order-un');
+                    });
+                }
+
+            }
+
+        });
+
+    }
+</script>
+</body>
+</html>
+<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

@@ -1,0 +1,38 @@
+{include file="public/heads"}
+
+<body>
+<div class="box1">
+    <div class="gx-top">
+        <a href="__PATH__wx/user/userInfo"><span class="gx-s1"><img src="{$data.PHOTO_HEAD}"></span></a>
+        <span class="gx-s2">
+        	<p class="gx-p1">昵称:{$data.NICK_NAME}</p>
+            <p class="gx-p1">手机号:{$data.TEL_NO}</p>
+        </span>
+        <span class="gx-s3"><a href="javascript:void(0);" class="gx-a1">解绑</a></span>
+    </div><!--gx-top end-->
+    <ul class="gx-ul">
+        <a href="__PATH__wx/user/card"> <li><span class="gx-s1a"> > </span><span class="gx-s2a mt10"><img src="__STATIC__images/gx_03.png"> </span><span class="gx-s3a">我的会员卡</span></li></a>
+        <a href="__PATH__wx/home/getMore<!-- userTicket -->"><li><span class="gx-s1a"> > </span><span class="gx-s2a mt10"><img src="__STATIC__images/gx_06.png"> </span><span class="gx-s3a">我的票务</span></li></a>
+        <a href="__PATH__wx/order/orderList"><li><span class="gx-s1a"> > </span><span class="gx-s2a mt10"><img src="__STATIC__images/gx_09.png" style="width:16px;"> </span><span class="gx-s3a">我的订单</span></li></a>
+        <a href="__PATH__wx/user/userReview"><li><span class="gx-s1a"> > </span><span class="gx-s2a mt10"><img src="__STATIC__images/gx_12.png" style="width:16px;"> </span><span class="gx-s3a">我的评价</span></li></a>
+        <a href="__PATH__wx/home/bindPassword"><li><span class="gx-s1a"> > </span><span class="gx-s2a mt10"><img src="__STATIC__images/gx_03.png"> </span><span class="gx-s3a">重置密码</span></li></a>
+    </ul>
+</div><!--box1 end-->
+<script>
+    $(function(){
+        //解除绑定
+        $('.gx-a1').click(function(){
+            $.confirm({
+                title: '解绑',
+                text: '确定解除绑定？',
+                onOK: function () {
+                    //点击确认
+                    window.location.href = "__PATH__wx/user/unwrap";
+                },
+                onCancel: function () {
+                }
+            });
+        });
+    });
+</script>
+{include file="public/foot"}

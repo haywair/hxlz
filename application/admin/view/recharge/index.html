@@ -1,0 +1,114 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="card-box">
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-6">
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a href="__PATH__admin/recharge/rechargeAdd"><button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="am-u-sm-12 am-u-md-3">
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="text" class="am-form-field">
+                        <span class="am-input-group-btn">
+				            <button class="am-btn am-btn-default" type="button">搜索</button>
+				          </span>
+                    </div>
+                </div>-->
+            </div>
+            <!-- Row end -->
+
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <form class="am-form">
+                        <table class="am-table am-table-striped am-table-hover table-main">
+                            <thead>
+                            <tr>
+                                <th class="table-title">编号</th>
+                                <th class="table-title">充值金额</th>
+                                <th class="table-title">赠送金额</th>
+                                <th>可用标识</th>
+                                <th class="table-type">创建时间</th>
+                                <th class="table-author am-hide-sm-only">更新时间</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name='data' id='v'}
+                            <tr>
+                                <td>{$v.RECHARGE_ID}</td>
+                                <td><a href="#">{$v.RECHARGE_MONEY}</a></td>
+                                <td><a href="#">{$v.GIFT_MONEY}</a></td>
+                                {if $v.AVAILABLE_FLG eq 1}
+                                <td><a href="javascript:void(0);" class="am-btn am-btn-default am-btn-xs am-text-secondary"> 可用</a></td>
+                                {else}
+                                <td><a href="javascript:void(0);"  class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"> 不可用</a></td>
+                                {/if}
+                                <td class="am-hide-sm-only">{$v.CREATE_TIME}</td>
+                                <td class="am-hide-sm-only">{$v.UPDATE_TIME}</td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <a  href="{:url('admin/recharge/rechargeEdit',['recharge_id'=>$v['RECHARGE_ID']])}"  class="am-btn am-btn-default am-btn-xs am-text-secondary"><span  class="am-icon-pencil-square-o"></span> 编辑</a>
+                                            <a href="javascript:void(0);" data-id="{$v.RECHARGE_ID}" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only  delete-list-btn"><span class="am-icon-trash-o"></span> 设置</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                        <div class="am-cf">
+                            共 {$num} 条记录
+                            {$page}
+                        </div>
+                        <hr />
+                        <p>注：.....</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">更改状态</div>
+        <div class="am-modal-bd">
+            你，确定要更改该充值金额类型可用状态？
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        $('.delete-list-btn').click(function() {
+            var recharge_id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    window.location.href = "__PATH__admin/recharge/setRechargeFlg/recharge_id/"+recharge_id;
+                },
+                // closeOnConfirm: false,
+                onCancel: function() {
+
+                }
+            });
+        });
+    });
+</script>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

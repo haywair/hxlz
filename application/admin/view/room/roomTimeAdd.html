@@ -1,0 +1,90 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="am-g">
+            <!-- Row start -->
+            <div class="am-u-sm-12">
+                <div class="card-box"　style="min-height:300px;">
+                    <div class="am-g">
+                        <form class="am-form am-text-sm" action="__PATH__admin/room/roomTimeAdd"  method="post">
+                            <div class="am-u-md-6">
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right " >选择门店 </label>
+                                        <input type="hidden" name="STORE_NAME" id="store_name">
+                                        <select name="STORE_CD"  style="width:82%;" id="select-store">
+                                            <option value="">请选择门店</option>
+                                            {foreach name="store_list" item="vo"}
+                                                <option value="{$vo.STORE_CD}">{$vo.STORE_NAME}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="time-select"></div>
+                                <!--<div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >结束时间</label>
+
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >时段价格</label>
+
+                                    </div>
+                                </div>-->
+
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="submit" class="am-btn am-btn-primary" value="创建">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Row end -->
+        </div>
+    </div>
+</div>
+<!-- end right Content here -->
+<!--</div>-->
+</div>
+</div>
+<script>
+    $(function(){
+        //获取店铺名称
+      $('#select-store').change(function(){
+         var store_id = $(this).val();
+         if(store_id) {
+            var store_name = $('option[value="' + store_id + '"]').text();
+            $('#store_name').val(store_name);
+         }
+         $.ajax({
+             type:'post',
+             url:'{:url("admin/room/getRoomTime")}',
+             data:{store_cd:store_id},
+             dataType:'json',
+             success:function(result){
+                 if(result.state == 'success'){
+                    var str = '';
+                    $.each(result.time,function(i,item){
+                        str += '<div class="am-form-group"><div class="am-g"><label class="am-u-md-2 am-md-text-right am-padding-left-0" >时段</label>';
+                        str += '<input class="am-u-md-10 form-control input-time" name="ORDER_START_DATE_TIME[]" readonly value="'+item.start+'">';
+                        str += '<span class="span-mark">　~~　</span>';
+                        str += '<input class="am-u-md-10 form-control input-time" name="ORDER_END_DATE_TIME[]" readonly value="'+item.end+'">';
+                        str += '<span class="span-title"> 　价格　</span>';
+                        str += '<input class="am-u-md-10 form-control input-time" name="PRICE[]" placeholder="时段价格">';
+                        str += '</div></div>';
+                    });
+                    $('#time-select').html(str);
+                 }else{
+                     alert(result.msg);
+                 }
+             }
+         });
+      });
+    })
+</script>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

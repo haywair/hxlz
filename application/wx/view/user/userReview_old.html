@@ -1,0 +1,103 @@
+{include file="public/heads"}
+<body>
+<div class="box1">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            jQuery.jqtab = function(tabtit,tab_conbox,shijian) {
+                $(tab_conbox).find("li").hide();
+                $(tabtit).find("li:first").addClass("thistabr").show();
+                $(tab_conbox).find("li:first").show();
+
+                $(tabtit).find("li").bind(shijian,function(){
+                    $(this).addClass("thistabr").siblings("li").removeClass("thistabr");
+                    var activeindex = $(tabtit).find("li").index(this);
+                    $(tab_conbox).children().eq(activeindex).show().siblings().hide();
+                    return false;
+                });
+
+            };
+            /*调用方法如下：*/
+            $.jqtab("#tabsr","#tab_conboxr","click");
+
+        });
+    </script>
+    <div id="tabboxr">
+        <ul class="tabsr" id="tabsr">
+            <li><a href="#">全部</a></li>
+            <li><a href="#">好评</a></li>
+            <li><a href="#">差评</a></li>
+        </ul>
+        <ul class="tab_conboxr" id="tab_conboxr">
+            <li class="tab_conr">
+                <dl class="pq-dl">
+                    <dd>
+                        <div class="pq-dv2">
+                            <img src="images/timg.jpg">
+                        </div><!--pq-dv2 end-->
+                        <div class="pq-dv3">
+                            <div class="pq-p2"><span class="pq-s3">2017-05-01 19:30</span>飞翔的企鹅</div>
+                            <div class="pq-p3"><span class="pq-s4">评分</span><span class="pq-s5"><img src="images/xq_07.jpg"><img src="images/xq_07.jpg"><img src="images/xq_07.jpg"><img src="images/xq_07.jpg"><img src="images/xqt_09.jpg"></span></div>
+                            <div class="pq-p4">四六号技师手法技师手法技师手法技师手法技师手法技师手法技师手法一流，下次来还找他</div>
+                            <div class="pq-p5">
+                                <a href="#"><span class="pq-s6"><img src="images/lz_09.jpg"></span>
+                                    <span class="pq-s6a">
+                            	<p class="pq-p1a">生命之禅尊贵单人套餐</p>
+                                <p class="pq-p2a">包括足底按摩，中式足浴，中式足浴，中式足浴，全身按摩</p>
+                            </span></a>
+                            </div>
+                            <div class="pq-p6">
+                                <span class="pq-s7"><img src="images/ly_03.jpg"></span>
+                                <span class="pq-s8"><font class="pq-f3">商家回复：</font><font class="pq-f4">感谢您的支持，欢迎下次光临！</font></span>
+                            </div>
+                        </div><!--pq-dv3 end-->
+                    </dd>
+                    <dd>
+                        <div class="pq-dv2">
+                            <img src="images/timg.jpg">
+                        </div><!--pq-dv2 end-->
+                        <div class="pq-dv3">
+                            <div class="pq-p2"><span class="pq-s3">2017-05-01 19:30</span>飞翔的企鹅</div>
+                            <div class="pq-p3"><span class="pq-s4">评分</span><span class="pq-s5"><img src="images/xq_07.jpg"><img src="images/xq_07.jpg"><img src="images/xq_07.jpg"><img src="images/xq_07.jpg"><img src="images/xqt_09.jpg"></span></div>
+                            <div class="pq-p4">四六号技师手法技师手法技师手法技师手法技师手法技师手法技师手法一流，下次来还找他</div>
+                            <div class="pq-p5">
+                                <a href="#"><span class="pq-s6"><img src="images/lz_09.jpg"></span>
+                                    <span class="pq-s6a">
+                            	<p class="pq-p1a">生命之禅尊贵单人套餐</p>
+                                <p class="pq-p2a">包括足底按摩，中式足浴，中式足浴，中式足浴，全身按摩</p>
+                            </span></a>
+                            </div>
+                            <div class="pq-p6">
+                                <span class="pq-s7"><img src="images/ly_03.jpg"></span>
+                                <span class="pq-s8"><font class="pq-f3">商家回复：</font><font class="pq-f4">感谢您的支持，欢迎下次光临！</font></span>
+                            </div>
+                        </div><!--pq-dv3 end-->
+                    </dd>
+                    <dd>
+                        <div class="pq-dv2">
+                            <img src="images/timg.jpg">
+                        </div><!--pq-dv2 end-->
+                        <div class="pq-dv3">
+                            <div class="pq-p2"><span class="pq-s3">2017-05-01 19:30</span>飞翔的企鹅</div>
+                            <div class="pq-p3"><span class="pq-s4">评分</span><span class="pq-s5"><img src="images/xq_07.jpg"><img src="images/xq_07.jpg"><img src="images/xq_07.jpg"><img src="images/xq_07.jpg"><img src="images/xqt_09.jpg"></span></div>
+                            <div class="pq-p4">四六号技师手法技师手法技师手法技师手法技师手法技师手法技师手法一流，下次来还找他</div>
+                            <div class="pq-p5">
+                                <a href="#"><span class="pq-s6"><img src="images/lz_09.jpg"></span>
+                                    <span class="pq-s6a">
+                            	<p class="pq-p1a">生命之禅尊贵单人套餐</p>
+                                <p class="pq-p2a">包括足底按摩，中式足浴，中式足浴，中式足浴，全身按摩</p>
+                            </span></a>
+                            </div>
+                            <div class="pq-p6">
+                                <span class="pq-s7"><img src="images/ly_03.jpg"></span>
+                                <span class="pq-s8"><font class="pq-f3">商家回复：</font><font class="pq-f4">感谢您的支持，欢迎下次光临！</font></span>
+                            </div>
+                        </div><!--pq-dv3 end-->
+                    </dd>
+                </dl>
+            </li>
+            <li class="tab_conr">2</li>
+            <li class="tab_conr">3</li>
+        </ul>
+    </div>
+</div><!--box1 end-->
+{include file="public/foot"}

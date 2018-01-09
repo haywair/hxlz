@@ -1,0 +1,134 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+
+    <div class="content">
+        <div class="am-g">
+            <!-- Row start -->
+            <div class="am-u-sm-12">
+                <div class="card-box">
+                    <div class="am-g">
+                        <form class="am-form am-text-sm" action="__PATH__admin/priceat/priceatAdd"  method="post">
+                            <div class="am-u-md-6">
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >方案名称</label>
+                                        <input class="am-u-md-10 form-control" name="PLAN_NAME"  placeholder="方案名称">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right" for="project_ids">选择项目</label>
+                                        <select multiple data-am-selected="{maxHeight:400}" id="project_ids"  name="project_ids[]">
+                                            {foreach name="project_list" item="vo"}
+                                                <option value="{$vo.PROJECT_ID}">{$vo.PROJECT_NAME}------{$vo.STORE_NAME}</option>
+                                            {/foreach}
+                                        </select>
+                                        <span class="am-form-caret"></span>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >一级优惠方案</label>
+                                        <input type="hidden" name="LEVEL_ONE_NAME" id="LEVEL_ONE_NAME">
+                                        <select class="am-u-md-6 form-control" name="LEVEL_ONE" id="LEVEL_ONE" onchange="setLevelName('ONE')" style="width:83%;height:3rem;">
+                                            <option class="LEVEL_ONE" value="">请选择优惠内容</option>
+                                            {foreach name="categorys_fir" key="k" item="v"}
+                                                <option class="LEVEL_ONE" data-type="{$v.LEVEL_TYPE}"  data-name="{$v.CL_NAME}"  value="{$v.CL_ID}">{$v.CL_NAME}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group" id="level-one-sale">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >立减</label>
+                                        <input class="am-u-md-10 form-control" id="level-one-sale-price"  name="LEVEL_ONE_SALE_PRICE" placeholder="一级方案优惠价">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >二级优惠方案</label>
+                                        <input type="hidden" name="LEVEL_TWO_NAME" id="LEVEL_TWO_NAME">
+                                        <select class="am-u-md-6 form-control" name="LEVEL_TWO" id="LEVEL_TWO"  onchange="setLevelName('TWO')" style="width:83%;height:3rem;">
+                                            <option class="LEVEL_TWO" value="">请选择优惠内容</option>
+                                            {foreach name="categorys_sec" key="k" item="v"}
+                                                <option class="LEVEL_TWO" data-name="{$v.CL_NAME}" value="{$v.CL_ID}">{$v.CL_NAME}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >立减</label>
+                                        <input class="am-u-md-10 form-control" name="LEVEL_TWO_SALE_PRICE"    placeholder="二级方案优惠价">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >三级优惠方案</label>
+                                        <input type="hidden" name="LEVEL_THREE_NAME" id="LEVEL_THREE_NAME">
+                                        <select class="am-u-md-6 form-control" name="LEVEL_THREE" id="LEVEL_THREE"   onchange="setLevelName('THREE')" style="width:83%;height:3rem;">
+                                            <option class="LEVEL_THREE" value="">请选择优惠内容</option>
+                                            {foreach name="categorys_third" key="k" item="v"}
+                                                <option class="level-three" data-name="{$v.CL_NAME}"  value="{$v.CL_ID}">{$v.CL_NAME}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >立减</label>
+                                        <input class="am-u-md-10 form-control" name="LEVEL_THREE_SALE_PRICE"   placeholder="三级方案优惠价">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >四级优惠方案</label>
+                                        <input type="hidden" name="LEVEL_FOUR_NAME" id="LEVEL_FOUR_NAME">
+                                        <select class="am-u-md-6 form-control" name="LEVEL_FOUR" id="LEVEL_FOUR" onchange="setLevelName('FOUR')" style="width:83%;height:3rem;">
+                                            <option class="LEVEL_FOUR" value="">请选择优惠内容</option>
+                                            {foreach name="categorys_four" key="k" item="v"}
+                                                <option class="LEVEL_FOUR" data-name="{$v.CL_NAME}"  value="{$v.CL_ID}">{$v.CL_NAME}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >立减</label>
+                                        <input class="am-u-md-10 form-control" name="LEVEL_FOUR_SALE_PRICE"  placeholder="四级方案优惠价">
+                                    </div>
+                                </div>
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="submit" class="am-btn am-btn-primary" value="创建优惠方案">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Row end -->
+        </div>
+    </div>
+</div>
+<!-- end right Content here -->
+<!--</div>-->
+</div>
+</div>
+<script>
+    function setLevelName(typeVal){
+        var level_id = $('#LEVEL_'+typeVal).val();
+        var level_name = $('#LEVEL_'+typeVal+' option[value="'+level_id+'"]').attr('data-name');
+        var level_type = $('#LEVEL_'+typeVal+' option[value="'+level_id+'"]').attr('data-type');
+        if(typeVal == 'ONE' && level_type == 3){
+            $('#level-one-sale-price').val('0');
+            $('#level-one-sale').hide();
+        }else if(typeVal == 'ONE' && level_type != 3){
+            $('#level-one-sale-price').val('');
+            $('#level-one-sale').show();
+        }
+        $('#LEVEL_'+typeVal+'_NAME').val(level_name);
+    }
+</script>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

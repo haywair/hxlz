@@ -1,0 +1,229 @@
+{include file="public/header"}
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="am-g">
+                <!-- Row start -->
+                <div class="am-u-sm-12">
+                    <div class="card-box">
+                        <div class="am-g">
+                            <form class="am-form am-text-sm" action="__PATH__admin/order/orderEditPost"  method="post">
+                                 <div class="am-u-md-6">
+
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <input type="hidden" name="ORDER_CD" value="{$orderInfo.ORDER_CD}">
+                                            <input type="hidden" name="USER_ID" value="{$orderInfo.USER_ID}">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >预约码</label>
+                                            <input class="am-u-md-10 form-control" name="ORDER_NO" value="{$orderInfo.ORDER_NO}" readonly>
+                                        </div>
+                                    </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <input type="hidden" name="ORDER_CD" value="{$orderInfo.ORDER_CD}">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >数量（人数）</label>
+                                             <input class="am-u-md-10 form-control" name="CUSTOMER_QTY" value="{$orderInfo.CUSTOMER_QTY}" >
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >选择门店</label>
+                                             <select data-am-selected name="STORE_CD" id="store_cd" >
+                                                 <option value="">请选择门店</option>
+                                                 {foreach name="stores" item="vo"}
+                                                 <option value="{$vo.STORE_CD}" {if $vo['STORE_CD'] eq $orderInfo['STORE_CD']}selected{/if}>{$vo.STORE_NAME}</option>
+                                                 {/foreach}
+                                             </select>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >选择房间</label>
+                                             <select data-am-selected name="ROOM_CD" id="room_cd" >
+                                                 <option value="">请选择房间</option>
+                                                 {foreach name="roomList" item="v"}
+                                                     <option value="{$v.ROOM_CD}" {if $v['ROOM_CD'] eq $orderInfo['ROOM_CD']}selected{/if}>{$v.ROOM_NAME}</option>
+                                                 {/foreach}
+                                             </select>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >选择项目
+                                             </label>
+                                             <select data-am-selected name="PROJECT_CD" id="project_cd">
+                                                 <option value="">请选择项目</option>
+                                                 {foreach name="projectList" item="v"}
+                                                    <option value="{$v.PROJECT_CD}" {if $v['PROJECT_CD'] eq $orderInfo['PROJECT_CD']}selected{/if}>
+                                                        {$v.PROJECT_NAME}
+                                                    </option>
+                                                 {/foreach}
+                                             </select>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >预约日期</label>
+                                             <div class="am-input-group date" id="datetimepicker"
+                                                  data-date="{$orderInfo.ORDER_DATE}" data-date-format="yyyy-mm-dd">
+                                                 <input size="16" type="text" name="ORDER_TIME"
+                                                        value="{$orderInfo.ORDER_DATE}"  class="am-form-field" readonly>
+                                                 <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >预约时间</label>
+                                             <select data-am-selected name="TIME_CD" id="time_cd">
+                                                 <option value="">请选择项目</option>
+                                                 {foreach name="timeList" item="v"}
+                                                 <option value="{$v.TIME_CD}" {if $v['TIME_CD'] eq $orderInfo['TIME_CD']}selected{/if}>
+                                                 {$v.ORDER_START_DATE_TIME}-{$v.ORDER_END_DATE_TIME}
+                                                 </option>
+                                                 {/foreach}
+                                             </select>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >预约单状态</label>
+                                             <select data-am-selected name="ORDER_STATUS" id="order_status">
+                                                 {foreach name="order_status_arr" key="k" item="v"}
+                                                 <option value="{$k}" {if $k eq $orderInfo['ORDER_STATUS']}selected{/if}>{$v} </option>
+                                                 {/foreach}
+                                             </select>
+                                         </div>
+                                     </div>
+                                     <!--<div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >预约到店时间</label>
+                                             <div class="am-input-group date" id="datetimepicker1" data-date="{:date('Y-m-d H:i')}" data-date-format="yyyy-mm-dd hh:ii">
+                                                 <input size="16" type="text" value="{$orderInfo.OR_ARRIVE_DATE_TIME}" name="OR_ARRIVE_DATE_TIME" class="am-form-field" readonly>
+                                                 <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+                                             </div>
+                                         </div>
+                                     </div>-->
+                                     <!--<div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >预约开始时间</label>
+                                             <div class="am-input-group date" id="datetimepicker2" data-date="{:date('Y-m-d H:i')}" data-date-format="yyyy-mm-dd hh:ii">
+                                                 <input size="16" type="text" value="{$orderInfo.OR_START_DATE_TIME}" name="OR_START_DATE_TIME" class="am-form-field" readonly>
+                                                 <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >预约结束时间</label>
+                                             <div class="am-input-group date" id="datetimepicker3"
+                                                  data-date="{:date('Y-m-d H:i')}" data-date-format="yyyy-mm-dd hh:ii">
+                                                 <input size="16" type="text" value="{$orderInfo.OR_END_DATE_TIME}" name="OR_END_DATE_TIME" class="am-form-field" readonly>
+                                                 <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+                                             </div>
+                                         </div>
+                                     </div>-->
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="diff_price_amt">差价金额</label>
+                                            <input class="am-u-md-10 form-control" name="DIFF_PRICE_AMT" id="diff_price_amt" placeholder="输入差价金额" value="{$orderInfo.DIFF_PRICE_AMT}">
+                                        </div>
+                                    </div>
+
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="available_flg" style="float:left;padding-top:0.5rem;">是否可用
+                                             </label>
+                                             <div style="float:left;margin-right:2rem;padding-top:0.5rem;">
+                                             <input name="AVAILABLE_FLG" id="available_flg" type="radio" {eq name="orderInfo['AVAILABLE_FLG']" value="1"}checked{/eq} value="1" style="font-size:0.8rem;">可用
+                                             </div>
+                                             <div style="float:left;padding-top:0.5rem;">
+                                             <input name="AVAILABLE_FLG" id="available_flg" type="radio" {empty name="orderInfo['AVAILABLE_FLG']" }checked{/empty} value="0" style="font-size:0.8rem;">不可用
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g" style="text-align:center;">
+                                             <button type="submit" class="am-btn am-btn-primary">保存</button>
+                                         </div>
+                                     </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row end -->
+            </div>
+        </div>
+    </div>
+    <!-- end right Content here -->
+    <!--</div>-->
+</div>
+</div>
+<script>
+    var store_id = "{$orderInfo.STORE_CD}";
+    $(function(){
+        //门店选择
+        $('#store_cd').change(function(){
+            var storeId = $('#store_cd').val();
+            getProject(storeId);
+            getRoom(storeId);
+        });
+        //预约时间选择
+        $('#datetimepicker').datetimepicker();
+        $('#datetimepicker1').datetimepicker();
+        $('#datetimepicker2').datetimepicker();
+        $('#datetimepicker3').datetimepicker();
+
+
+    });
+    function getRoom(storeId){
+        var str = "";
+        $.ajax({
+            type:'get',
+            url:"__PATH__admin/order/getRoomFlag",
+            data:{store_cd:storeId},
+            dataType:'json',
+            success:function(result){
+                console.log(result);
+                if(result.state == 'success'){
+                    str += '<option value="">请选择房间</option>';
+                    $.each(result.list,function(i,item){
+                        str += '<option value="'+item.ROOM_CD+'">'+item.ROOM_NAME+'</option>';
+                    });
+                    $('#room_cd').html(str);
+                }else{
+                    str += '<option value="">该门店暂无房间可提供</option>';
+                    $('#room_cd').html(str);
+                    console.log(result.msg);
+                }
+            }
+        });
+    }
+    function getProject(storeId){
+        var str = "";
+        $.ajax({
+            type:'get',
+            url:"__PATH__admin/order/getProjectFlag",
+            data:{store_cd:storeId},
+            dataType:'json',
+            success:function(result){
+                console.log(result);
+                if(result.state == 'success'){
+                    str += '<option value="">请选择项目</option>';
+                    $.each(result.list,function(i,item){
+                        str += '<option value="'+item.PROJECT_CD+'">'+item.PROJECT_NAME+'</option>';
+                    });
+                    $('#project_cd').html(str);
+                }else{
+                    str += '<option value="">该门店暂无服务项目</option>';
+                    console.log(result.msg);
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

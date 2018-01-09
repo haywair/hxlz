@@ -1,0 +1,91 @@
+{include file="public/header"}
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="am-g">
+                <!-- Row start -->
+                <div class="am-u-sm-12">
+                    <div class="card-box">
+                        <div class="am-g">
+                             <div class="am-u-md-6">
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >退款单号</label>
+                                        <span  >{$refundInfo.REFUNDS_NO}</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >预约单号</label>
+                                        <span>{$refundInfo.ORDER_CD}</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0" >用户名</label>
+                                         <span>{$refundInfo.USER_NAME}</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="am-form-group">
+                                     <div class="am-g" >
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0"  style="float:left;">店铺名</label>
+                                         <span>{$refundInfo.STORE_NAME}</span>
+                                     </div>
+                                 </div>
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0" >退款类别</label>
+                                         <span>
+                                            {if $refundInfo['REFUNDS_TYPE'] eq 1}
+                                                微信
+                                            {elseif $refundInfo['REFUNDS_TYPE'] eq 2}
+                                                电子卡
+                                            {/if}
+                                         </span>
+                                     </div>
+                                 </div>
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0" >支付金额</label>
+                                         <span>{$refundInfo.PAY_AMT}</span>
+                                     </div>
+                                 </div>                                 
+                                 <div class="am-form-group">
+                                     <div class="am-g" >
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0"  style="float:left;">退款原因 </label>
+                                         <span>{$refundInfo.REASONE_INFO}</span>
+                                     </div>
+                                 </div>
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0"   style="float:left;">退款状态</label>
+                                         <span >{if $refundInfo['REFUNDS_STATUS'] eq 1}已退款{else/}未退款{/if}</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0"  style="float:left;">是否可用</label>
+                                         <span >{if $refundInfo['AVAILABLE_FLG'] eq 1}可用{else/}不可用{/if}</span>
+                                     </div>
+                                 </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Row end -->
+            </div>
+        </div>
+    </div>
+    <!-- end right Content here -->
+    <!--</div>-->
+</div>
+</div>
+</body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

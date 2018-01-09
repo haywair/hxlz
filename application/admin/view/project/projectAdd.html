@@ -1,0 +1,298 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="am-g">
+            <!-- Row start -->
+            <div class="am-u-sm-12">
+                <div class="card-box">
+                    <div class="am-g">
+                        <form id="myform" class="am-form am-text-sm" action="__PATH__admin/project/projectAdd"  method="post">
+                            <input type="hidden" name="STORE_CD" value="{$sid}" id="store_cd">
+                            <div class="am-u-md-6">
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >项目编号</label>
+                                        <input class="am-u-md-10 form-control" name="PROJECT_CD" placeholder="项目编号"  id="project_cd" >
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >项目名称</label>
+                                        <input class="am-u-md-10 form-control" name="PROJECT_NAME"  placeholder="项目名称" id="project_name">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >英文名称</label>
+                                        <input class="am-u-md-10 form-control" name="ENG_NAME"  placeholder="英文名称">
+                                    </div>
+                                </div>
+								<div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >原价</label>
+                                        <input class="am-u-md-10 form-control" name="MARKET_PRICE"  placeholder="原价"  id="market_price">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >优惠价格</label>
+                                        <input class="am-u-md-10 form-control" name="PRICE"  placeholder="优惠价格" id="price">
+                                    </div>
+                                </div>								
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">项目时长</label>
+                                        <input class="am-u-md-10 form-control" name="PROJECT_TIME" id="doc-ipt-email-1" placeholder="项目时长，单位分钟">
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">加钟时长</label>
+                                        <input class="am-u-md-10 form-control" name="ADD_PROJ_TIME" id="doc-ipt-email-1" placeholder="加钟时长,单位分钟">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">加钟价格</label>
+                                        <input class="am-u-md-10 form-control" name="ADD_PROJ_PRICE" id="doc-ipt-email-1" placeholder="加钟价格">
+                                    </div>
+                                </div>
+                                <!--     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-pwd-1">密码</label>
+                                             <input type="password" class="am-u-md-10"   id="doc-ipt-pwd-1" placeholder="设置个密码吧">
+                                         </div>
+                                     </div>-->
+
+
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ta-1">项目备注</label>
+                                        <div style="float:left;margin-left:10rem;">
+                                            <script type="text/plain" id="content" name="PROJECT_INFO" id="doc-ta-1"></script>
+                                        </div>
+                                    </div>
+                                </div>
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="button" id="suBtn" class="am-btn am-btn-primary" value="创建项目">
+                            </div>
+                            <div class="am-u-md-6">
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">服务人数</label>
+                                        <input class="am-u-md-10 form-control" name="SERVICE_HEADCOUNT" id="doc-ipt-email-1" placeholder="服务人数">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0"  for="doc-ipt-email-1">项目排序</label>
+                                        <input class="am-u-md-10 form-control" name="LIST_ORDER" id="doc-ipt-email-1" placeholder="请输入项目排序号">
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right" for="doc-select-1">团队区分</label>
+                                        <select id="doc-select-1" name="TEAM_FLG">
+                                            <option value="1">无限制</option>
+                                            <option value="2">同性服务</option>
+                                            <option value="3">异性服务</option>
+                                        </select>
+                                        <span class="am-form-caret"></span>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right" for="doc-select-1">类别</label>
+                                        <select id="doc-select-1" name="CATEGORY_CD">
+                                            {volist name="cateData" id="v"}
+                                            <option value="{$v.CATEGORY_CD}">{$v.CATEGORY_NAME}</option>
+                                            {/volist}
+                                        </select>
+                                        <span class="am-form-caret"></span>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right" for="doc-select-1">类型</label>
+                                        <select id="doc-select-1" name="TYPE_CD">
+                                            {volist name='typeData' id='v'}
+                                            <option value="{$v.TYPE_CD}">{$v.TYPE_NAME}</option>
+                                            {/volist}
+                                        </select>
+                                        <span class="am-form-caret"></span>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right" for="doc-select-1">选择房间</label>
+                                        <select multiple data-am-selected="{maxHeight: 200}" id="room_id"  name="roomCD[]">
+                                            {foreach name="roomData" item="vo"}
+                                                <option value="{$vo.ROOM_CD}">{$vo.ROOM_NAME}</option>
+                                            {/foreach}
+                                        </select>
+                                        <span class="am-form-caret"></span>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right" for="doc-select-1">单位</label>
+                                        <select id="doc-select-1" name="UNIT_CD">
+                                            {volist name='unitData' id='v'}
+                                            <option value="{$v.PROJECT_UNIT_CD}">{$v.PROJECT_UNIT_NAME}</option>
+                                            {/volist}
+                                        </select>
+                                        <span class="am-form-caret"></span>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g" id="store-image">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >项目图片</label>
+                                        <span class="btn" id="btn"> 上传图片</span> 最大500KB，支持jpg，gif，png格式。
+                                        <ul id="ul_pics" class="ul_pics clearfix"  style="margin-left:10rem;padding-top:2rem;"></ul>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right" for="doc-select-1">项目简介</label>
+                                        <textarea class="am-u-md-6 form-control" name="PROJECT_INTRODUCE" rows="5"
+                                                  style="width:83%;border-radius:5px;" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Row end -->
+        </div>
+    </div>
+</div>
+<!-- end right Content here -->
+<!--</div>-->
+</div>
+</div>
+<script>
+    var editorURL = "__ROOT__/";
+</script>
+<script type="text/javascript" src="__ADMINSTATIC__js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__ADMINSTATIC__js/ueditor/ueditor.all.min.js"></script>
+<script src="__ADMINSTATIC__js/plupload.full.min.js"></script>
+<script>
+    var i = 1;
+    $(function(){
+        //编辑器
+        editorcontent = new baidu.editor.ui.Editor({initialFrameHeight:300});
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+        //上传图片
+        var uploader = new plupload.Uploader({ //创建实例的构造方法
+            runtimes: 'html5,flash,silverlight,html4',
+            //上传插件初始化选用那种方式的优先级顺序
+            browse_button: 'btn',
+            // 上传按钮
+            url: "{:url('admin/publics/uploadImage')}",
+            //远程上传地址
+            flash_swf_url: 'plupload/Moxie.swf',
+            //flash文件地址
+            silverlight_xap_url: 'plupload/Moxie.xap',
+            //silverlight文件地址
+            filters: {
+                max_file_size: '500kb',
+                //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+                mime_types: [ //允许文件上传类型
+                    {
+                        title: "files",
+                        extensions: "jpg,png,gif"
+                    }]
+            },
+            multi_selection: true,
+            //true:ctrl多文件上传, false 单文件上传
+            init: {
+                FilesAdded: function(up, files) { //文件上传前
+                    if ( i > 3) {
+                        alert("只能上传3张图片！");
+                        uploader.destroy();
+                    } else {
+                        var li = '';
+                        plupload.each(files,
+                                function(file) { //遍历文件
+                                    li += "<li id='" + file['id'] + "' style='float:left;margin-right:20px;list-style:none;'><div class='progress' style='width:5rem;height:3rem;'><span class='bar'></span><span class='percent' >0%</span></div></li>";
+                                });
+                        $("#ul_pics").append(li);
+                        uploader.start();
+                    }
+                },
+                UploadProgress: function(up, file) { //上传中，显示进度条
+                    $("#" + file.id).find('.bar').css({
+                        "width": file.percent + "%"
+                    }).find(".percent").text(file.percent + "%");
+                },
+                FileUploaded: function(up, file, info) { //文件上传成功的时候触发
+                    var data = eval('('+info.response+')');
+                    var str = "";
+                    $("#" + file.id).html("<div ><img src='__ROOT__/" + data.pic +  "' width='80' height='80' "+"/></div><p>" +  file.name + "</p>");
+                    str += "<input type='hidden' name='thumb[]' value='"+data.pic+"' />";
+                    $('#store-image').append(str);
+                    i++;
+                },
+                Error: function(up, err) { //上传出错的时候触发
+                    alert(err.message);
+                }
+            }
+
+        });
+        uploader.init();
+		//表单提交
+		
+		$('#suBtn').click(function(){
+			var image_num = $('input[name="thumb[]"]').length;
+            var project_cd = $('#project_cd').val();
+            var project_name = $('#project_name').val();
+            var market_price = $('#market_price').val();
+           // var priceRule = /^(([0-9]+\d*)|([1-9]+\d*\.\d{1,2}))/;
+            var priceRule = /^([1-9]+|(\d+(\.\d+)+))$/;
+            var price = $('#price').val();
+            if(!project_cd){
+                alert('您还没有输入项目编号！');return false;
+            }else if(!project_name){
+                alert('您还没有输入项目名称！');return false;
+            }else if(!market_price){
+                alert('您还没有输入项目价格！');return false;
+            }else if(!price){
+                alert('您还没有输入项目优惠价格！');return false;
+            }
+
+			if(!image_num){
+				alert('您还没有上传项目图片！');return false;
+			}
+            //判断房间编号是否重复
+            var projectCd = $('#project_cd').val();
+            var sid = $('#store_cd').val();
+            $.ajax({
+                type:'post',
+                url:'{:url("admin/project/isSetProjectCd")}',
+                data:{projectCd:projectCd,sid:sid},
+                dataType:'json',
+                success:function(result){
+                    if(result.state == 101){
+                        alert(result.msg);
+                    }else if(result.state == 100){
+                        alert(result.msg);
+                    }else{
+                        $('#myform').submit();
+                    }
+                }
+            });
+		});
+    });
+</script>
+</body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

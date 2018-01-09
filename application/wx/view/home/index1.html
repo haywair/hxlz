@@ -1,0 +1,281 @@
+{include file="public/heads"}
+
+<body>
+<div class="box1">
+    <div class="b-top" >
+        <div class="bt-dv"><span class="bt-ds1"><img src="__STATIC__images/lz_03.jpg" width="12"></span><a href="#"  id="store_name"></a></div>
+        <!-- <img src="__STATIC__images/hx_03.jpg" class="bt-img"> --> <span class="title-spa">后舍养生SPA</span>
+    </div><!--b-top-->
+    <div class="page-swipe">
+        <header>
+            <div id="slider" class="swipe" style="visibility: visible;">
+                <div class="swipe-wrap">
+                    {volist name="cdata" id="v"}
+                    <div>
+                        <div class="wrap">
+                            <div class="image"><img style="height: 230px;" src="__UPLOADS__public/uploads/{$v.CAROUSEL_PIC}"></div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div><!--swipe-wrap end-->
+            </div><!--slider end-->
+            <nav>
+                <ul id="position">
+                    <li class="on"></li>
+                    <li class=""></li>
+                    <li class=""></li>
+                </ul>
+            </nav>
+        </header>
+        <script Language="JavaScript" src="__STATIC__js/swipe.js"></script>
+        <script>
+            var slider =
+                Swipe(document.getElementById('slider'), {
+                    auto: 3000,
+                    continuous: true,
+                    callback: function(pos) {
+
+                        var i = bullets.length;
+                        while (i--) {
+                            bullets[i].className = ' ';
+                        }
+                        bullets[pos].className = 'on';
+
+                    }
+                });
+            var bullets = document.getElementById('position').getElementsByTagName('li');
+        </script>
+    </div><!--page-swipe end-->
+    <div class="fjmd" style="font-size:14px;">
+        <a href="__PATH__wx/store/storeList">其他门店 ></a>
+        <font>附近门店：</font><span>{if isset($sdata[0]['STORE_NAME'])}{$sdata.0.STORE_NAME}{/if}</span>
+    </div><!--fjmd end-->
+    <script type="text/javascript">
+
+      /*  $(document).ready(function() {
+            jQuery.jqtab = function(tabtit,tab_conbox,shijian) {
+                $(tab_conbox).find("li").hide();
+                $(tabtit).find("li:first").addClass("thistab").show();
+                $(tab_conbox).find("li:first").show();
+
+                $(tabtit).find("li").bind(shijian,function(){
+                    $(this).addClass("thistab").siblings("li").removeClass("thistab");
+                    var activeindex = $(tabtit).find("li").index(this);
+                    $(tab_conbox).children().eq(activeindex).show().siblings().hide();
+                    return false;
+                });
+
+            };
+            /!*调用方法如下：*!/
+            $.jqtab("#tabs","#tab_conbox","click");
+
+        });*/
+    </script>
+    <div id="tabbox" style="margin:10px 0 0 0;">
+        <div id="topNav" class="swiper-container" style="width:100%;">
+        <ul class="tabs swiper-wrapper" id="tabs">
+            <li class="swiper-slide active" data-id="0" id="li-0" ><a href="#" style="background-color:#06c1ae;">全部</a></li>
+            {foreach name="categoryList" item="vo"}
+                <li class="swiper-slide" id="li-{$vo.TYPE_ID}" data-id="{$vo.TYPE_ID}"><a href="#">{$vo.TYPE_NAME}</a></li>
+            {/foreach}
+        </ul>
+        </div>
+        <script type="text/javascript">
+            var mySwiper = new Swiper('#topNav', {
+                freeMode: true,
+                freeModeMomentumRatio: 0.5,
+                slidesPerView: 'auto',
+
+            });
+
+            swiperWidth = mySwiper.container[0].clientWidth
+            maxTranslate = mySwiper.maxTranslate();
+            maxWidth = -maxTranslate + swiperWidth / 2
+
+            $(".swiper-container").on('touchstart', function(e) {
+                e.preventDefault()
+            })
+
+            mySwiper.on('tap', function(swiper, e) {
+
+                e.preventDefault()
+
+                slide = swiper.slides[swiper.clickedIndex]
+                slideLeft = slide.offsetLeft
+                slideWidth = slide.clientWidth
+                slideCenter = slideLeft + slideWidth / 2
+                // 被点击slide的中心点
+
+                mySwiper.setWrapperTransition(300)
+
+                if (slideCenter < swiperWidth / 2) {
+
+                    mySwiper.setWrapperTranslate(0)
+
+                } else if (slideCenter > maxWidth) {
+
+                    mySwiper.setWrapperTranslate(maxTranslate)
+
+                } else {
+
+                    nowTlanslate = slideCenter - swiperWidth / 2
+
+                    mySwiper.setWrapperTranslate(-nowTlanslate)
+
+                }
+                var typeId =  $("#topNav .swiper-slide").eq(swiper.clickedIndex).attr('data-id');
+                $("#topNav .active a").css('background-color','');
+                $("#topNav .active").removeClass('active');
+
+                $("#topNav .swiper-slide").eq(swiper.clickedIndex).addClass('active');
+                $("#li-"+typeId+' a').css('background-color','#06c1ae');
+
+                $.ajax({
+                    url:"{:url('wx/home/ajaxGetProject')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{typeId:typeId},
+                    success:function(result){
+                        if(result.state == 'success'){
+                            var info = result.info;
+                            var str = '';
+                            $.each(info,function(i,item){
+                                str += '<dd><span class="tb-s1">';
+                                str +=  '<a href="__PATH__wx/goods/goodsDetailed?pid='+item.PROJECT_CD+'"><img style="height: 65px;" src="__UPLOADS__'+item.PROJECT_IMAGE+'"></a></span>';
+                                str +=  '<span class="tb-s2">';
+                                str +=  '<p class="tb-p1"><a href="__PATH__wx/goods/goodsDetailed?pid='+item.PROJECT_CD+'" style="color:#888;" >'+item.PROJECT_NAME+'</a></p>';
+                                str +=  ' <p class="tb-p2"><font class="font1">'+item.pPRICE+'元</font><font class="font2">/'+item.PROJECT_TIME+'分钟</font></p>';
+                                str +=  '<p class="tb-p3">'+item.PROJECT_INTRODUCE+'</p>';
+                                str +=  '</span>';
+                                str +=  '<span class="tb-s3"><a href="__PATH__wx/goods/goodsDetailed?pid='+item.PROJECT_CD+'" class="tb-a1 mt18">立即预约</a></span>';
+                                str +=  '</dd>';
+                            })
+                            $('#project_content').html(str);
+                        }else if(result.state == 101){
+                            var str = '<dd style="text-align:center;margin-top;10px;">暂无相关项目</dd>';
+                            $('#project_content').html(str);
+                        }else{
+                            alert(result.msg);
+                        }
+                    }
+
+                });
+
+            })
+        </script>
+        <ul class="tab_conbox" id="tab_conbox">
+            <li class="tab_con" style="display:block;">
+                <dl class="tb-dl" id="project_content" >
+                    {volist name="dataAll" id="v"}
+                    <dd>
+                        <span class="tb-s1"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}"><img style="height: 65px;" src="__UPLOADS__{$v.PROJECT_IMAGE}"></a></span>
+                        <span class="tb-s2">
+                    <p class="tb-p1"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}" style="color:#888;" >{$v.PROJECT_NAME}</a></p>
+                    <p class="tb-p2"><font class="font1">{$v.pPRICE}元</font><font class="font2">/{$v.PROJECT_TIME}分钟</font></p>
+                    <p class="tb-p3">{if mb_strlen($v['PROJECT_INTRODUCE'],'UTF-8') lt 11}{$v.PROJECT_INTRODUCE}{else/}{:mb_substr($v['PROJECT_INTRODUCE'],0,11,'UTF-8')}...{/if}</p>
+				</span>
+                        <span class="tb-s3"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}" class="tb-a1 mt18">立即预约</a></span>
+                    </dd>
+                    {/volist}
+                </dl>
+            </li>
+
+            <li class="tab_con" >
+                <dl class="tb-dl">
+                    {volist name="dataLiliao" id="v"}
+                    <dd>
+                        <span class="tb-s1"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}"><img style="height: 65px;" src="__UPLOADS__{$v.PROJECT_IMAGE}"></a></span>
+                        <span class="tb-s2">
+                    <p class="tb-p1"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}" style="color:#888;">{$v.PROJECT_NAME}</a></p>
+                    <p class="tb-p2"><font class="font1">{$v.pPRICE}元</font><font class="font2">/{$v.PROJECT_TIME}分钟</font></p>
+                    <p class="tb-p3">{if mb_strlen($v['PROJECT_INTRODUCE'],'UTF-8') lt 11}{$v.PROJECT_INTRODUCE}{else/}{:mb_substr($v['PROJECT_INTRODUCE'],0,11,'UTF-8')}...{/if}</p>
+				</span>
+                        <span class="tb-s3"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}" class="tb-a1 mt18">立即预约</a></span>
+                    </dd>
+                    {/volist}
+                </dl>
+            </li>
+            <li class="tab_con">
+                <dl class="tb-dl">
+                    {volist name="dataJiaju" id="v"}
+                    <dd>
+                        <span class="tb-s1"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}"><img style="height: 65px;" src="__UPLOADS__{$v.PROJECT_IMAGE}"></a></span>
+                        <span class="tb-s2">
+                    <p class="tb-p1"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}" style="color:#888;">{$v.PROJECT_NAME}</a></p>
+                    <p class="tb-p2"><font class="font1">{$v.pPRICE}元</font><font class="font2">/{$v.PROJECT_TIME}分钟</font></p>
+                    <p class="tb-p3">{if mb_strlen($v['PROJECT_INTRODUCE'],'UTF-8') lt 11}{$v.PROJECT_INTRODUCE}{else/}{:mb_substr($v['PROJECT_INTRODUCE'],0,11,'UTF-8')}...{/if}</p>
+				</span>
+                        <span class="tb-s3"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}" class="tb-a1 mt18">立即预约</a></span>
+                    </dd>
+                    {/volist}
+                </dl>
+            </li>
+            <li class="tab_con">
+                <dl class="tb-dl">
+                    {volist name="dataSPA" id="v"}
+                    <dd>
+                        <span class="tb-s1"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}"><img style="height: 65px;" src="__UPLOADS__{$v.PROJECT_IMAGE}"></a></span>
+                        <span class="tb-s2">
+                    <p class="tb-p1"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}" style="color:#888;">{$v.PROJECT_NAME}</a></p>
+                    <p class="tb-p2"><font class="font1">{$v.pPRICE}元</font><font class="font2">/{$v.PROJECT_TIME}分钟</font></p>
+                    <p class="tb-p3">{if mb_strlen($v['PROJECT_INTRODUCE'],'UTF-8') lt 11}{$v.PROJECT_INTRODUCE}{else/}{:mb_substr($v['PROJECT_INTRODUCE'],0,11,'UTF-8')}...{/if}</p>
+				</span>
+                        <span class="tb-s3"><a href="__PATH__wx/goods/goodsDetailed?pid={$v.PROJECT_CD}" class="tb-a1 mt18">立即预约</a></span>
+                    </dd>
+                    {/volist}
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div><!--box1 end-->
+<!-- 定位部分 -->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    wx.config({
+            debug: false,
+            appId: '{$js.appId}',
+            timestamp: {$js.timestamp},
+        nonceStr: '{$js.nonceStr}',
+        signature: '{$js.signature}',
+        jsApiList: [
+        'checkJsApi',
+        'openLocation',
+        'getLocation'
+    ]
+    });
+    wx.ready(function(){
+        wx.checkJsApi({
+            jsApiList: [
+                'getLocation'
+            ],
+            success: function (res) {
+                if (res.checkResult.getLocation == false) {
+                    alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
+                }
+            }
+        });
+        wx.getLocation({
+            success: function (res) {
+                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                //将结果传给后端
+                $.ajax({
+                    type: 'GET',
+                    url : '__PATH__wx/Baidumap/getArea?lat=' + latitude + '&long=' + longitude,
+                    success: function (res) {
+                        $('#store_name').text(res);
+                    }
+                });
+
+            },
+            cancel: function (res) {
+                alert('用户拒绝授权获取地理位置');
+            }
+        });
+    });
+
+</script>
+{include file="public/foot"}
+<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

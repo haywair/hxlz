@@ -1,0 +1,115 @@
+{include file="public/header"}
+<style>
+    .checkbox{width:16px;height:16px;}
+    .rule-content{font-size:20px;padding-top:20px;}
+    .rule-block{border-bottom:1px solid #dedede;padding:10px 0;}
+    .rule-block:first-child{border-top: solid #dedede 1px;border-bottom: solid #dedede 1px;}
+    .detail-ul li{list-style:none;float:left;margin-right:20px;}
+    .clear{clear:both;}
+
+</style>
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="card-box">
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-6">
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a href="__PATH__admin/role/roleAdd"><button type="button"  class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row end -->
+
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12 rule-content">
+                    <form class="am-form" action="{:url('admin/role/roleRules')}" method="post">
+                        <input type="hidden" name="ROLE_ID" value="{$role_id}">
+                        {foreach name="rules" key="k" item="v"}
+                        <div class="rule-block">
+                            <header>
+                                <span class="show-btn" data-k="{$k}" data-state="1" style="display:inline-block;width:20px;height:20px;line-height:20px; border:1px solid #999;border-radius:50%;text-align:center;padding-bottom:2px;">+</span>
+                                {if in_array($v['ID'],$roleRules)}
+                                    <input type="checkbox" name="RULE[]" value="{$v.ID}" data-k="{$k}" checked  class="p-btn checkbox" id="p-btn{$k}" >{$v.TITLE}
+                                {else}
+                                    <input type="checkbox" name="RULE[]" value="{$v.ID}" data-k="{$k}" class="p-btn checkbox"  id="p-btn{$k}" class="checkbox">{$v.TITLE}
+                                {/if}
+                            </header>
+                            <ul class="detail-ul show-ul{$k}" style="display:none;">
+                                {if in_array($v['ID'],$roleRules)}
+                                    <li><input type="checkbox" name="RULE[]" value="{$v.ID}" checked>{$v.TITLE}列表</li>
+                                {else}
+                                    <li><input type="checkbox" name="RULE[]" value="{$v.ID}" >{$v.TITLE}列表</li>
+                                {/if}
+                                {foreach name="v['CHILDREN']" item="vo"}
+                                    {if in_array($vo['ID'],$roleRules)}
+                                        <li><input type="checkbox" name="RULE[]" value="{$vo.ID}" checked>{$vo.TITLE}</li>
+                                    {else}
+                                        <li><input type="checkbox" name="RULE[]" value="{$vo.ID}">{$vo.TITLE}</li>
+                                    {/if}
+                                {/foreach}
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                        {/foreach}
+                        <hr />
+                        <p>注：.....</p>
+                        <input type="submit" value="提交" >
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">删除</div>
+        <div class="am-modal-bd">
+            您，确定要删除该单位？
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+<script>
+    $(function(){
+        $('.show-btn').click(function(){
+            var state = $(this).attr('data-state');
+            var k = $(this).attr('data-k');
+            if(state == 1){
+                $(this).html('-');
+                $(this).attr('data-state',2);
+            }else{
+                $(this).html('+');
+                $(this).attr('data-state',1);
+            }
+            $(".show-ul"+k).toggle();
+
+        });
+
+        $('.p-btn').click(function(){
+            var id = $(this).attr('id');
+            var k = $(this).attr('data-k');
+            var checkVal = document.getElementById(id).checked;
+            if(checkVal){
+                $('.show-ul'+k+' li input').prop('checked',true);
+                $('.show-ul'+k).show();
+            }else{
+                $('.show-ul'+k+' li input').prop('checked',false);
+            }
+        });
+    })
+</script>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

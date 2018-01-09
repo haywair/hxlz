@@ -1,0 +1,93 @@
+{include file="public/header"}
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="am-g">
+                <!-- Row start -->
+                <div class="am-u-sm-12">
+                    <div class="card-box">
+                        <div class="am-g">
+                             <div class="am-u-md-6">
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0"  for="carsousel_title">差价单号</label>
+                                        <span  >{$pricediff_info.DIFF_PRICE_NO}</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="carsousel_url">预约单号</label>
+                                        <span>{$pricediff_info.ORDER_CD}</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0" >用户名</label>
+                                         <span>{$pricediff_info.USER_NAME}</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="am-form-group">
+                                     <div class="am-g" >
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0"  style="float:left;">店铺名</label>
+                                         <span>{$pricediff_info.STORE_NAME}</span>
+                                     </div>
+                                 </div>
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0" >差价类别</label>
+                                         <span>{$pricediff_info.DIFF_PRICE_TYPE}</span>
+                                     </div>
+                                 </div>
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0" >支付金额</label>
+                                         <span>{$pricediff_info.PAY_AMT}</span>
+                                     </div>
+                                 </div>
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0" >支付方式</label>
+                                         <span>{$pricediff_info.PAY_TYPE}</span>
+                                     </div>
+                                 </div>
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0" >支付状态</label>
+                                         <span>{$pricediff_info.PAY_STATE}</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="am-form-group">
+                                     <div class="am-g" >
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0"  style="float:left;">差价原因
+                                         </label>
+                                         <span>{$pricediff_info.REASONE_INFO}</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="am-form-group">
+                                     <div class="am-g">
+                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0"   for="available_flg" style="float:left;padding-top:0.5rem;">是否可用</label>
+                                         <input  class="am-u-md-10 form-control" value="{if $pricediff_info['AVAILABLE_FLG'] eq 1}可用{else/}不可用{/if}"/>
+                                     </div>
+                                 </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Row end -->
+            </div>
+        </div>
+    </div>
+    <!-- end right Content here -->
+    <!--</div>-->
+</div>
+</div>
+</body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

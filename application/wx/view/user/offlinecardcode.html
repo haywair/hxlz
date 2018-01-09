@@ -1,0 +1,18 @@
+{include file="public/heads"}
+<body style="background-color:#dfdfdf;">
+    <div class="card-img-container">
+        <div class="bar-img">
+            {$barImg}
+            <p style="margin-top:10px;">{$cardNo}</p>
+        </div>
+        <div class="qr-img">
+            {$qrImg}
+        </div>
+        <div class="rule-area">
+			<span>
+            {:htmlspecialchars_decode($rule)}
+			</span>
+        </div>
+    </div>
+</body>
+

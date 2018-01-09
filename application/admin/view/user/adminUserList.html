@@ -1,0 +1,118 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="card-box">
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-6">
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a href="{:url('admin/user/adminUserAdd')}"   class="am-btn am-btn-default"><span  class="am-icon-plus"></span>  新增</a>
+                           <!-- <button type="button" class="am-btn am-btn-default"><span class="am-icon-save"></span> 保存</button>
+                            <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+                            <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="am-u-sm-12 am-u-md-3">
+                    <form action="{:url('admin/user/adminUserList')}" method="post">
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="text" name="USER_LOGIN" class="am-form-field" placeholder="请输入用户名">
+                        <span class="am-input-group-btn">
+				            <button class="am-btn am-btn-default" type="submit">搜索</button>
+				          </span>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Row end -->
+
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <form class="am-form">
+                        <table class="am-table am-table-striped am-table-hover table-main">
+                            <thead>
+                            <tr>
+                                <th class="table-id">ID</th>
+                                <th class="table-title">用户名</th>
+                                <th>真实姓名</th>
+                                <th class="table-author am-hide-sm-only">电话</th>
+                                <th class="table-date am-hide-sm-only">最后登录</th>
+                                <th class="table-author am-hide-sm-only">可用标识</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name='data' id='v'}
+                            <tr>
+                                <td>{$v.USER_ID}</td>
+                                <td><a href="#">{$v.USER_LOGIN}</a></td>
+                                <td>{$v.USER_NAME}</td>
+                                <td class="am-hide-sm-only">{$v.TEL_NO}</td>
+                                <td class="am-hide-sm-only">{$v.LAST_LOGIN_TIME}</td>
+                                {if $v.AVAILABLE_FLG eq 1}
+                                <td><a href="javascript:void(0);"  class="am-btn am-btn-default am-btn-xs am-text-secondary"> 可用
+                                </a></td>
+                                {else}
+                                <td><a href="javascript:void(0);"  class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"> 不可用</a></td>
+                                {/if}
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <a href="{:url('admin/user/adminUserEdit',['USER_ID'=>$v['USER_ID']])}"  class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+                                            <a href="#" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only delete-list-btn" data-id="{$v.USER_ID}"><span class="am-icon-trash-o"></span>设置</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                        <div class="am-cf">
+                                {$page}
+                        </div>
+                        <hr />
+                        <p>注：.....</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">状态设置</div>
+        <div class="am-modal-bd">
+            你，确定要更改此用户状态？
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        $('.delete-list-btn').click(function() {
+            var user_id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    window.location.href = "__PATH__admin/user/adminUserDel/user_id/"+user_id;
+                },
+                // closeOnConfirm: false,
+                onCancel: function() {
+                }
+            });
+        });
+    });
+</script>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

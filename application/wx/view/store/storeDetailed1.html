@@ -1,0 +1,76 @@
+{include file="public/heads"}
+<body>
+<div class="box1">
+    <div class="page-swipe">
+        <header>
+            <div id="slider" class="swipe" style="visibility: visible;">
+                <div class="swipe-wrap">
+                    {foreach name="storeImg" item="vo"}
+                    <div>
+                        <div class="wrap">
+                            <div class="image"><img style="height: 230px;" src="__UPLOADS__{$vo}"></div>
+                        </div>
+                    </div>
+                    {/foreach}
+                    
+                </div><!--swipe-wrap end-->
+            </div><!--slider end-->
+            <nav>
+                <ul id="position">
+                    <li class="on"></li>
+                    <li class=""></li>
+                    <li class=""></li>
+                </ul>
+            </nav>
+        </header>
+        <script Language="JavaScript" src="__STATIC__js/swipe.js"></script>
+        <script>
+            var slider =
+                Swipe(document.getElementById('slider'), {
+                    auto: 3000,
+                    continuous: true,
+                    callback: function(pos) {
+
+                        var i = bullets.length;
+                        while (i--) {
+                            bullets[i].className = ' ';
+                        }
+                        bullets[pos].className = 'on';
+
+                    }
+                });
+            var bullets = document.getElementById('position').getElementsByTagName('li');
+        </script>
+    </div><!--page-swipe end-->
+    <div class="xq-name" style="height:24px">
+    	<span class="xq-s1">
+        	<p class="xq-p1">{$data.STORE_NAME}</p>
+        </span>
+        <span class="xq-s2" style="margin:0">
+        	<p class="xq-p3">人均：70元</p>
+        </span>
+    </div><!--xq-name end-->
+    <div class="xq-md">
+        <a href="#" class="xq-a2"><span class="xq-s3a"> </span><span class="xq-s4"><img src="__STATIC__images/xm_03.png" width="15"></span><span class="xq-s5a">{$data.ADDRESS}</span></a>
+    </div><!--xq-md end-->
+    <div class="xq-md">
+        <a href="tel:{$data.OFFICE_TEL}" class="xq-a2"><span class="xq-s3a"> > </span><span class="xq-s4"><img src="__STATIC__images/xm_07.png" width="15"></span><span class="xq-s5a">{$data.OFFICE_TEL}</span></a>
+    </div><!--xq-md end-->
+    <div class="xq-fw">
+        <p class="xqf-p1">门店项目</p>
+        <dl class="tb-dl">
+            {volist name="pdata" id="v"}
+            <dd>
+                <span class="tb-s1"><a href="#"><img style="height: 65px;" src="__UPLOADS__{$v.PROJECT_IMAGE}"></a></span>
+                <span class="tb-s2">
+                    <p class="tb-p1">{$v.PROJECT_NAME}</p>
+                    <p class="tb-p2"><font class="font1">{$v.PRICE}元</font><font class="font2">/{$v.PROJECT_TIME}分钟</font></p>
+                    <p class="tb-p3">{$v.PROJECT_INTRODUCE}</p>
+				</span>
+                <span class="tb-s3"><a href="__PATH__wx/goods/goodsDetailed?sid={$data.STORE_CD}&pid={$v.PROJECT_CD}" class="tb-a1 mt18">立即预约</a></span>
+            </dd>
+            {/volist}
+        </dl>
+    </div>
+</div><!--box1 end-->
+{include file="public/foot"}

@@ -1,0 +1,164 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="card-box">
+            <!-- Row start -->
+            <div class="am-g" style="margin-bottom:4rem;">
+                <div class="am-u-sm-12 am-u-md-6">
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a href="__PATH__admin/finance/financeAdd"><button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增票券</button></a>
+                        </div>
+                    </div>
+                </div>
+                <form method="get" action="__PATH__admin/finance/financeList">
+                    <div class="am-input-group am-input-group-sm" style="float:right;">
+                        <label class="am-u-md-2 am-md-text-right am-padding-left-0"
+                               style="width:10rem;padding-top:0.5rem;">项目编号</label>
+                        <input class="am-u-md-10 form-control" name="project_cd" id="project_cd"  placeholder="请输入项目编号" style="width:200px;">
+                        <button class="am-btn am-btn-default" type="submit" style="margin-left:2rem;">搜索</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Row end -->
+
+            <!-- Row start -->
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                        <table class="am-table am-table-striped am-table-hover table-main">
+                            <thead>
+                            <tr>
+                                <th class="table-id">ID</th>
+                                <th class="table-title">票券名称</th>
+                                <th class="table-type">票券类型</th>
+                                <th class="table-author am-hide-sm-only">票券数量</th>
+                                <th class="table-author am-hide-sm-only">票券价格</th>
+                                <th class="table-author am-hide-sm-only">项目编号</th>
+                                <th class="table-author am-hide-sm-only">次数</th>
+                                <th class="table-author am-hide-sm-only">开始时间</th>
+                                <th class="table-author am-hide-sm-only">结束时间</th>
+                                <th class="table-author am-hide-sm-only">可用标示</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach name="data" item="v"}
+                            <tr>
+                                <td>{$v.FINANCE_ID}</td>
+                                <td>{$v.FINANCE_NAME}</td>
+                                <td>
+                                   {$v.TYPE_NAME}
+                                </td>
+                                <td> {$v.FINANCE_NUM}</td>
+                                <td> {$v.SELL_PRICE}</td>
+                                <td>
+                                    {if empty($v['PROJECT_CD'])}通用券{else /}{$v.PROJECT_CD}{/if}
+                                </td>
+                                <td>{$v.TIMES_NUM}</td>
+                                <td>{:substr($v['START_DATE'],0,10)}</td>
+                                <td>{:substr($v['END_DATE'],0,10)}</td>
+                                <td>
+                                    <button class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                                        {if $v['AVAILABLE_FLG'] eq 0}不可用{else /}可用{/if}
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <a  href="{:url('admin/finance/financeEdit',['finance_id'=>$v['FINANCE_ID']])}" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span  class="am-icon-pencil-square-o" data-id="{$v.FINANCE_ID}"></span> 编辑  </a>
+                                            <a  class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only delete-list-btn" data-id="{$v.FINANCE_ID}">
+                                                <span class="am-icon-trash-o"></span> 设置
+                                            </a>
+                                            <a  href="#" class="am-btn am-btn-default am-btn-xs am-text-secondary delete-btn" data-id="{$v.FINANCE_ID}"><span  class="am-icon-trash-o" ></span> 删除  </a>
+                                            {if $v['FINANCE_TYPE'] eq 3 }
+                                            <a  href="#" class="am-btn am-btn-default am-btn-xs am-text-secondary create-url-btn" data-id="{$v.FINANCE_ID}" data-type="{$v.FINANCE_TYPE}"><span  class="am-icon-pencil-square-o" ></span> 生成链接  </a>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                        <div class="am-cf">
+
+                        </div>
+                        <hr />
+                        <p>注：.....</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd" id="finance-state">更改票券状态</div>
+        <div class="am-modal-bd" id="finance-content">
+            你，确定要更改该票券状态么？
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        //生成发行链接
+        $('.create-url-btn').click(function(){
+            var finance_id = $(this).attr('data-id');
+            var finance_type = $(this).attr('data-type');
+            var url = 'http://liangzi.xz6699.com/index.php/wx/home/getFinance?finance_id='+finance_id+'&finance_type='+finance_type;
+            $('#finance-state').html('代金券领取链接');
+            $('#finance-content').html(url);
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                },
+                // closeOnConfirm: false,
+                onCancel: function() {
+
+                }
+            });
+        });
+        //删除票券
+        $('.delete-btn').click(function(){
+            var finance_id = $(this).attr('data-id');
+            $('#finance-state').html('删除票券');
+            $('#finance-content').html('您，确定要删除此票券么');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    window.location.href = "__PATH__admin/finance/delFinance/finance_id/"+finance_id;
+                },
+                // closeOnConfirm: false,
+                onCancel: function() {
+
+                }
+            });
+
+        });
+        //设置票券不可用
+        $('.delete-list-btn').click(function() {
+            var finance_id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    window.location.href = "__PATH__admin/finance/financeSetFlg/finance_id/"+finance_id;
+                },
+                // closeOnConfirm: false,
+                onCancel: function() {
+
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

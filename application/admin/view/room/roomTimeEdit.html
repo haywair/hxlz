@@ -1,0 +1,73 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="am-g">
+            <!-- Row start -->
+            <div class="am-u-sm-12">
+                <div class="card-box">
+                    <div class="am-g">
+                        <form class="am-form am-text-sm" action="__PATH__admin/room/roomTimeEdit"  method="post">
+                            <input type="hidden" name="TIME_CD"  value="{if $timeInfo['TIME_CD']}{$timeInfo.TIME_CD}{/if}">
+                            <div class="am-u-md-6">
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >开始时间</label>
+                                        <input class="am-u-md-10 form-control" name="ORDER_START_DATE_TIME"  value="{if $timeInfo['ORDER_START_DATE_TIME']}{$timeInfo.ORDER_START_DATE_TIME}{/if}"  placeholder="开始时间">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >结束时间</label>
+                                        <input class="am-u-md-10 form-control" name="ORDER_END_DATE_TIME"  value="{if $timeInfo['ORDER_END_DATE_TIME']}{$timeInfo.ORDER_END_DATE_TIME}{/if}" placeholder="结束时间">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >时段价格</label>
+                                        <input class="am-u-md-10 form-control" name="PRICE" value="{if $timeInfo['PRICE']}{$timeInfo.PRICE}{/if}" placeholder="时段价格">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right " >选择门店 </label>
+                                        <input type="hidden" name="STORE_NAME" id="store_name"  value="{if $timeInfo['STORE_NAME']}{$timeInfo.STORE_NAME}{/if}">
+                                        <select name="STORE_CD" id="select-store" style="width:82%;">
+                                            <option value="">请选择门店</option>
+                                            {foreach name="store_list" item="vo"}
+                                                <option value="{$vo.STORE_CD}" {if $timeInfo['STORE_CD'] eq $vo['STORE_CD'] }selected{/if}>{$vo.STORE_NAME}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="submit" class="am-btn am-btn-primary" value="修改">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Row end -->
+        </div>
+    </div>
+</div>
+<!-- end right Content here -->
+<!--</div>-->
+</div>
+</div>
+<script>
+    $(function(){
+        //获取店铺名称
+        $('#select-store').change(function(){
+            var store_id = $(this).val();
+            if(store_id) {
+                var store_name = $('option[value="' + store_id + '"]').text();
+                $('#store_name').val(store_name);
+            }
+        });
+    })
+</script>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

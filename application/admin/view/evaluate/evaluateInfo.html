@@ -1,0 +1,98 @@
+{include file="public/header"}
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="am-g">
+                <!-- Row start -->
+                <div class="am-u-sm-12">
+                    <div class="card-box">
+                        <div class="am-g">
+                                 <div class="am-u-md-6">
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >预约单号</label>
+                                             <span class="am-u-md-10 form-control" >{$evaluateInfo.ORDER_CD}</span>
+                                         </div>
+                                     </div>
+
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >用户名</label>
+                                            <span class="am-u-md-10 form-control" >{$evaluateInfo.NICK_NAME}</span>
+                                        </div>
+                                    </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >项目</label>
+                                             <span class="am-u-md-10 form-control" >{$evaluateInfo.PROJECT_NAME}</span>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >门店</label>
+                                             <span class="am-u-md-10 form-control" >{$evaluateInfo.STORE_NAME}</span>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >总评分</label>
+                                             {notempty  name="evaluateInfo['REMARK']"}
+                                                <span class="am-u-md-10 form-control" >{$evaluateInfo.REMARK}星</span>
+                                             {else /}
+                                                <span class="am-u-md-10 form-control" >未评分</span>
+                                             {/notempty}
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >门店评分</label>
+                                             {notempty  name="evaluateInfo['STORE_MARK']"}
+                                                <span class="am-u-md-10 form-control" >{$evaluateInfo.STORE_MARK}星</span>
+                                             {else /}
+                                                <span class="am-u-md-10 form-control" >未评分</span>
+                                             {/notempty}
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >项目评分</label>
+                                             {notempty  name="evaluateInfo['PROJECT_MARK']"}
+                                                <span class="am-u-md-10 form-control" >{$evaluateInfo.PROJECT_MARK}星</span>
+                                             {else /}
+                                                <span class="am-u-md-10 form-control" >未评分</span>
+                                             {/notempty}
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >房间评分</label>
+                                             {notempty  name="evaluateInfo['ROOM_MARK']"}
+                                                <span class="am-u-md-10 form-control" >{$evaluateInfo.ROOM_MARK}星</span>
+                                             {else /}
+                                                 <span class="am-u-md-10 form-control" >未评分</span>
+                                             {/notempty}
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >评价详情</label>
+                                             <textarea name="" id="" cols="30" rows="10" style="width:650px;border-radius:5px; padding:10px;margin-left:120px;"  readonly>{$evaluateInfo.CONTENT}</textarea>
+                                         </div>
+                                     </div>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Row end -->
+            </div>
+        </div>
+    </div>
+    <!-- end right Content here -->
+    <!--</div>-->
+</div>
+</div>
+</body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

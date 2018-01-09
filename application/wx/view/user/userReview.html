@@ -1,0 +1,228 @@
+{include file="public/heads"}
+<body>
+<div class="box1">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            jQuery.jqtab = function(tabtit,tab_conbox,shijian) {
+                $(tab_conbox).find("li").hide();
+                $(tabtit).find("li:first").addClass("thistabr").show();
+                $(tab_conbox).find("li:first").show();
+
+                $(tabtit).find("li").bind(shijian,function(){
+                    $(this).addClass("thistabr").siblings("li").removeClass("thistabr");
+                    var activeindex = $(tabtit).find("li").index(this);
+                    $(tab_conbox).children().eq(activeindex).show().siblings().hide();
+                    return false;
+                });
+
+            };
+            /*调用方法如下：*/
+            $.jqtab("#tabsr","#tab_conboxr","click");
+
+        });
+    </script>
+    <div id="tabboxr">
+        <ul class="tabsr" id="tabsr">
+            <li><a href="#">全部</a></li>
+            <li><a href="#">好评</a></li>
+            <li><a href="#">差评</a></li>
+        </ul>
+        <ul class="tab_conboxr" id="tab_conboxr">
+            <li class="tab_conr">
+                {notempty name="evaluateAll"}
+                <dl class="pq-dl">
+                    {foreach name="evaluateAll" item="v"}
+                    {php}
+                        $goodStar = $v['REMARK'];
+                        $badStar = 5 - $v['REMARK'];
+                    {/php}
+                    <dd>
+                        <div class="pq-dv2">
+                            <img src="{$v.PHOTO_HEAD}">
+                        </div><!--pq-dv2 end-->
+                        <div class="pq-dv3">
+                            <div class="pq-p2">
+                                <span class="pq-s3">{:date('Y-m-d H:i:s',$v['CREATE_DATE'])}</span>{$v.NICK_NAME}
+                            </div>
+                                <div class="pq-p3">
+                                    <span class="pq-s4">评分</span>
+                                    <span class="pq-s5">
+                                        {notempty name="$v['REMARK']"}
+                                            {notempty name="goodStar"}
+                                               {php}
+                                                  for($i=1;$i<=$goodStar;$i++){
+                                                     echo '<img src="__STATIC__images/xq_07.jpg">';
+                                                  }
+                                               {/php}
+                                            {/notempty}
+                                            {notempty name="badStar"}
+                                                {php}
+                                                  for($t=1;$t<=$badStar;$t++){
+                                                     echo '<img src="__STATIC__images/xqt_09.jpg">';
+                                                  }
+                                               {/php}
+                                            {/notempty}
+                                        {else/}
+                                            {for start="0" end="5"}
+                                                <img src="__STATIC__images/xqt_09.jpg">
+                                            {/for}
+                                        {/notempty}
+                                    </span>
+                                </div>
+                            <div class="pq-p4">{$v.CONTENT}</div>
+                            <div class="pq-p5">
+                                <a href="#"><span class="pq-s6"><img src="{$v.PROJECT_IMAGE}"></span>
+                                    <span class="pq-s6a">
+                            	<p class="pq-p1a">{$v.PROJECT_NAME}</p>
+                                <p class="pq-p2a">{php}echo htmlspecialchars_decode($v['PROJECT_INFO']);{/php}</p>
+                            </span></a>
+                            </div>
+                            {notempty name="v['STORE_REPLY']"}
+                            <div class="pq-p6">
+                                <span class="pq-s7"><img src="__STATIC__images/ly_03.jpg"></span>
+                                <span class="pq-s8"><font class="pq-f3">商家回复：</font><font class="pq-f4">{$v.STORE_REPLY}</font>
+                                </span>
+                            </div>
+                            {/notempty}
+                        </div><!--pq-dv3 end-->
+
+                    </dd>
+                    {/foreach}
+                </dl>
+                {else/}
+                    <div class="no-review">暂无您的评价记录，马上预约体验吧...</div>
+                {/notempty}
+            </li>
+            <li class="tab_conr">
+				{notempty name="evaluateGood"}	
+                <dl class="pq-dl">
+                    {foreach name="evaluateGood" item="v"}
+                    {php}
+                    $goodStar = $v['REMARK'];
+                    $badStar = 5 - $v['REMARK'];
+                    {/php}
+                    <dd>
+                        <div class="pq-dv2">
+                            <img src="{$v.PHOTO_HEAD}">
+                        </div><!--pq-dv2 end-->
+                        <div class="pq-dv3">
+                            <div class="pq-p2">
+                                <span class="pq-s3">{:date('Y-m-d H:i:s',$v['CREATE_DATE'])}</span>{$v.NICK_NAME}
+                            </div>
+                            <div class="pq-p3">
+                                <span class="pq-s4">评分</span>
+                                <span class="pq-s5">
+                                        {notempty name="$v['REMARK']"}
+                                            {notempty name="goodStar"}
+                                               {php}
+                                                  for($i=1;$i<=$goodStar;$i++){
+                                                     echo '<img src="__STATIC__images/xq_07.jpg">';
+                                                  }
+                                               {/php}
+                                            {/notempty}
+                                            {notempty name="badStar"}
+                                                {php}
+                                                  for($t=1;$t<=$badStar;$t++){
+                                                     echo '<img src="__STATIC__images/xqt_09.jpg">';
+                                                  }
+                                               {/php}
+                                            {/notempty}
+                                        {else/}
+                                            {for start="0" end="5"}
+                                                <img src="__STATIC__images/xqt_09.jpg">
+                                            {/for}
+                                        {/notempty}
+                                    </span>
+                            </div>
+                            <div class="pq-p4">{$v.CONTENT}</div>
+                            <div class="pq-p5">
+                                <a href="#"><span class="pq-s6"><img src="{$v.PROJECT_IMAGE}"></span>
+                                    <span class="pq-s6a">
+                            	<p class="pq-p1a">{$v.PROJECT_NAME}</p>
+                                <p class="pq-p2a">{$v['PROJECT_INFO']}</p>
+                            </span></a>
+                            </div>
+                            {notempty name="v['STORE_REPLY']"}
+                            <div class="pq-p6">
+                                <span class="pq-s7"><img src="__STATIC__images/ly_03.jpg"></span>
+                                <span  class="pq-s8"><font class="pq-f3">商家回复：</font><font class="pq-f4">{$v.STORE_REPLY}</font></span>
+                            </div>
+                            {/notempty}
+                        </div><!--pq-dv3 end-->
+
+                    </dd>
+                    {/foreach}
+                </dl>
+				{else /}
+                
+                <div class="no-review">暂无您的好评记录，马上预约体验吧...</div>
+				{/notempty}
+            </li>
+            <li class="tab_conr">
+                {notempty name="evaluateBad"}
+                <dl class="pq-dl">
+                    {foreach name="evaluateBad" item="v"}
+                    {php}
+                    $goodStar = $v['REMARK'];
+                    $badStar = 5 - $v['REMARK'];
+                    {/php}
+                    <dd>
+                        <div class="pq-dv2">
+                            <img src="{$v.PHOTO_HEAD}">
+                        </div><!--pq-dv2 end-->
+                        <div class="pq-dv3">
+                            <div class="pq-p2">
+                                <span class="pq-s3">{:date('Y-m-d H:i:s',$v['CREATE_DATE'])}</span>{$v.NICK_NAME}
+                            </div>
+                            <div class="pq-p3">
+                                <span class="pq-s4">评分</span>
+                                <span class="pq-s5">
+                                        {notempty name="$v['REMARK']"}
+                                            {notempty name="goodStar"}
+                                               {php}
+                                                  for($i=1;$i<=$goodStar;$i++){
+                                                     echo '<img src="__STATIC__images/xq_07.jpg">';
+                                                  }
+                                               {/php}
+                                            {/notempty}
+                                            {notempty name="badStar"}
+                                                {php}
+                                                  for($t=1;$t<=$badStar;$t++){
+                                                     echo '<img src="__STATIC__images/xqt_09.jpg">';
+                                                  }
+                                               {/php}
+                                            {/notempty}
+                                        {else/}
+                                            {for start="0" end="5"}
+                                                <img src="__STATIC__images/xqt_09.jpg">
+                                            {/for}
+                                        {/notempty}
+                                    </span>
+                            </div>
+                            <div class="pq-p4">{$v.CONTENT}</div>
+                            <div class="pq-p5">
+                                <a href="#"><span class="pq-s6"><img src="{$v.PROJECT_IMAGE}"></span>
+                                    <span class="pq-s6a">
+                            	<p class="pq-p1a">{$v.PROJECT_NAME}</p>
+                                <p class="pq-p2a">{$v['PROJECT_INFO']}</p>
+                            </span></a>
+                            </div>
+                            {notempty name="v['STORE_REPLY']"}
+                            <div class="pq-p6">
+                                <span class="pq-s7"><img src="__STATIC__images/ly_03.jpg"></span>
+                                <span class="pq-s8"><font class="pq-f3">商家回复：</font><font class="pq-f4">{$v.STORE_REPLY}</font></span>
+                            </div>
+                            {/notempty}
+                        </div><!--pq-dv3 end-->
+
+                    </dd>
+                    {/foreach}
+                </dl>
+                {else/}
+                <div class="no-review">暂无您的差评记录，谢谢您的支持与厚爱...</div>
+                {/notempty}
+            </li>
+        </ul>
+    </div>
+</div><!--box1 end-->
+{include file="public/foot"}

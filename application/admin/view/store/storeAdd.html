@@ -1,0 +1,303 @@
+{include file="public/header"}
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="am-g">
+                <!-- Row start -->
+                <div class="am-u-sm-12">
+                    <div class="card-box">
+                        <div class="am-g">
+                            <form id="myform" class="am-form am-text-sm" action="__PATH__admin/store/storeAdd"  method="post" enctype="multipart/form-data">
+                                 <div class="am-u-md-6">
+
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" >门店编号</label>
+                                            <input class="am-u-md-10 form-control" name="STORE_CD"  id="store_cd"  placeholder="门店编号" style="float:left;width:200px;">
+                                            <span
+                                                    style="display:block;float:left;padding-top:5px;font-size:12px;color:#0bb20c;">　* 必填 </span>
+                                        </div>
+                                    </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >门店名称</label>
+                                             <input class="am-u-md-10 form-control" name="STORE_NAME"  id="store_name"  placeholder="门店名称" style="float:left;width:300px;">
+                                             <span style="display:block;float:left;padding-top:5px;font-size:12px;color:#0bb20c;">　* 必填 </span>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >门店简称</label>
+                                             <input class="am-u-md-10 form-control" name="SHORT_NAME"  placeholder="门店简称">
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >营业开始时间</label>
+                                             <input class="am-u-md-10 form-control" name="STORE_START_TIME" id="store_start_time"  placeholder="营业开始时间"  style="float:left;width:200px;">
+                                             <span style="display:block;float:left;padding-top:5px;font-size:12px;color:#0bb20c;">　* 必填,非管理员请勿更改</span>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >营业结束时间</label>
+                                             <input class="am-u-md-10 form-control" name="STORE_END_TIME" id="store_end_time" placeholder="营业结束时间" style="float:left;width:200px;">
+                                             <span style="display:block;float:left;padding-top:5px;font-size:12px;color:#0bb20c;">　* 必填,非管理员请勿更改</span>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >预约间隔时间</label>
+                                             <input class="am-u-md-10 form-control" name="ORDER_TIME_CELL" id="order_time_cell" placeholder="预约间隔时间" style="float:left;width:200px;">
+                                             <span style="display:block;float:left;padding-top:5px;font-size:12px;color:#0bb20c;">　* 必填,非管理员请勿更改</span>
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g" id="store-image">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" >门店图片</label>
+                                             <!--<input  type="file" name="cccc" multiple="true" />-->
+                                             <span class="btn" id="btn">
+                                                 上传图片</span>
+                                             最大500KB，支持jpg，gif，png格式。
+                                             <ul id="ul_pics" class="ul_pics clearfix"  style="margin-left:10rem;padding-top:2rem;"></ul>
+                                         </div>
+                                     </div>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">电子邮箱</label>
+                                            <input class="am-u-md-10 form-control" name="EMAIL"  id="doc-ipt-email-1" placeholder="输入电子邮件">
+                                        </div>
+                                    </div>
+
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">办公电话</label>
+                                             <input class="am-u-md-10 form-control" name="OFFICE_TEL" id="doc-ipt-email-1" placeholder="办公电话">
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">财务账号</label>
+                                             <input class="am-u-md-10 form-control" name="ACCOUNT_NO" id="doc-ipt-email-1" placeholder="财务账号">
+                                         </div>
+                                     </div>
+                                     <div class="am-form-group">
+                                         <div class="am-g">
+                                             <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">详细地址</label>
+                                             <input class="am-u-md-10 form-control" name="ADDRESS" id="doc-ipt-email-1" placeholder="详细地址">
+                                         </div>
+                                     </div>
+
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ta-1">门店介绍</label>
+                                            <textarea class="am-u-md-10 form-control" name="STORE_INFO" rows="5" id="doc-ta-1"></textarea>
+                                        </div>
+                                    </div>
+                                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                     <input type="button" id="subBtn" class="am-btn am-btn-primary" value="创建门店">
+                                 </div>
+                                <div class="am-u-md-6">
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">负责人</label>
+                                            <input class="am-u-md-10 form-control" name="RESPONSIBLE_PERSON" id="doc-ipt-email-1" placeholder="负责人">
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">传真</label>
+                                            <input class="am-u-md-10 form-control" name="FAX_NO" id="doc-ipt-email-1" placeholder="传真">
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">门店区域</label>
+                                            <input class="am-u-md-10 form-control" name="AREA_CD" id="doc-ipt-email-1" placeholder="门店区域">
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">区域名称</label>
+                                            <input class="am-u-md-10 form-control" name="AREA_NAME" id="doc-ipt-email-1" placeholder="区域名称">
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">所属城市</label>
+                                            <input class="am-u-md-10 form-control" name="CITY_CD" id="doc-ipt-email-1" placeholder="所属城市">
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right" for="doc-select-1">类型</label>
+                                            <select id="doc-select-1" name="STORE_TYPE">
+                                                <option value="0">直营</option>
+                                                <option value="1">连锁</option>
+                                                <option value="2">其他</option>
+                                                <option value="3">后舍</option>
+                                            </select>
+                                            <span class="am-form-caret"></span>
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right" for="doc-select-1">单位</label>
+                                            <select id="doc-select-1" name="COMPANY_CD">
+                                                <option value="0">良子</option>
+                                                <option value="1">后舍</option>
+                                            </select>
+                                            <span class="am-form-caret"></span>
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">经度</label>
+                                            <input class="am-u-md-10 form-control" name="LONGITUDE" id="longitude" placeholder="经度">
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <div class="am-g">
+                                            <label class="am-u-md-2 am-md-text-right am-padding-left-0" for="doc-ipt-email-1">纬度</label>
+                                            <input class="am-u-md-10 form-control" name="LATITUDE" placeholder="纬度"  id="latitude" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row end -->
+            </div>
+        </div>
+    </div>
+    <!-- end right Content here -->
+    <!--</div>-->
+<script src="__ADMINSTATIC__js/plupload.full.min.js"></script>
+<script>
+    $(function(){
+        var uploader = new plupload.Uploader({ //创建实例的构造方法
+            runtimes: 'html5,flash,silverlight,html4',
+            //上传插件初始化选用那种方式的优先级顺序
+            browse_button: 'btn',
+            // 上传按钮
+            url: "{:url('admin/store/ajaxupload')}",
+            //远程上传地址
+            flash_swf_url: 'plupload/Moxie.swf',
+            //flash文件地址
+            silverlight_xap_url: 'plupload/Moxie.xap',
+            //silverlight文件地址
+            filters: {
+                max_file_size: '500kb',
+                //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+                mime_types: [ //允许文件上传类型
+                    {
+                        title: "files",
+                        extensions: "jpg,png,gif"
+                    }]
+            },
+            multi_selection: true,
+            //true:ctrl多文件上传, false 单文件上传
+            init: {
+                FilesAdded: function(up, files) { //文件上传前
+                    if ($("#ul_pics").children("li").length > 3) {
+                        alert("只能上传3张图片！");
+                        uploader.destroy();
+                    } else {
+                        var li = '';
+                        plupload.each(files,
+                            function(file) { //遍历文件
+                                li += "<li id='" + file['id'] + "' style='float:left;margin-right:20px;list-style:none;'><div class='progress' style='width:5rem;height:3rem;'><span class='bar'></span><span class='percent' >0%</span></div></li>";
+                            });
+                        $("#ul_pics").append(li);
+                        uploader.start();
+                    }
+                },
+                UploadProgress: function(up, file) { //上传中，显示进度条
+                    $("#" + file.id).find('.bar').css({
+                        "width": file.percent + "%"
+                    }).find(".percent").text(file.percent + "%");
+                },
+                FileUploaded: function(up, file, info) { //文件上传成功的时候触发
+                    var data = eval('('+info.response+')');
+                    var str = "";
+                    $("#" + file.id).html("<div ><img src='__ROOT__/" + data.pic +  "' width='80' height='80' "+"/></div><p>" +  file.name + "</p>");
+                    str += "<input type='hidden' name='thumb[]' value='"+data.pic+"' />";
+                    $('#store-image').append(str);
+                },
+                Error: function(up, err) { //上传出错的时候触发
+                    alert(err.message);
+                }
+            }
+        });
+        uploader.init();
+
+        //表单提交
+        $('#subBtn').click(function(){
+            var imgNum = $('input[name="thumb[]"]').length;
+            var store_cd = $('#store_cd').val();
+            var store_name = $('#store_name').val();
+            var store_start_time = $('#store_start_time').val();
+            var store_end_time = $('#store_end_time').val();
+            var order_time_cell = $('#order_time_cell').val();
+            var timeRule = /^([0-9]|1[0-9]):([0-5][0-9])$/;
+            var timeRule1 = /^([0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/;
+            var orderRule = /^\+?[1-9]\d*$/;
+            var directRule = /^\d+(\.\d{4})$/;
+            var latitude = $('#latitude').val();
+            var longitude = $('#longitude').val();
+            //门店编号
+            if(!store_cd){
+                alert('请填写您的门店编号！');return false;
+            }
+            //门店名称
+            if(!store_name){
+                alert('请填写门店名称！');return false;
+            }
+            //营业开始时间
+            if(!store_start_time){
+                alert('请填写门店营业开始时间');return false;
+            }else if(!timeRule.test(store_start_time)){
+                alert('时间格式不正确。例：8:30 ');return false;
+            }
+            //营业结束时间
+            if(!store_end_time){
+                alert('请填写门店营业结束时间');return false;
+            }else if(!timeRule1.test(store_end_time)){
+                alert('时间格式不正确。例：18:30 ');return false;
+            }
+            //预约间隔时间
+            if(!order_time_cell){
+                alert('请填写预约间隔时间');return false;
+            }else if(!orderRule.test(order_time_cell)){
+                alert('预约间隔时间必须是大于0的正整数');return false;
+            }
+            //图片验证
+            if(!imgNum){
+                alert('您还没有上传门店图片！');return false;
+            }
+            //经度验证
+            if(!longitude){
+                alert('您还未填写地理经度信息！');return false;
+            }else if(!directRule.test(longitude)){
+                alert('地理经度必须是包含4位小数的数字！');return false;
+            }
+            //纬度验证
+            if(!latitude){
+                alert('您还未填写地理纬度信息！');return false;
+            }else if(!directRule.test(latitude)){
+                alert('地理纬度必须是包含4位小数的数字！');return false;
+            }
+            $('#myform').submit();
+        });
+    })
+
+
+</script>
+</div>
+</div>
+</body>
+</html>
+<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

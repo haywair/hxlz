@@ -23,7 +23,7 @@ use app\admin\model\Store_tab;
 use think\Request;
 use think\Validate;
 
-class User extends Base
+class UserTest extends Base
 {
     /**
      * 个人中心

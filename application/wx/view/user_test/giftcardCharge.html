@@ -117,7 +117,7 @@
             setTotal();
         });
         function setTotal(){
-            var recharge_money = $('#recharge_money').attr('data-money');
+            var recharge_money = $('#recharge_money').val();
             var num = $('#num').val();
             if(recharge_money){
                 var money = parseInt(recharge_money)*num;

@@ -69,15 +69,15 @@
 <div class="chongzhi-box">
 	<ul>
         <form action="{:url('wx/user/doRecharge')}" method="post" id="myform">
-            <input type="hidden" id="recharge_money" name="recharge_money" >
-            <input type="hidden" id="gift_money" name="gift_money" >
-            <input type="hidden" id="recharge_no" name="recharge_no">
-            <input type="hidden" id="card_no" name="card_no">
+            <input type="hidden" id="recharge_money" name="RECHARGE_MONEY" >
+            <input type="hidden" id="gift_money" name="GIFT_MONEY" >
+            <input type="hidden" id="recharge_no" name="RECHARGE_NO">
             {foreach name="list" item="vo"}
                 <li>
+                    {php}$money = $vo['RECHARGE_MONEY']+$vo['GIFT_MONEY'];{/php}
                     <div class="but-box"><a  href="#">
                         <div class="but-box" data-money="{$vo.RECHARGE_MONEY}" data-gift-money="{$vo.GIFT_MONEY}">
-                            <div>{$vo.RECHARGE_MONEY}元</div>
+                            <div>{$money}元</div>
                             <div style="font-size:14px;">优惠{$vo.GIFT_MONEY}</div>
                         </div>
                     </a></div>
@@ -100,7 +100,7 @@
     </ul>
     <div id="pay-area" style="display:none;padding-left:0.8rem;">您的支付金额为：<span id="pay-money"></span></div>
 </div>
-<div class="chongzhi-but-2"><span class="chongzhi-but-2" id="pay">充值</span></div>
+<div class="chongzhi-but-2"><span class="chongzhi-but-2" id="pay">购买</span></div>
 <script>
     $(function(){
         $(".add").click(function(){
@@ -136,6 +136,10 @@
             if(recharge_money){
                 $('#recharge_money').val(recharge_money);
                 $('#gift_money').val(gift_money);
+                var num = $('#num').val();
+                var money = parseInt(recharge_money)*parseInt(num);
+                $('#pay-money').html(money+'元');
+                $('#pay-area').show();
             }else{
                 $.prompt({
                     title: '请输入充值金额',
@@ -159,19 +163,21 @@
         //充值金额提交
         $('#pay').click(function(){
             var recharge_money = $('#recharge_money').val();
-            if(!recgarge_money){
+            var num = $('#num').val();
+            if(!recharge_money){
                 alert('未选择需要购买的礼品卡');return false;
             }
+            var total_money = parseInt(recharge_money)*parseInt(num);
 			var recharge_no = Date.parse(new Date())/1000+parseInt(10000*Math.random()).toString();
             $('#recharge_no').val(recharge_no);
-            getWxOrder(recharge_money,card_no,recharge_no);
+            getWxOrder(total_money,recharge_no);
 		});
     });
-    function getWxOrder(recharge_money,card_no,recharge_no){
+    function getWxOrder(total_money,recharge_no){
         $.ajax({
             url:'{:url("wx/user/ajaxGetRechargeOrder")}',
             type:'post',
-            data:{recharge_no:recharge_no,card_no:card_no,recharge_money:recharge_money},
+            data:{recharge_no:recharge_no,total_money:total_money},
             dataType:'json',
             success:function(result){
                 if(result.state == 'success'){

@@ -379,20 +379,28 @@ class UserTest extends Base
         $this->assign('list',$list);
         return $this->fetch();
     }
+
+    /**
+     * 礼品卡卡充值
+     */
+    public function giftcardCharge(){
+        $cardModel = new \app\admin\model\Recharge_money_category_tab();
+        $user_id = session('user_id');
+        $category_model = new Recharge_money_category_tab();
+        $condition = [];
+        $condition['AVAILABLE_FLG'] = 1;
+        $list = $category_model-> getGiftRechargeListNP($condition);
+        //充值订单号
+        $recharge_no = time().rand('1000','9999');
+        $this->assign('recharge_no',$recharge_no);
+        $this->assign('list',$list);
+        return $this->fetch();
+    }
     /**
      * 设置微信电子卡充值金额
      */
     public function ajaxGetRechargeOrder(){
         $post = input();
-        //微信支付
-        ini_set('date.timezone','Asia/Shanghai');
-        include_once '/extend/weixinPay/lib/WxPay.Api.php';
-        include_once '/extend/weixinPay/pay/log.php';
-        include_once '/extend/weixinPay/lib/WxPay.JsApiPay.php';
-
-        //初始化日志
-        $logHandler= new \CLogFileHandler(EXTEND_PATH."weixinPay/logs/".date('Y-m-d').'.log');
-        $log = \Log::Init($logHandler, 15);
         //电子卡信息
         $member_card = new Member_info_tab();
         $cardInfo = $member_card->getUserCard(session('user_id'));
@@ -406,26 +414,47 @@ class UserTest extends Base
             $data['msg'] = '无充值金额信息';
             echo json_encode($data);die();
         }
-
-        $input = new \WxPayUnifiedOrder();
-        $input->SetBody($post['card_no']);//设置商品或支付单简要描述
-        $input->SetOut_trade_no($post['recharge_no']);//设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
-        $input->SetTotal_fee(intval($recharge_money*100));//设置订单总金额，单位为分，只能为整数，详见支付金额
-        $input->SetGoods_tag('电子卡充值');//设置标记
-        $input->SetTrade_type("JSAPI");
-        $input->SetOpenid($user_info['OPENID']);
-        $order =  \WxPayApi::unifiedOrder($input);
-        $tools = new \JsApiPay();
-        $jsApiParameters = $tools->GetJsApiParameters($order);
-        $info = json_decode($jsApiParameters);	
+        $type = '电子卡充值';
+        $jsApiParameters = $this->wxPayDeal($post['card_no'],$post['recharge_no'],$recharge_money,$type,$user_info['OPENID']);
         if($jsApiParameters){
             $data['state'] = 'success';
-            $data['info'] = array($info);
+            $data['info'] = array(json_decode($jsApiParameters));
         }else{
             $data['state'] = 'error';
             $data['msg'] = '无微信订单信息生成！';
         }
         echo json_encode($data);die();
+    }
+
+    /**
+     * 生成微信订单
+     * @param $card_no
+     * @param $recharge_no
+     * @param $recharge_money
+     * @param $type
+     * @param $openId
+     * @return mixed
+     */
+    public function wxPayDeal($card_no,$recharge_no,$recharge_money,$type,$openId){
+        //微信支付
+        ini_set('date.timezone','Asia/Shanghai');
+        include_once '/extend/weixinPay/lib/WxPay.Api.php';
+        include_once '/extend/weixinPay/pay/log.php';
+        include_once '/extend/weixinPay/lib/WxPay.JsApiPay.php';
+        //初始化日志
+        $logHandler= new \CLogFileHandler(EXTEND_PATH."weixinPay/logs/".date('Y-m-d').'.log');
+        $log = \Log::Init($logHandler, 15);
+        $input = new \WxPayUnifiedOrder();
+        $input->SetBody($card_no);//设置商品或支付单简要描述
+        $input->SetOut_trade_no($recharge_no);//设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
+        $input->SetTotal_fee(intval($recharge_money*100));//设置订单总金额，单位为分，只能为整数，详见支付金额
+        $input->SetGoods_tag($type);//设置标记
+        $input->SetTrade_type("JSAPI");
+        $input->SetOpenid($openId);
+        $order =  \WxPayApi::unifiedOrder($input);
+        $tools = new \JsApiPay();
+        $jsApiParameters = $tools->GetJsApiParameters($order);
+        return $jsApiParameters;
     }
     //充值处理
     public function doRecharge(){

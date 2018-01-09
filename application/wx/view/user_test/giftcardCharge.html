@@ -117,11 +117,13 @@
             setTotal();
         });
         function setTotal(){
-            var s=0;
-            $("#tab td").each(function(){
-                s+=parseInt($(this).find('input[class*=text_box]').val())*parseFloat($(this).find('span[class*=price]').text());
-            });
-            $("#total").html(s.toFixed(2));
+            var recharge_money = $(this).attr('data-money');
+            var num = $(this).val();
+            if(recharge_money){
+                var money = parseInt(recharge_money)*num;
+                $('#pay-money').html(money+'元');
+                $('#pay-area').show();
+            }
         }
         setTotal();
         //选择充值金额
@@ -153,22 +155,6 @@
                 });
             }
 
-        });
-        //确定购买数量
-        $('#num').blur(function(){
-            var num = $(this).val();
-            var rule =  /^\+?[1-9]\d*$/;
-            var recharge_money = $(this).attr('data-money');
-            var gift_money = $(this).attr('data-gift-money');
-            if(num == 0 || !num){
-                alert('请输入购买数量');return false;
-            }else if(!rule.test(num)){
-                alert('请输入大于0的数字');return false;
-            }else if(recharge_money){
-                var money = parseInt(recharge_money)*num;
-                $('#pay-money').html(money+'元');
-                $('#pay-area').show();
-            }
         });
         //充值金额提交
         $('#pay').click(function(){

@@ -355,7 +355,7 @@ class User extends Base
         }else{
             $result = $offcard_model->where(['OFFLINE_CARD_ID'=>$offcard_id])->delete();
             if($result){
-                $this->redirect(url('wx/user/card'));
+                $this->redirect(url('wx/usertest/card'));
             }else{
                 $this->error('解绑失败');
             }
@@ -488,7 +488,7 @@ class User extends Base
                 $resultCard = $card_model->updataCard($dataCard,$post['card_no']);
                 $resultOperate = $card_operate_model->cardOperatAdd($dataOperate);
                 if($resultCard && $resultOperate){
-                    $this->redirect(url('wx/user/rechargeList'));
+                    $this->redirect(url('wx/usertest/rechargeList'));
                 }else{
                     $this->error('充值失败！');
                 }
@@ -626,9 +626,9 @@ class User extends Base
         $user_model = new User_tab();
         $result = $user_model->updateUserOne(session('user_id'),$post);
         if(!empty($result)){
-            $this->redirect(url('wx/user/me'));
+            $this->redirect(url('wx/usertest/me'));
         }else{
-            $this->redirect(url('wx/user/userInfo',['error'=>'修改个人信息失败！']));
+            $this->redirect(url('wx/usertest/userInfo',['error'=>'修改个人信息失败！']));
         }
     }
     /**
@@ -686,11 +686,11 @@ class User extends Base
         if(strlen(session('openid'))>3){
             $cardNo = Request::instance()->param('memberCardNo');
             if(!$cardNo){
-                $this->error('未提供有效会员卡号',url('wx/user/card'));
+                $this->error('未提供有效会员卡号',url('wx/usertest/card'));
             }
             $cardData = (new Offline_card_tab())->getCardInfoByCardNo($cardNo);
             if(!$cardData){
-                $this->error('该会员信息不存在',url('wx/user/card'));
+                $this->error('该会员信息不存在',url('wx/usertest/card'));
             }
             $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
             //条形码

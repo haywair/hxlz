@@ -22,6 +22,13 @@
                                         <input class="am-u-md-10 form-control" name="GIFT_MONEY" value="{$rechargeInfo.GIFT_MONEY}" id="gift_money"  placeholder="赠送金额">
                                     </div>
                                 </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >赠送金额</label>
+                                        <input type="radio" name="RECHARGE_TYPE" value="1" {eq name="rechargeInfo['RECHARGE_TYPE']" value="1"}  checked{/eq}>电子卡充值
+                                        <input type="radio" name="RECHARGE_TYPE" value="2"  {eq name="rechargeInfo['RECHARGE_TYPE']" value="2"}  checked{/eq}>转赠卡充值
+                                    </div>
+                                </div>
                                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                 <input type="button" id="suBtn" class="am-btn am-btn-primary" value="修改">
                             </div>

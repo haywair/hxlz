@@ -1,0 +1,32 @@
+{include file="public/heads"}
+<body>
+<div class="box1">
+    <div id="tabboxw">
+        <div class="finance-title">
+            <p><span style="font-size:16px;">票券名称：{$issueInfo.FINANCE_NAME}</span></p>
+        </div>
+        <ul class="issue-info">
+            <li>票券号：{$issueInfo.FINANCE_ISSUE_NO}<li>
+            <li><span>票券类型：{$issueInfo.TYPE_NAME}</span><li>
+            <li><span>票面价值：￥{$issueInfo.SELL_PRICE}</span></li>
+            <li>有效日期：{:substr($issueInfo['START_DATE'],0,10)} 至 {:substr($issueInfo['END_DATE'],0,10)}<li>
+        </ul>
+        {if $issueInfo['FINANCE_TYPE'] neq 3}
+            <div class="issue-img">
+                <img src="http://liangzi.xz6699.com/index.php/wx/user/createQrCode?issue_id={$issueInfo.FINANCE_ISSUE_ID}"
+                     alt="二维码">
+            </div>
+        {/if}
+        <div class="issue-intro">
+            <p>票券介绍：</p>
+            <div >
+                {php}echo htmlspecialchars_decode($issueInfo['FINANCE_INFO']);{/php}
+            </div>
+
+        </div>
+
+    </div>
+</div><!--box1 end-->
+{include file="public/foot"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

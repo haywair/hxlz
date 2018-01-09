@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="telephone=no" name="format-detection" />
+<title>后舍</title>
+<link href="__STATIC__css/HTp-style2.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="__STATIC__css/jquery.flipster.css">
+<script type="text/javascript" src="__STATIC__js/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="chongzhi-top">
+	<a href="javascript:void(0)" onclick="window.history.go(-1)" class="back"><span></span></a>
+    <h1>充值记录</h1>
+</div>
+
+
+	<ul style="margin-top:50px">
+        {notempty name="list"}
+        {foreach name="list" item="vo"}
+    	<li style="background-color:#fff;border-bottom:1px solid #ddd;height:70px;">
+        	<div class="chongzhi-txt" style="margin:0;">
+                <span class="left-txt">
+                  <p style="font-size:18px; font-weight:500">后舍</p>
+                </span>
+                <span class="right-img" >
+                    <p style="font-size:16px; font-weight:500">充值{:mb_substr($vo['CONSUMP_AMT'],0,-5,'UTF-8')}元<span> 送{:mb_substr($vo['GIVE_AMT'],0,-5,'UTF-8')}</span></p>
+                  <p style="font-size:14px; color:#999;">{:mb_substr($vo['CREATE_DATE'],0,-4)}</p>
+                </span>
+            </div>
+        </li>
+        {/foreach}
+        {else /}
+            <div style="text-align:center;padding-top:15%;font-size:16px;"> 暂无充值记录</div>
+        {/notempty}
+    </ul>
+{include file="public/foot"}

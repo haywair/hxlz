@@ -709,4 +709,139 @@ class User extends Base
             $this->redirect(WEB_URL.'/wx/index/OAuth');
         }
     }
+
+    /**
+     * 礼品卡卡充值
+     */
+    public function giftcardCharge(){
+        $cardModel = new \app\admin\model\Recharge_money_category_tab();
+        $user_id = session('user_id');
+        $category_model = new Recharge_money_category_tab();
+        $condition = [];
+        $condition['AVAILABLE_FLG'] = 1;
+        $list = $category_model-> getGiftRechargeListNP($condition);
+        //充值订单号
+        $recharge_no = time().rand('1000','9999');
+        $this->assign('list',$list);
+        return $this->fetch('wx/user_text/giftcardCharge');
+    }
+    /**
+     * 设置微信礼品卡卡充值金额
+     */
+    public function ajaxGetGiftRechargeOrder(){
+        $post = input();
+        //会员信息
+        $user_model = new User_tab();
+        $user_info = $user_model->idGetUserOne(session('user_id'));
+        //充值金额
+        $total_money = $post['total_money'];
+        if(!$total_money){
+            $data['state'] = 'error';
+            $data['msg'] = '无充值金额信息';
+            echo json_encode($data);die();
+        }
+        $type = '购买礼品卡';
+        $describe = '礼品卡';
+        $jsApiParameters = $this->wxPayDeal($describe,$post['recharge_no'],$total_money,$type,$user_info['OPENID']);
+        if($jsApiParameters){
+            $data['state'] = 'success';
+            $data['info'] = array(json_decode($jsApiParameters));
+        }else{
+            $data['state'] = 'error';
+            $data['msg'] = '无微信订单信息生成！';
+        }
+        echo json_encode($data);die();
+    }
+    /**
+     * 购买礼品卡
+     */
+    public function doGiftcardCharge(){
+        if(Request::instance()->isPost()){
+            $post = Request::instance()->param();
+            if(!$post['RECHARGE_MONEY'] || !$post['NUM'] || !$post['RECHARGE_NO'] || !$post['GIFT_MONEY']){
+                $this->error('参数不完整');
+            }
+            $user_id = session('user_id');
+            $res = (new \app\wx\base\GiftcardCharge())->dealGiftcardCharge($post['RECHARGE_MONEY'],$post['GIFT_MONEY'],$post['NUM'],$user_id,$post['RECHARGE_NO']);
+            if($res){
+                $this->redirect(url('wx/user/card2'));
+            }else{
+                $this->error('购买礼品卡失败！');
+            }
+        }
+    }
+    /**
+     * 我的电子卡
+     * */
+    public function card2(){
+
+        if(strlen(session('openid'))>3){
+            $user = new User_tab();
+            $userid = $user->openidGetUserOne(session('openid'));
+            if($userid['TEL_NO']){
+                $card = new Member_info_tab();
+                $data = $card->getUserCard(session('user_id'));
+                $cardType = input('cardType');
+                if(empty($cardType)){
+                    $cardType = 'e-card';
+                }
+                //$data['RECEIVE_AMT'] = mb_substr($data['RECEIVE_AMT'], 0, mb_strlen($data['RECEIVE_AMT']) - 2);
+                $data['TOTAL_AMT'] = $data['RECEIVE_AMT']+$data['GIVE_AMT'];
+                //个人实体卡
+                $condOffCard = [
+                    'a.USER_ID'=>session('user_id'),
+                    'a.AVAILABLE_FLG' => 1
+                ];
+                $offlineCard_model = new Offline_card_tab();
+                $offlineCards = $offlineCard_model->getCardsFlg($condOffCard);
+                if(!empty($offlineCards)){
+                    foreach($offlineCards as $k=>$v){
+                        $returnData = $this->getOfflineCardData($v['MEMBER_CARD_NO']);
+                        if(!empty($returnData)){
+                            $offlineCards[$k]['TOTAL_AMT'] = $returnData['ReceiveAmt'] + $returnData['GiveAmt'];
+                        }
+                    }
+
+                }
+                $this->assign('offlineCards',$offlineCards);
+                $this->assign('cardType',$cardType);
+                $this->assign('data',$data);
+                return $this->fetch('wx/user_test/card');
+            }else{
+                $this->redirect(WEB_URL.'wx/home/binding');
+            }
+        }else{
+            $this->redirect(WEB_URL.'/wx/index/OAuth');
+        }
+    }
+    /**
+     * 生成微信订单
+     * @param $describe
+     * @param $recharge_no
+     * @param $recharge_money
+     * @param $type
+     * @param $openId
+     * @return mixed
+     */
+    public function wxPayDeal($describe,$recharge_no,$recharge_money,$type,$openId){
+        //微信支付
+        ini_set('date.timezone','Asia/Shanghai');
+        include_once '/extend/weixinPay/lib/WxPay.Api.php';
+        include_once '/extend/weixinPay/pay/log.php';
+        include_once '/extend/weixinPay/lib/WxPay.JsApiPay.php';
+        //初始化日志
+        $logHandler= new \CLogFileHandler(EXTEND_PATH."weixinPay/logs/".date('Y-m-d').'.log');
+        $log = \Log::Init($logHandler, 15);
+        $input = new \WxPayUnifiedOrder();
+        $input->SetBody($describe);//设置商品或支付单简要描述
+        $input->SetOut_trade_no($recharge_no);//设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
+        $input->SetTotal_fee(intval($recharge_money*100));//设置订单总金额，单位为分，只能为整数，详见支付金额
+        $input->SetGoods_tag($type);//设置标记
+        $input->SetTrade_type("JSAPI");
+        $input->SetOpenid($openId);
+        $order =  \WxPayApi::unifiedOrder($input);
+        $tools = new \JsApiPay();
+        $jsApiParameters = $tools->GetJsApiParameters($order);
+        return $jsApiParameters;
+    }
 }

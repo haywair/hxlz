@@ -426,7 +426,7 @@ class UserTest extends Base
     }
 
     /**
-     * 设置微信电子卡充值金额
+     * 设置微信礼品卡卡充值金额
      */
     public function ajaxGetGiftRechargeOrder(){
         $post = input();
@@ -552,6 +552,10 @@ class UserTest extends Base
             }
         }
     }
+
+    /**
+     * 购买礼品卡
+     */
     public function doGiftcardCharge(){
         if(Request::instance()->isPost()){
             $post = Request::instance()->param();

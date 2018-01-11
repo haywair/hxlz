@@ -175,7 +175,7 @@
     });
     function getWxOrder(total_money,recharge_no){
         $.ajax({
-            url:'{:url("wx/user/ajaxGetRechargeOrder")}',
+            url:'{:url("wx/user/ajaxGetGiftRechargeOrder")}',
             type:'post',
             data:{recharge_no:recharge_no,total_money:total_money},
             dataType:'json',

@@ -806,7 +806,7 @@ class User extends Base
                 $this->assign('offlineCards',$offlineCards);
                 $this->assign('cardType',$cardType);
                 $this->assign('data',$data);
-                return $this->fetch('wx/user_test/card');
+                return $this->fetch('user_test/card');
             }else{
                 $this->redirect(WEB_URL.'wx/home/binding');
             }

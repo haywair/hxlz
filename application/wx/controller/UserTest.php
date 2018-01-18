@@ -385,6 +385,9 @@ class UserTest extends Base
      */
     public function giftcardCharge(){
         $cardModel = new \app\admin\model\Recharge_money_category_tab();
+        $priceatModel = new \app\admin\model\Project_plan_price_tab();
+        //充值卡优惠方案
+        $salePercent = $priceatModel->getGiftcardPriceatInfo();
         $user_id = session('user_id');
         $category_model = new Recharge_money_category_tab();
         $condition = [];
@@ -392,6 +395,7 @@ class UserTest extends Base
         $list = $category_model-> getGiftRechargeListNP($condition);
         //充值订单号
         $recharge_no = time().rand('1000','9999');
+        $this->assign('salePercent',$salePercent);
         $this->assign('list',$list);
         return $this->fetch();
     }
@@ -782,5 +786,19 @@ class UserTest extends Base
         }else{
             $this->redirect(WEB_URL.'/wx/index/OAuth');
         }
+    }
+
+    public function doGiftRecharge(){
+        if($this->request->isPost()){
+            $post = input();
+            $rechargeMoney = $post['RECHARGE_MONEY']??'';
+            $giftMoney = $post['GIFT_MONEY']??'';
+            $recharge_no = $post['RECHARGE_NO']??'';
+            $num = $post['NUM']??'';
+            if(!$rechargeMoney || !$giftMoney || !$rechargeNo || !$num){
+                $this->error('请提供完整的充值金额、订单号、数量信息');
+            }
+        }
+
     }
 }

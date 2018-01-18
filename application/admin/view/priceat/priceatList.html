@@ -33,6 +33,7 @@
                             <tr>
                                 <th class="table-title">方案编号</th>
                                 <th class="table-title">方案名称</th>
+                                <th class="table-title">优惠类型</th>
                                 <th>优惠门店</th>
                                 <th>一级优惠名称</th>
                                 <th>二级优惠名称</th>
@@ -51,6 +52,13 @@
                             <tr>
                                 <td>{$v.PLAN_CD}</td>
                                 <td><a href="#">{$v.PLAN_NAME}</a></td>
+                                <td>
+                                    {eq name="v['TYPE']" value="1"}
+                                        项目优惠
+                                    {else/}
+                                        充值卡优惠
+                                    {/eq}
+                                </td>
                                 <td>{$v.STORE_NAME}</td>
                                 <th>{$v.LEVEL_ONE_NAME}</th>
                                 <th>{$v.LEVEL_TWO_NAME}</th>

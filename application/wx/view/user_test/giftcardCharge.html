@@ -68,7 +68,7 @@
 </div>
 <div class="chongzhi-box">
 	<ul>
-        <form action="{:url('wx/user/doRecharge')}" method="post" id="myform">
+        <form action="{:url('wx/user_test/doGiftRecharge')}" method="post" id="myform">
             <input type="hidden" id="recharge_money" name="RECHARGE_MONEY" >
             <input type="hidden" id="gift_money" name="GIFT_MONEY" >
             <input type="hidden" id="recharge_no" name="RECHARGE_NO">
@@ -164,10 +164,14 @@
         $('#pay').click(function(){
             var recharge_money = $('#recharge_money').val();
             var num = $('#num').val();
+            var salePercent = parseFloat("{$salePercent}");
             if(!recharge_money){
                 alert('未选择需要购买的礼品卡');return false;
             }
             var total_money = parseInt(recharge_money)*parseInt(num);
+            if(salePercent > 0){
+                total_money = total_money * salePercent;
+            }
 			var recharge_no = Date.parse(new Date())/1000+parseInt(10000*Math.random()).toString();
             $('#recharge_no').val(recharge_no);
             getWxOrder(total_money,recharge_no);

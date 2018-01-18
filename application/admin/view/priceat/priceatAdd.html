@@ -13,7 +13,18 @@
                                 <div class="am-form-group">
                                     <div class="am-g">
                                         <label class="am-u-md-2 am-md-text-right am-padding-left-0" >方案名称</label>
-                                        <input class="am-u-md-10 form-control" name="PLAN_NAME"  placeholder="方案名称">
+                                        <input class="am-u-md-10 form-control" name="PLAN_NAME" required  placeholder="方案名称">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0"   for="type"  style="float:left;padding-top:0.5rem;">优惠类型</label>
+                                        <div style="float:left;margin-right:2rem;padding-top:0.5rem;">
+                                            <input name="TYPE" id="type" type="radio"  value="1" checked style="font-size:0.8rem;">项目优惠
+                                        </div>
+                                        <div style="float:left;padding-top:0.5rem;">
+                                            <input name="TYPE" id="type" type="radio"  value="2" style="font-size:0.8rem;">充值卡优惠
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="am-form-group">
@@ -41,8 +52,8 @@
                                 </div>
                                 <div class="am-form-group" id="level-one-sale">
                                     <div class="am-g">
-                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >立减</label>
-                                        <input class="am-u-md-10 form-control" id="level-one-sale-price"  name="LEVEL_ONE_SALE_PRICE" placeholder="一级方案优惠价">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0 change-text" >立减</label>
+                                        <input class="am-u-md-10 form-control" id="level-one-sale-price"  name="LEVEL_ONE_SALE_PRICE" placeholder="一级方案优惠">
                                     </div>
                                 </div>
                                 <div class="am-form-group">
@@ -59,8 +70,8 @@
                                 </div>
                                 <div class="am-form-group">
                                     <div class="am-g">
-                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >立减</label>
-                                        <input class="am-u-md-10 form-control" name="LEVEL_TWO_SALE_PRICE"    placeholder="二级方案优惠价">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0 change-text" >立减</label>
+                                        <input class="am-u-md-10 form-control" name="LEVEL_TWO_SALE_PRICE"    placeholder="二级方案优惠">
                                     </div>
                                 </div>
                                 <div class="am-form-group">
@@ -77,8 +88,8 @@
                                 </div>
                                 <div class="am-form-group">
                                     <div class="am-g">
-                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >立减</label>
-                                        <input class="am-u-md-10 form-control" name="LEVEL_THREE_SALE_PRICE"   placeholder="三级方案优惠价">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0 change-text" >立减</label>
+                                        <input class="am-u-md-10 form-control" name="LEVEL_THREE_SALE_PRICE"   placeholder="三级方案优惠">
                                     </div>
                                 </div>
                                 <div class="am-form-group">
@@ -95,8 +106,8 @@
                                 </div>
                                 <div class="am-form-group">
                                     <div class="am-g">
-                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >立减</label>
-                                        <input class="am-u-md-10 form-control" name="LEVEL_FOUR_SALE_PRICE"  placeholder="四级方案优惠价">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0 change-text" >立减</label>
+                                        <input class="am-u-md-10 form-control" name="LEVEL_FOUR_SALE_PRICE"  placeholder="四级方案优惠">
                                     </div>
                                 </div>
                                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -128,6 +139,15 @@
         }
         $('#LEVEL_'+typeVal+'_NAME').val(level_name);
     }
+    //样式转换
+    $('input[name="TYPE"]').change(function(){
+       var typeVal = $(this).val();
+       if(parseInt(typeVal) == 2){
+           $('.change-text').html('优惠率');
+       }else{
+           $('.change-text').html('立减');
+       }
+    });
 </script>
 {include file="public/footer"}<SCRIPT Language=VBScript><!--
 

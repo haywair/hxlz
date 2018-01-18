@@ -41,12 +41,18 @@ class Priceat extends Base{
         $priceat_model = new Project_plan_price_tab();
         if(Request::instance()->isPost()){
             $data = input();
+            $priceatGiftNum = $priceat_model->getGiftCardPriceatNum();
+            if($priceatGiftNum > 0){
+                $this->error('请勿重复添加充值卡优惠方案');
+            }
             if(!empty($data['project_ids'])){
                 $data['PROJECT_CD'] = implode(',',$data['project_ids']);
                 unset($data['project_ids']);
             }else{
                 unset($data['project_ids']);
-                $this->error('未选择优惠项目！');
+                if($data['TYPE'] == 1){
+                    $this->error('未选择优惠项目！');
+                }
             }
             //计算价格优惠率reckonPriceRate($salePrice,$project_cd)
             $data['CREATE_TIME'] = date('Y-m-d H:i:s',time());
@@ -106,8 +112,10 @@ class Priceat extends Base{
                  $data['PROJECT_CD'] = implode(',',$data['project_ids']);
                  unset($data['project_ids']);
             }else{
-                 unset($data['project_ids']);
-                $this->error('未选择优惠项目！');
+                unset($data['project_ids']);
+                if($data['TYPE'] == $priceat_model::$priceattype_project){
+                    $this->error('未选择优惠项目！');
+                }
             }
             //计算价格优惠率reckonPriceRate($salePrice,$project_cd)
 

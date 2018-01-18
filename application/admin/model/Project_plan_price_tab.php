@@ -9,6 +9,8 @@
 namespace app\admin\model;
 
 class Project_plan_price_tab extends Base{
+    public static $priceattype_giftcard = 2;
+    public static $priceattype_project = 1;
     /**
      *价格 优惠方案列表
      */
@@ -47,6 +49,36 @@ class Project_plan_price_tab extends Base{
         }else{
             return '';
         }
+    }
+    /**
+     * 查询充值卡的活动信息
+     */
+    public function getGiftcardPriceatInfo(){
+        $data = $this->where('type',self::$priceattype_giftcard)->where('AVAILABLE_FLG',1)->order('PLAN_CD desc')->find();
+        $day    = intval(date('m'));
+        $date   = strtotime(date('Y-m-d'));
+        $salePercent = 0.00;
+        if($data){
+            if($data['LEVEL_ONE'] && $data['LEVEL_ONE_SALE_PRICE'] > 0){
+                $priceatInfo = getPriceatCategoryInfo($data['LEVEL_ONE']);
+                $salePercent = (strtoime($priceatInfo['LEVEL_RULE']) == $date)?$data['LEVEL_ONE_SALE_PRICE']:null;
+            }else if($data['LEVEL_TWO'] && $data['LEVEL_TWO_SALE_PRICE'] > 0){
+                $priceatInfo = getPriceatCategoryInfo($data['LEVEL_ONE']);
+                $days = explode(',',$priceatInfo['LEVEL_RULE']);
+                $salePercent =  (in_array($day,$days))?$data['LEVEL_TWO_SALE_PRICE']:null;
+            }else if($data['LEVEL_THREE'] && $data['LEVEL_THREE_SALE_PRICE'] > 0){
+                $salePercent = $data['LEVEL_THREE_SALE_PRICE'];
+            }
+            $salePercent = ($salePercent < 1)?$salePercent:0;
+        }
+        return $salePercent;
+    }
+    /**
+     * 充值卡优惠方案类型数量
+     */
+    public function getGiftCardPriceatNum(){
+        $count = $this->where('type',self::$priceattype_giftcard)->where('AVAILABLE_FLG',1)->count();
+        return $count;
     }
 
 }

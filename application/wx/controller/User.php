@@ -723,7 +723,7 @@ class User extends Base
         //充值订单号
         $recharge_no = time().rand('1000','9999');
         $this->assign('list',$list);
-        return $this->fetch('wx/user_text/giftcardCharge');
+        return $this->fetch('wx/user/giftcardCharge');
     }
     /**
      * 设置微信礼品卡卡充值金额

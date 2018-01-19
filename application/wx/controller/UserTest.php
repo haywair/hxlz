@@ -791,13 +791,13 @@ class UserTest extends Base
     public function doGiftRecharge(){
         if($this->request->isPost()){
             $post = input();
-            $rechargeMoney = $post['RECHARGE_MONEY']??'';
+            /*$rechargeMoney = $post['RECHARGE_MONEY']??'';
             $giftMoney = $post['GIFT_MONEY']??'';
             $recharge_no = $post['RECHARGE_NO']??'';
             $num = $post['NUM']??'';
             if(!$rechargeMoney || !$giftMoney || !$rechargeNo || !$num){
                 $this->error('请提供完整的充值金额、订单号、数量信息');
-            }
+            }*/
         }
 
     }

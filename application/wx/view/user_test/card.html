@@ -57,9 +57,9 @@
                         <span class="tbq-s1">
                                 <p class="tbq-p2a">礼品卡</p>
                                 <p class="tbq-p2">
-                                    <a  href="">转赠</a>
+                                    <a  class="giftOther" href="javascript:void(0);" data-card-no="no12313"  data-card-id="123">转赠</a>
                                 <p class="tbq-p3" style="margin-top:10px;">
-                                    <a class="unbind-card" href="javascript:void(0);"  data-card-no="">余额合并</a>
+                                    <a class="giftToCard" href="javascript:void(0);" data-card-no="no12313"  data-card-id="123">余额合并</a>
                                 </p>
                                 <p class="tbq-p4"><font class="tbq-f1">面值：</font><font class="tbq-f2">￥ 500</font></p>
                             </span>
@@ -146,6 +146,68 @@
                 //点击取消后的回调函数
             });
         })
+        //合并礼品卡
+        $('.giftToCard').click(function(){
+            var cardNo  = $(this).data('data-card-no');
+            var cardId = $(this).data('data-card-id');
+            $.ajax({
+                url:"{:url('wx/user_text/giftToMember')}",
+                type:'post',
+                data:{card_no:cardNo,card_id:cardId},
+                dataType:'json',
+                success:function(result){
+                    if(result.code == 1){
+                        $.alert(result.msg, function() {
+                            window.location.href = "{:url('wx/user/card')}";
+                        });
+                    }else{
+                        $.alert(result.msg);
+                    }
+                }
+            })
+        });
+        //分享转赠
+        $('.giftOther').click(function(){
+            var cardNo  = $(this).data('data-card-no');
+            var cardId = $(this).data('data-card-id');
+            var link = "{:url('wx/user_test/giftToFriends')}?card_id="+cardId+'&card_no='+cardNo;
+            var title = '转赠礼品卡';
+            var desc = '朋友***转赠您一张会员卡,欢迎来店消费哦';
+            var imgUrl = '__STATIC__images/hyk_11.png';
+            /*shareTimeline(title,desc,link,imgUrl);*/
+            shareMessage(title,desc,link,imgUrl);
+        });
+
+        //分享
+        function shareTimeline(title,desc,link,imgUrl){
+            wx.onMenuShareTimeline({
+                title: '', // 分享标题
+                link: '', // 分享链接
+                imgUrl: '', // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        }
+        function shareMessage(title,desc,link,imgUrl) {
+            wx.onMenuShareAppMessage({
+                title: title, // 分享标题
+                desc: desc, // 分享描述
+                link: link, // 分享链接
+                imgUrl: imgUrl, // 分享图标
+                type: 'link', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    alert(111111111);
+                },
+                cancel: function () {
+                    alert(222222222);
+                }
+            });
+        }
     })
 </script>
 {include file="public/footS"}

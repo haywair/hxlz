@@ -180,50 +180,48 @@
 
         //分享
         function share(title,link,imgurl,desc){
-            wx.config({
-                debug: true,
-                appId: '{$js.appId}',
-                timestamp: '{$js.timestamp}',
-                nonceStr: '{$js.nonceStr}',
-                signature: '{$js.signature}',
-                jsApiList: ['onMenuShareAppMessage','onMenuShareTimeline']
-            });
-            wx.ready(function(){
-                WeixinJSBridge.on('menu:share:appmessage', function(argv){
-                    shareFriend(title,link,imgurl,desc);
-                });
+            $.get("{:url('wx/user/getJsapi')}",{url:window.location.href},function(data) {
 
-                WeixinJSBridge.on('menu:share:timeline', function(argv){
-                    shareTimeline(title,link,imgurl,desc);
+                wx.config({
+
                 });
-            });
+                wx.ready(function () {
+                    // 在这里调用 API
+                    wx.onMenuShareTimeline({  //例如分享到朋友圈的API
+                        title: title, // 分享标题
+                        link: link, // 分享链接
+                        desc:desc,
+                        imgUrl: imgurl, // 分享图标
+                        success: function () {
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+
+                    wx.onMenuShareAppMessage({
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: url, // 分享链接
+                        imgUrl: img, // 分享图标
+                        type: '', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function () {
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                    wx.error(function (res) {
+
+                        alert(res.errMsg);  //打印错误消息。及把 debug:false,设置为debug:ture就可以直接在网页上看到弹出的错误提示
+
+                    });
+                });
+            },"json");
         }
 
-        function shareFriend(title,link,imgurl,desc) {
-            WeixinJSBridge.invoke('sendAppMessage',{
-                "appid": appid,
-                "img_url": imgurl,
-                "img_width": "200",
-                "img_height": "200",
-                "link": link,
-                "desc": desc,
-                "title": title
-            }, function(res) {
-                //_report('send_msg', res.err_msg);
-            })
-        }
-        function shareTimeline(title,link,imgurl,desc) {
-            WeixinJSBridge.invoke('shareTimeline',{
-                "img_url": imgurl,
-                "img_width": "200",
-                "img_height": "200",
-                "link": link,
-                "desc": desc,
-                "title": title
-            }, function(res) {
-                //_report('timeline', res.err_msg);
-            });
-        }
+
     })
 </script>
 {include file="public/footS"}

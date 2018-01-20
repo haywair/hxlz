@@ -163,25 +163,32 @@
         //充值金额提交
         $('#pay').click(function(){
             var recharge_money = $('#recharge_money').val();
+            var gift_money = $('#gift_money').val();
             var num = $('#num').val();
             var salePercent = parseFloat("{$salePercent}");
             if(!recharge_money){
                 alert('未选择需要购买的礼品卡');return false;
-            }
-            var total_money = parseInt(recharge_money)*parseInt(num);
-            if(salePercent > 0){
-                total_money = total_money * salePercent;
-            }
-			var recharge_no = Date.parse(new Date())/1000+parseInt(10000*Math.random()).toString();
+            }/*
+                var total_money = parseInt(recharge_money)*parseInt(num);
+                if(salePercent > 0){
+                    total_money = total_money * salePercent;
+                }*/
+			var recharge_no = 'G'+Date.parse(new Date())/1000+parseInt(10000*Math.random()).toString();
             $('#recharge_no').val(recharge_no);
-            getWxOrder(total_money,recharge_no);
+            getWxOrder(recharge_no,recharge_money,gift_money,num,salePercent);
 		});
     });
-    function getWxOrder(total_money,recharge_no){
+    function getWxOrder(recharge_no,recharge_money,gift_money,num,salePercent){
+        var jsonData = {
+            recharge_no:recharge_no,
+            recharge_money:recharge_money,
+            gift_money:gift_money,
+            num:num
+        };
         $.ajax({
             url:'{:url("wx/user/ajaxGetGiftRechargeOrder")}',
             type:'post',
-            data:{recharge_no:recharge_no,total_money:total_money},
+            data:jsonData,
             dataType:'json',
             success:function(result){
                 if(result.state == 'success'){

@@ -20,8 +20,12 @@ use app\wx\model\User_tab;
 use app\admin\model\Recharge_money_category_tab;
 use app\admin\model\Offline_card_tab;
 use app\admin\model\Store_tab;
+use app\admin\model\Gift_card_tab;
+use app\wx\base\GiftcardCharge;
+use app\admin\model\Project_plan_price_tab;
 use think\Request;
 use think\Validate;
+
 
 class UserTest extends Base
 {
@@ -71,6 +75,11 @@ class UserTest extends Base
                     }
 
                 }
+                //个人礼品卡
+                $giftCardModel = new Gift_card_tab();
+                $giftCardData = $giftCardModel->getBuyerGiftCardsByUid($userid['USER_ID']);
+                $this->assign('giftCardData',$giftCardData);
+
                 $this->assign('offlineCards',$offlineCards);
                 $this->assign('cardType',$cardType);
                 $this->assign('data',$data);
@@ -394,7 +403,7 @@ class UserTest extends Base
         $condition['AVAILABLE_FLG'] = 1;
         $list = $category_model-> getGiftRechargeListNP($condition);
         //充值订单号
-        $recharge_no = time().rand('1000','9999');
+        $recharge_no = 'G'.time().rand('1000','9999');
         $this->assign('salePercent',$salePercent);
         $this->assign('list',$list);
         return $this->fetch();
@@ -433,19 +442,36 @@ class UserTest extends Base
      * 设置微信礼品卡卡充值金额
      */
     public function ajaxGetGiftRechargeOrder(){
-        $post = input();
+        $consump_amt    = input('recharge_money');
+        $gift_amt       = input('gift_money');
+        $num            = input('num');
+        $order_no       = input('recharge_no');
+        if(!$consump_amt || !$gift_amt || !$num || !$order_no){
+            $data['state'] = 'error';
+            $data['msg'] = '充值信息不完整，无法完成支付请求';
+            echo json_encode($data);die();
+        }
         //会员信息
         $user_model = new User_tab();
         $user_info = $user_model->idGetUserOne(session('user_id'));
+        //充值优惠信息
+        $salePercent = (new Project_plan_price_tab())->getGiftcardPriceatInfo();
         //充值金额
-        $total_money = $post['total_money'];
-        if(!$total_money){
+        $addGiftcard = (new GiftcardCharge())->dealGiftcardCharge($consump_amt,$gift_amt,$num,$user_info['USER_ID'],
+            $order_no,$salePercent);
+        if(!$addGiftcard){
             $data['state'] = 'error';
-            $data['msg'] = '无充值金额信息';
+            $data['msg'] = '添加充值卡信息失败';
             echo json_encode($data);die();
         }
+        $cardIds = implode(',',$addGiftcard);
+        $total_money = $consump_amt * $num;
+        //优惠折扣
+        if(($salePercent > 0) && $salePercent < 1){
+            $total_money = $total_money * $salePercent;
+        }
         $type = '购买礼品卡';
-        $jsApiParameters = $this->wxPayDeal($post['card_no'],$post['recharge_no'],$total_money,$type,$user_info['OPENID']);
+        $jsApiParameters = $this->wxPayDeal($cardIds,$order_no,$total_money,$type,$user_info['OPENID']);
         if($jsApiParameters){
             $data['state'] = 'success';
             $data['info'] = array(json_decode($jsApiParameters));
@@ -567,11 +593,11 @@ class UserTest extends Base
                 $this->error('参数不完整');
             }
             $user_id = session('user_id');
-            $res = (new \app\wx\base\GiftcardCharge())->dealGiftcardCharge($post['RECHARGE_MONEY'],$post['GIFT_MONEY'],$post['NUM'],$user_id,$post['RECHARGE_NO']);
-            if($res){
-                $this->redirect(url('wx/user_test/card'));
-            }else{
+            $gift_cards = (new Gift_card_tab())->getGiftcardDisableByOrderNo($post['RECHARGE_NO']);
+            if($gift_cards){
                 $this->error('购买礼品卡失败！');
+            }else{
+                $this->redirect(url('wx/user_test/card'));
             }
         }
     }
@@ -763,23 +789,33 @@ class UserTest extends Base
     public function offlinecardcode(){
         if(strlen(session('openid'))>3){
             $cardNo = Request::instance()->param('memberCardNo');
+            $type = Request::instance()->param('type');
             if(!$cardNo){
                 $this->error('未提供有效会员卡号',url('wx/user_test/card'));
             }
-            $cardData = (new Offline_card_tab())->getCardInfoByCardNo($cardNo);
+
+            if($type == 'offlinecard'){
+                $cardData = (new Offline_card_tab())->getCardInfoByCardNo($cardNo);
+            }else{
+                $cardData = (new Member_info_tab())->getUserCardByCardNo($cardNo);
+            }
+
             if(!$cardData){
                 $this->error('该会员信息不存在',url('wx/user_test/card'));
             }
             $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
             //条形码
-            $barcode = $generator->getBarcode($cardData['MEMBER_CARD_NO'], $generator::TYPE_CODE_128);
+            $barcode = $generator->getBarcode($cardNo, $generator::TYPE_CODE_128);
             $barImg =  '<img class="barcode" src="data:image/png;base64,' . base64_encode($barcode) . '">';
             //二维码 
-            $qrcode = (new \app\wx\base\Membercard())->buildQRcode($cardData['MEMBER_CARD_NO']);
+            $qrcode = (new \app\wx\base\Membercard())->buildQRcode($cardNo);
             $qrImg =  '<img class="qrcode" src="data:image/png;base64,' . base64_encode($qrcode) . '">';
             //使用规则
-            $storeData = (new Store_tab())->getStoreOne($cardData['STORE_CD']);
-            $rule = $storeData['OFFLINE_CARD_RULE'];
+            $rule = '';
+            if($type == 'offlinecard'){
+                $storeData = (new Store_tab())->getStoreOne($cardData['STORE_CD']);
+                $rule = $storeData['OFFLINE_CARD_RULE'];
+            }
             $list = ['barImg'=>$barImg,'qrImg'=>$qrImg,'rule'=>$rule,'cardNo'=>$cardNo];
             $this->assign($list);
             return $this->fetch();
@@ -797,6 +833,67 @@ class UserTest extends Base
             $num = $post['NUM']?$post['NUM']:'';
             if(!$rechargeMoney || !$giftMoney || !$rechargeNo || !$num){
                 $this->error('请提供完整的充值金额、订单号、数量信息');
+            }
+        }
+
+    }
+    //合并积分卡
+    public function giftToMember(){
+        if($this->request->isPost()){
+            $cardNo = input('card_no');
+            $cardId = input('card_id');
+            if(!$cardNo || !$cardId){
+                $this->error('未提供有效卡号数据');
+            }
+            //合并余额至电子卡
+            $gift_model = new Gift_card_tab();
+            $openid = session('openid');
+            $type = $gift_model::$giftjoin_type;//转增类型
+            $res = (new \app\wx\base\GiftcardCharge())->giftcardToMembercard($cardNo,$cardId,$openid,$type);
+            if($res->checkResult()){
+                $this->success('余额合并成功');
+            }
+            $this->error($res->getText());
+        }else{
+            $this->error('异常请求');
+        }
+    }
+
+    /**
+     * 转赠朋友
+     */
+    public function giftToFriends(){
+        $cardNo = input('card_no');
+        $cardId = input('card_id');
+        $type = input('type');
+        if(!$cardNo || !$cardId || !$type){
+            $this->error('未提供有效卡号');
+        }
+        $list = ['card_no'=>$cardNo,'card_id'=>$cardId];
+        //判断用户转发
+        if($type == 'showGiftCard'){
+            $this->assign($list);
+            return $this->fetch();
+        }else{
+            session('gift_card',$list);
+            //判断用户是否已平台注册
+            if(strlen(session('openid'))>3){
+                $openId = session('openid');
+                //获取会员信息并判断是否绑定手机号
+                $userInfo = (new User_tab())->openidGetUserOne($openId);
+                if(!$userInfo['TEL_NO']){
+                    $this->redirect(url('wx/home/binding'));
+                }
+                //转赠卡处理
+                $gift_model = (new Gift_card_tab());
+                $type = $gift_model::$giftshare_type;//转增类型
+                $error = (new GiftcardCharge())->giftcardToMembercard($cardNo,$cardId,$openId,$type);
+                if($error->checkResult()){
+                    $this->redirect(url('wx/user/card'));
+                }
+                $this->error($error->getText());
+            }else{
+                $this->redirect(WEB_URL."/wx/index/OAuth");
             }
         }
 

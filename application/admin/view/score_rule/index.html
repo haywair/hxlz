@@ -32,9 +32,12 @@
                             <thead>
                             <tr>
                                 <th class="table-title">编号</th>
-                                <th class="table-title">充值金额</th>
-                                <th class="table-title">赠送金额</th>
-                                <th class="table-title">充值类型</th>
+                                <th class="table-title">规则名称</th>
+                                <th class="table-title">规则类型</th>
+                                <th class="table-title">积分数量</th>
+                                <th class="table-title">可推广人数</th>
+                                <th class="table-title">连续登录天数</th>
+                                <th class="table-title">连续登录积分</th>
                                 <th>可用标识</th>
                                 <th class="table-type">创建时间</th>
                                 <th class="table-author am-hide-sm-only">更新时间</th>
@@ -44,28 +47,33 @@
                             <tbody>
                             {volist name='data' id='v'}
                             <tr>
-                                <td>{$v.RECHARGE_ID}</td>
-                                <td><a href="#">{$v.RECHARGE_MONEY}</a></td>
-                                <td><a href="#">{$v.GIFT_MONEY}</a></td>
+                                <td>{$v.CATE_ID}</td>
+                                <td><a href="#">{$v.NAME}</a></td>
                                 <td>
-                                    {eq name="v['RECHARGE_TYPE']" value="1"}
-                                    电子卡充值
-                                    {else/}
-                                    转赠卡充值
-                                    {/eq}
+                                    {switch name="v.TYPE"}
+                                        {case value="A"}登录奖励{/case}
+                                        {case value="B"}充值奖励{/case}
+                                        {case value="B"}消费奖励{/case}
+                                        {case value="B"}推广奖励{/case}
+                                    {/switch}
                                 </td>
+                                <td class="am-hide-sm-only">{$v.CREATE_TIME}</td>
+                                <td class="am-hide-sm-only">{$v.CREATE_TIME}</td>
+                                <td class="am-hide-sm-only">{$v.CREATE_TIME}</td>
+                                <td class="am-hide-sm-only">{$v.CREATE_TIME}</td>
                                 {if $v.AVAILABLE_FLG eq 1}
-                                <td><a href="javascript:void(0);" class="am-btn am-btn-default am-btn-xs am-text-secondary"> 可用</a></td>
+                                    <td><a href="javascript:void(0);" class="am-btn am-btn-default am-btn-xs am-text-secondary"> 可用</a></td>
                                 {else}
-                                <td><a href="javascript:void(0);"  class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"> 不可用</a></td>
+                                    <td><a href="javascript:void(0);"  class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"> 不可用</a></td>
                                 {/if}
                                 <td class="am-hide-sm-only">{$v.CREATE_TIME}</td>
                                 <td class="am-hide-sm-only">{$v.UPDATE_TIME}</td>
                                 <td>
                                     <div class="am-btn-toolbar">
                                         <div class="am-btn-group am-btn-group-xs">
-                                            <a  href="{:url('admin/recharge/rechargeEdit',['recharge_id'=>$v['RECHARGE_ID']])}"  class="am-btn am-btn-default am-btn-xs am-text-secondary"><span  class="am-icon-pencil-square-o"></span> 编辑</a>
-                                            <a href="javascript:void(0);" data-id="{$v.RECHARGE_ID}" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only  delete-list-btn"><span class="am-icon-trash-o"></span> 设置</a>
+                                            <a  href="{:url('admin/score_rule/edit',['category_id'=>$v['CATE_ID']])}" 
+                                                class="am-btn am-btn-default am-btn-xs am-text-secondary"><span  class="am-icon-pencil-square-o"></span> 编辑</a>
+                                            <a href="javascript:void(0);" data-id="{$v.CATE_ID}" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only  delete-list-btn"><span class="am-icon-trash-o"></span> 设置</a>
                                         </div>
                                     </div>
                                 </td>
@@ -103,11 +111,11 @@
 <script>
     $(function() {
         $('.delete-list-btn').click(function() {
-            var recharge_id = $(this).attr('data-id');
+            var category_id = $(this).attr('data-id');
             $('#my-confirm').modal({
                 relatedTarget: this,
                 onConfirm: function(options) {
-                    window.location.href = "__PATH__admin/recharge/setRechargeFlg/recharge_id/"+recharge_id;
+                    window.location.href = "__PATH__admin/score_rule/setScoreFlg/category_id/"+category_id;
                 },
                 // closeOnConfirm: false,
                 onCancel: function() {

@@ -171,15 +171,12 @@
         $('.giftOther').click(function(){
             var cardNo  = $(this).data('data-card-no');
             var cardId = $(this).data('data-card-id');
-            var link = "{:url('wx/user_test/giftToFriends')}?card_id="+cardId+'&card_no='+cardNo;
-            var title = '转赠礼品卡';
-            var desc = '朋友***转赠您一张会员卡,欢迎来店消费哦';
-            var imgUrl = '__STATIC__images/hyk_11.png';
-            share(title,link,imgUrl,desc);
+            var type = 'showGiftCard';
+            window.location.href = "{:url('wx/user_test/giftToFriends')}?card_no="+cardNo+'&cardId='+cardId+'&type='+type;
         });
 
         //分享
-        function share(title,link,imgurl,desc){
+       /* function share(title,link,imgurl,desc){
             $.get("{:url('wx/user/getJsapi')}",{url:window.location.href},function(data) {
 
                 wx.config({
@@ -219,7 +216,7 @@
                     });
                 });
             },"json");
-        }
+        }*/
 
 
     })

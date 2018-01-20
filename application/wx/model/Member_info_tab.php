@@ -30,6 +30,14 @@ class Member_info_tab extends Base
     public function getUserCard($userid){
         return $this->where(['USER_ID'=>$userid])->find();
     }
+
+    /**
+     * 根据卡号查询电子卡
+     * @param $card_no
+     */
+    public function getUserCardByCardNo($card_no){
+        return $this->where('MEMBER_CARD_NO',$card_no)->find();
+    }
     public function updataCard($data,$cid){
         return $this->where(['MEMBER_CARD_NO'=>$cid])->update($data);
     }

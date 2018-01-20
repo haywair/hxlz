@@ -12,8 +12,8 @@ class Recharge_money_category_tab extends Base{
     /**
      * 充值金额列表
      */
-    public $recharge_member_type = 1;
-    public $recharge_gift_type = 2;
+    public static $recharge_member_type = 1;
+    public static $recharge_gift_type = 2;
     public function getRechargeList($condition){
         return $this->where($condition)->paginate(15,false);
     }

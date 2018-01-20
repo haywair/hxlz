@@ -1,0 +1,71 @@
+{include file="public/header"}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="am-g">
+            <!-- Row start -->
+            <div class="am-u-sm-12">
+                <div class="card-box">
+                    <div class="am-g">
+                        <form id="myform" class="am-form am-text-sm" action="__PATH__admin/recharge/rechargeEditPost"  method="post">
+                            <input type="hidden" name="RECHARGE_ID" value="{$rechargeInfo.RECHARGE_ID}">
+                            <div class="am-u-md-6">
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >充值金额</label>
+                                        <input class="am-u-md-10 form-control" name="RECHARGE_MONEY" value="{$rechargeInfo.RECHARGE_MONEY}" id="recharge_money" placeholder="充值金额">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >赠送金额</label>
+                                        <input class="am-u-md-10 form-control" name="GIFT_MONEY" value="{$rechargeInfo.GIFT_MONEY}" id="gift_money"  placeholder="赠送金额">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-g">
+                                        <label class="am-u-md-2 am-md-text-right am-padding-left-0" >充值类型</label>
+                                        <input type="radio" name="RECHARGE_TYPE" value="1" {eq name="rechargeInfo['RECHARGE_TYPE']" value="1"}  checked{/eq}>电子卡充值
+                                        <input type="radio" name="RECHARGE_TYPE" value="2"  {eq name="rechargeInfo['RECHARGE_TYPE']" value="2"}  checked{/eq}>转赠卡充值
+                                    </div>
+                                </div>
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="button" id="suBtn" class="am-btn am-btn-primary" value="修改">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Row end -->
+        </div>
+    </div>
+</div>
+<!-- end right Content here -->
+<!--</div>-->
+</div>
+</div>
+<script>
+    $(function(){
+        $('#suBtn').click(function(){
+            var recharge_money = $('#recharge_money').val();
+            var gift_money = $('#gift_money').val();
+            var rule = /^[0-9]*[1-9][0-9]*$/;
+            //判断充值金额
+            if(!recharge_money){
+                alert('请输入与充值金额');return false;
+            }else if(!rule.test(recharge_money)){
+                alert('请输入大于0的整数！');return false;
+            }
+            //赠送金额
+            if(gift_money){
+                if(!rule.test(gift_money)){
+                    alert('请输入大于0的整数！');return false;
+                }
+            }
+            $('#myform').submit();
+        });
+    })
+</script>
+{include file="public/footer"}<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>
